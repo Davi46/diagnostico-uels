@@ -422,6 +422,53 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   margin-top:.5rem;line-height:1.5;
 }
 
+/* ── RANKING DE RAMOS ── */
+.ranking-section{
+  background:white;border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:1.5rem;
+  margin-bottom:1.25rem;
+  animation:fadeUp .4s .25s ease both;
+}
+.ranking-section h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem;font-weight:700;margin-bottom:1rem;color:var(--azul);
+}
+.ranking-item{
+  display:flex;align-items:center;gap:1rem;
+  padding:.75rem 1rem;border-radius:8px;
+  margin-bottom:.6rem;border:1px solid transparent;
+}
+.ranking-pos{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:900;color:var(--cinza3);
+  min-width:28px;text-align:center;
+}
+.ranking-pos.gold{color:#c9a84c;}
+.ranking-pos.silver{color:#90a4ae;}
+.ranking-pos.bronze{color:#a1654a;}
+.ranking-body{flex:1;}
+.ranking-name{font-weight:600;font-size:.95rem;margin-bottom:.3rem;}
+.ranking-bar-wrap{display:flex;align-items:center;gap:.6rem;}
+.ranking-bar{height:10px;border-radius:5px;flex:1;background:var(--cinza2);overflow:hidden;}
+.ranking-bar-fill{height:100%;border-radius:5px;transition:width 1s ease;}
+.ranking-score{font-weight:700;font-size:.9rem;min-width:40px;text-align:right;}
+.ranking-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem;}
+.rtag{font-size:.72rem;padding:2px 7px;border-radius:20px;font-weight:500;}
+.rtag-ok{background:var(--verde-cl);color:var(--verde);}
+.rtag-att{background:var(--amar-cl);color:var(--amar);}
+.rtag-urg{background:var(--verm-cl);color:var(--verm);}
+.rtag-crit{background:#7b0000;color:white;}
+.ranking-item.r-ok{background:var(--verde-cl);border-color:#a5d6a7;}
+.ranking-item.r-att{background:var(--amar-cl);border-color:#fce08a;}
+.ranking-item.r-urg{background:var(--verm-cl);border-color:#f8c0c0;}
+.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}
+.alert-blocos{
+  background:#fff0f0;border-left:4px solid #8b0000;
+  border-radius:8px;padding:1rem 1.25rem;margin-bottom:.75rem;
+}
+.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.9rem;margin-bottom:.3rem;}
+.alert-blocos .alert-text{font-size:.83rem;color:var(--text2);line-height:1.5;}
+
 @media print{
   body{background:white!important;}
   .site-header,.progress-wrap,.nav-row,.result-actions,.step:not(.active){display:none!important;}
@@ -662,6 +709,89 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+  <div class="card">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Lobinho já está aplicando a Cerimônia de Acolhida?</label>
+        <div class="pill-group">
+          <input type="radio" name="aRamoLob" id="aRamolob_s" value="Sim"><label for="aRamolob_s">Sim</label>
+          <input type="radio" name="aRamoLob" id="aRamolob_n" value="Não"><label for="aRamolob_n">Não</label>
+          <input type="radio" name="aRamoLob" id="aRamolob_na" value="NSA"><label for="aRamolob_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Escoteiro já está aplicando a Cerimônia de Acolhida?</label>
+        <div class="pill-group">
+          <input type="radio" name="aRamoEsc" id="aRamoesc_s" value="Sim"><label for="aRamoesc_s">Sim</label>
+          <input type="radio" name="aRamoEsc" id="aRamoesc_n" value="Não"><label for="aRamoesc_n">Não</label>
+          <input type="radio" name="aRamoEsc" id="aRamoesc_na" value="NSA"><label for="aRamoesc_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Sênior já está aplicando a Cerimônia de Acolhida?</label>
+        <div class="pill-group">
+          <input type="radio" name="aRamoSen" id="aRamosen_s" value="Sim"><label for="aRamosen_s">Sim</label>
+          <input type="radio" name="aRamoSen" id="aRamosen_n" value="Não"><label for="aRamosen_n">Não</label>
+          <input type="radio" name="aRamoSen" id="aRamosen_na" value="NSA"><label for="aRamosen_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Pioneiro já está aplicando a Cerimônia de Acolhida?</label>
+        <div class="pill-group">
+          <input type="radio" name="aRamoPio" id="aRamopio_s" value="Sim"><label for="aRamopio_s">Sim</label>
+          <input type="radio" name="aRamoPio" id="aRamopio_n" value="Não"><label for="aRamopio_n">Não</label>
+          <input type="radio" name="aRamoPio" id="aRamopio_na" value="NSA"><label for="aRamopio_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="acolhManLob" id="acolhManLob_s" value="Sim"><label for="acolhManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="acolhManLob" id="acolhManLob_n" value="Não"><label for="acolhManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="acolhManEsc" id="acolhManEsc_s" value="Sim"><label for="acolhManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="acolhManEsc" id="acolhManEsc_n" value="Não"><label for="acolhManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="acolhManSen" id="acolhManSen_s" value="Sim"><label for="acolhManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="acolhManSen" id="acolhManSen_n" value="Não"><label for="acolhManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="acolhManPio" id="acolhManPio_s" value="Sim"><label for="acolhManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="acolhManPio" id="acolhManPio_n" value="Não"><label for="acolhManPio_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -702,6 +832,89 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="pill-group">
         <input type="radio" name="cicloSuporte" id="csup_s" value="Sim"><label for="csup_s">Sim</label>
         <input type="radio" name="cicloSuporte" id="csup_n" value="Não"><label for="csup_n">Não</label>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Lobinho já aplica o Ciclo de Programa nas 3 fases?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicRamoLob" id="cicRamolob_s" value="Sim"><label for="cicRamolob_s">Sim</label>
+          <input type="radio" name="cicRamoLob" id="cicRamolob_n" value="Não"><label for="cicRamolob_n">Não</label>
+          <input type="radio" name="cicRamoLob" id="cicRamolob_na" value="NSA"><label for="cicRamolob_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Escoteiro já aplica o Ciclo de Programa nas 3 fases?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicRamoEsc" id="cicRamoesc_s" value="Sim"><label for="cicRamoesc_s">Sim</label>
+          <input type="radio" name="cicRamoEsc" id="cicRamoesc_n" value="Não"><label for="cicRamoesc_n">Não</label>
+          <input type="radio" name="cicRamoEsc" id="cicRamoesc_na" value="NSA"><label for="cicRamoesc_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Sênior já aplica o Ciclo de Programa nas 3 fases?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicRamoSen" id="cicRamosen_s" value="Sim"><label for="cicRamosen_s">Sim</label>
+          <input type="radio" name="cicRamoSen" id="cicRamosen_n" value="Não"><label for="cicRamosen_n">Não</label>
+          <input type="radio" name="cicRamoSen" id="cicRamosen_na" value="NSA"><label for="cicRamosen_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Pioneiro já aplica o Ciclo de Programa nas 3 fases?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicRamoPio" id="cicRamopio_s" value="Sim"><label for="cicRamopio_s">Sim</label>
+          <input type="radio" name="cicRamoPio" id="cicRamopio_n" value="Não"><label for="cicRamopio_n">Não</label>
+          <input type="radio" name="cicRamoPio" id="cicRamopio_na" value="NSA"><label for="cicRamopio_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicloManLob" id="cicloManLob_s" value="Sim"><label for="cicloManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="cicloManLob" id="cicloManLob_n" value="Não"><label for="cicloManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicloManEsc" id="cicloManEsc_s" value="Sim"><label for="cicloManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="cicloManEsc" id="cicloManEsc_n" value="Não"><label for="cicloManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicloManSen" id="cicloManSen_s" value="Sim"><label for="cicloManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="cicloManSen" id="cicloManSen_n" value="Não"><label for="cicloManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="cicloManPio" id="cicloManPio_s" value="Sim"><label for="cicloManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="cicloManPio" id="cicloManPio_n" value="Não"><label for="cicloManPio_n">Ainda não</label>
+        </div>
       </div>
     </div>
   </div>
@@ -773,6 +986,46 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="camManLob" id="camManLob_s" value="Sim"><label for="camManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="camManLob" id="camManLob_n" value="Não"><label for="camManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="camManEsc" id="camManEsc_s" value="Sim"><label for="camManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="camManEsc" id="camManEsc_n" value="Não"><label for="camManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="camManSen" id="camManSen_s" value="Sim"><label for="camManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="camManSen" id="camManSen_n" value="Não"><label for="camManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="camManPio" id="camManPio_s" value="Sim"><label for="camManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="camManPio" id="camManPio_n" value="Não"><label for="camManPio_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -806,6 +1059,89 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+  <div class="card">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Lobinho já está aplicando o Reconhecimento de Ramo?</label>
+        <div class="pill-group">
+          <input type="radio" name="recRamoLob" id="recRamolob_s" value="Sim"><label for="recRamolob_s">Sim</label>
+          <input type="radio" name="recRamoLob" id="recRamolob_n" value="Não"><label for="recRamolob_n">Não</label>
+          <input type="radio" name="recRamoLob" id="recRamolob_na" value="NSA"><label for="recRamolob_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Escoteiro já está aplicando o Reconhecimento de Ramo?</label>
+        <div class="pill-group">
+          <input type="radio" name="recRamoEsc" id="recRamoesc_s" value="Sim"><label for="recRamoesc_s">Sim</label>
+          <input type="radio" name="recRamoEsc" id="recRamoesc_n" value="Não"><label for="recRamoesc_n">Não</label>
+          <input type="radio" name="recRamoEsc" id="recRamoesc_na" value="NSA"><label for="recRamoesc_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Sênior já está aplicando o Reconhecimento de Ramo?</label>
+        <div class="pill-group">
+          <input type="radio" name="recRamoSen" id="recRamosen_s" value="Sim"><label for="recRamosen_s">Sim</label>
+          <input type="radio" name="recRamoSen" id="recRamosen_n" value="Não"><label for="recRamosen_n">Não</label>
+          <input type="radio" name="recRamoSen" id="recRamosen_na" value="NSA"><label for="recRamosen_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label">Ramo Pioneiro já está aplicando o Reconhecimento de Ramo?</label>
+        <div class="pill-group">
+          <input type="radio" name="recRamoPio" id="recRamopio_s" value="Sim"><label for="recRamopio_s">Sim</label>
+          <input type="radio" name="recRamoPio" id="recRamopio_n" value="Não"><label for="recRamopio_n">Não</label>
+          <input type="radio" name="recRamoPio" id="recRamopio_na" value="NSA"><label for="recRamopio_na">Não se Aplica</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="recManLob" id="recManLob_s" value="Sim"><label for="recManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="recManLob" id="recManLob_n" value="Não"><label for="recManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="recManEsc" id="recManEsc_s" value="Sim"><label for="recManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="recManEsc" id="recManEsc_n" value="Não"><label for="recManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="recManSen" id="recManSen_s" value="Sim"><label for="recManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="recManSen" id="recManSen_n" value="Não"><label for="recManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="recManPio" id="recManPio_s" value="Sim"><label for="recManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="recManPio" id="recManPio_n" value="Não"><label for="recManPio_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -830,6 +1166,14 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <input type="radio" name="blocosChefes" id="bch_s" value="Sim"><label for="bch_s">Sim</label>
         <input type="radio" name="blocosChefes" id="bch_n" value="Não"><label for="bch_n">Não</label>
       </div>
+    </div>
+    <div class="field" style="margin-top:1rem">
+      <label class="q-label">Os escotistas entendem a diferença entre atividade fixa e atividade variável?</label>
+      <div class="scale-wrap" id="blocosFixaVar"></div>
+    </div>
+    <div class="field" style="margin-top:1rem">
+      <label class="q-label">Os escotistas entendem como as especialidades e insígnias se relacionam com os blocos e como devem ser utilizadas na progressão dos jovens?</label>
+      <div class="scale-wrap" id="blocosEspec"></div>
     </div>
   </div>
   <div class="card">
@@ -871,6 +1215,46 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="pill-group">
         <input type="radio" name="blocosSuporte" id="bsup_s" value="Sim"><label for="bsup_s">Sim</label>
         <input type="radio" name="blocosSuporte" id="bsup_n" value="Não"><label for="bsup_n">Não</label>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="bloManLob" id="bloManLob_s" value="Sim"><label for="bloManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="bloManLob" id="bloManLob_n" value="Não"><label for="bloManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="bloManEsc" id="bloManEsc_s" value="Sim"><label for="bloManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="bloManEsc" id="bloManEsc_n" value="Não"><label for="bloManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="bloManSen" id="bloManSen_s" value="Sim"><label for="bloManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="bloManSen" id="bloManSen_n" value="Não"><label for="bloManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="bloManPio" id="bloManPio_s" value="Sim"><label for="bloManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="bloManPio" id="bloManPio_n" value="Não"><label for="bloManPio_n">Ainda não</label>
+        </div>
       </div>
     </div>
   </div>
@@ -942,6 +1326,46 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="equivManLob" id="equivManLob_s" value="Sim"><label for="equivManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="equivManLob" id="equivManLob_n" value="Não"><label for="equivManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="equivManEsc" id="equivManEsc_s" value="Sim"><label for="equivManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="equivManEsc" id="equivManEsc_n" value="Não"><label for="equivManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="equivManSen" id="equivManSen_s" value="Sim"><label for="equivManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="equivManSen" id="equivManSen_n" value="Não"><label for="equivManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="equivManPio" id="equivManPio_s" value="Sim"><label for="equivManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="equivManPio" id="equivManPio_n" value="Não"><label for="equivManPio_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -1003,6 +1427,46 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+  <div class="card" style="border:2px solid var(--azul-cl)">
+    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
+    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="ramo-field ramo-lob" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="jovManLob" id="jovManLob_s" value="Sim"><label for="jovManLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="jovManLob" id="jovManLob_n" value="Não"><label for="jovManLob_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-esc" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="jovManEsc" id="jovManEsc_s" value="Sim"><label for="jovManEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="jovManEsc" id="jovManEsc_n" value="Não"><label for="jovManEsc_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-sen" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="jovManSen" id="jovManSen_s" value="Sim"><label for="jovManSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="jovManSen" id="jovManSen_n" value="Não"><label for="jovManSen_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+    <div class="ramo-field ramo-pio" style="display:none">
+      <div class="field">
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <div class="pill-group">
+          <input type="radio" name="jovManPio" id="jovManPio_s" value="Sim"><label for="jovManPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="jovManPio" id="jovManPio_n" value="Não"><label for="jovManPio_n">Ainda não</label>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-gold" onclick="generateResult()">Ver Resultado →</button>
@@ -1054,6 +1518,8 @@ buildScale('cicloComp',     'cicComp',    compOptions);
 buildScale('caminhosComp',  'kamComp',    compOptions);
 buildScale('reconhComp',    'recComp',    compOptions);
 buildScale('blocosComp',    'bloComp',    compOptions);
+buildScale('blocosFixaVar', 'bloFixVar',  compOptions);
+buildScale('blocosEspec',   'bloEspec',   compOptions);
 buildScale('equivComp',     'eqComp',     compOptions);
 buildScale('jovensEntend',  'jovEnt',     jovensOptions);
 
@@ -1123,6 +1589,24 @@ function toggleNinhadaMeses() {
 // ══════════════════════════════════════════════════════════════
 // COMPLEXITY LIVE UPDATE
 // ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════
+// RAMO VISIBILITY — show only active ramo fields
+// ══════════════════════════════════════════════════════════════
+function updateRamoVisibility() {
+  var lob = parseInt(document.getElementById('lobinhoN').value)||0;
+  var esc = parseInt(document.getElementById('escoteiroN').value)||0;
+  var sen = parseInt(document.getElementById('seniorN').value)||0;
+  var pio = parseInt((document.querySelector('input[name="cla"]:checked')||{}).value||'0');
+
+  var show = { lob: lob>0, esc: esc>0, sen: sen>0, pio: pio>0 };
+
+  ['lob','esc','sen','pio'].forEach(function(r) {
+    document.querySelectorAll('.ramo-'+r).forEach(function(el) {
+      el.style.display = show[r] ? 'block' : 'none';
+    });
+  });
+}
+
 function updateComplexidade() {
   const lob = parseInt(document.getElementById('lobinhoN').value)||0;
   const esc = parseInt(document.getElementById('escoteiroN').value)||0;
@@ -1153,8 +1637,12 @@ function updateComplexidade() {
 }
 ['lobinhoN','escoteiroN','seniorN'].forEach(id=>{
   document.getElementById(id).addEventListener('input', updateComplexidade);
+  document.getElementById(id).addEventListener('input', updateRamoVisibility);
 });
-document.querySelectorAll('input[name=cla]').forEach(r=>r.addEventListener('change',updateComplexidade));
+document.querySelectorAll('input[name=cla]').forEach(r=>{
+  r.addEventListener('change',updateComplexidade);
+  r.addEventListener('change',updateRamoVisibility);
+});
 
 // ══════════════════════════════════════════════════════════════
 // HELPERS
@@ -1295,7 +1783,139 @@ function calcScores() {
     fragil(equivScore, g('equivChefes'))
   );
 
-  return {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4};
+
+  // ── Per-ramo scores ──────────────────────────────────────
+  // Each ramo gets scored on: acolhida, ciclo, caminhos, reconh, blocos, equiv, jovens
+  // Plus the "applying manual" question which is a multiplier
+
+  function ramoAppScore(fields) {
+    // fields = array of radio names; Sim=100, NSA=skip, Não=0
+    var total=0, count=0;
+    fields.forEach(function(n){
+      var v=g(n);
+      if(v==='Sim'){total+=100;count++;}
+      else if(v==='Não'){total+=0;count++;}
+      // NSA ignored
+    });
+    return count>0 ? Math.round(total/count) : null;
+  }
+
+  function ramoManual(prefix) {
+    return g(prefix+'ManLob')||g(prefix+'ManEsc')||g(prefix+'ManSen')||g(prefix+'ManPio') ? true : false;
+  }
+
+  var RAMOS = [
+    {key:'lob', label:'Ramo Lobinho',   color:'#e65100', active: parseInt(gv('lobinhoN'))||0 > 0,
+      fields: {
+        acolhida:  ramoAppScore(['aRamoLob']),
+        ciclo:     ramoAppScore(['cicRamoLob']),
+        reconh:    ramoAppScore(['recRamoLob']),
+        blocos:    ramoAppScore(['bLob']),
+        equiv:     ramoAppScore(['eLob']),
+        jovens:    ramoAppScore(['jLob']),
+        manual:    (function(){
+          var vals=['acolhManLob','cicloManLob','camManLob','recManLob','bloManLob','equivManLob','jovManLob'].map(function(n){return g(n);}).filter(function(v){return v;});
+          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
+          if(vals.some(function(v){return v==='Não';})) return 'Não';
+          return '';
+        })(),
+      }
+    },
+    {key:'esc', label:'Ramo Escoteiro', color:'#2e7d32', active: parseInt(gv('escoteiroN'))||0 > 0,
+      fields: {
+        acolhida:  ramoAppScore(['aRamoEsc']),
+        ciclo:     ramoAppScore(['cicRamoEsc']),
+        reconh:    ramoAppScore(['recRamoEsc']),
+        blocos:    ramoAppScore(['bEsc']),
+        equiv:     ramoAppScore(['eEsc']),
+        jovens:    ramoAppScore(['jEsc']),
+        manual:    (function(){
+          var vals=['acolhManEsc','cicloManEsc','camManEsc','recManEsc','bloManEsc','equivManEsc','jovManEsc'].map(function(n){return g(n);}).filter(function(v){return v;});
+          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
+          if(vals.some(function(v){return v==='Não';})) return 'Não';
+          return '';
+        })(),
+      }
+    },
+    {key:'sen', label:'Ramo Sênior',    color:'#b71c1c', active: parseInt(gv('seniorN'))||0 > 0,
+      fields: {
+        acolhida:  ramoAppScore(['aRamoSen']),
+        ciclo:     ramoAppScore(['cicRamoSen']),
+        reconh:    ramoAppScore(['recRamoSen']),
+        blocos:    ramoAppScore(['bSen']),
+        equiv:     ramoAppScore(['eSen']),
+        jovens:    ramoAppScore(['jSen']),
+        manual:    (function(){
+          var vals=['acolhManSen','cicloManSen','camManSen','recManSen','bloManSen','equivManSen','jovManSen'].map(function(n){return g(n);}).filter(function(v){return v;});
+          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
+          if(vals.some(function(v){return v==='Não';})) return 'Não';
+          return '';
+        })(),
+      }
+    },
+    {key:'pio', label:'Clã Pioneiro',   color:'#4a148c', active: parseInt(g('cla')||'0') > 0,
+      fields: {
+        acolhida:  ramoAppScore(['aRamoPio']),
+        ciclo:     ramoAppScore(['cicRamoPio']),
+        reconh:    ramoAppScore(['recRamoPio']),
+        blocos:    ramoAppScore(['bPio']),
+        equiv:     ramoAppScore(['ePio']),
+        jovens:    ramoAppScore(['jPio']),
+        manual:    (function(){
+          var vals=['acolhManPio','cicloManPio','camManPio','recManPio','bloManPio','equivManPio','jovManPio'].map(function(n){return g(n);}).filter(function(v){return v;});
+          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
+          if(vals.some(function(v){return v==='Não';})) return 'Não';
+          return '';
+        })(),
+      }
+    },
+  ];
+
+  // Compute per-ramo aggregate score
+  RAMOS.forEach(function(ramo) {
+    if (!ramo.active) { ramo.score=null; return; }
+    var vals=[], keys=['acolhida','ciclo','reconh','blocos','equiv','jovens'];
+    keys.forEach(function(k){if(ramo.fields[k]!==null)vals.push(ramo.fields[k]);});
+    var baseScore = vals.length>0 ? Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length) : 50;
+
+    // Manual penalty/bonus
+    var manVal = ramo.fields.manual;
+    if (manVal==='Sim') {
+      // Says applying manual — all indicators should be high
+      // If base score < 60, major penalty (claiming to apply but not consolidated)
+      if (baseScore < 60) baseScore = Math.max(0, baseScore - 20);
+    } else if (manVal==='Não' || !manVal) {
+      // Not yet applying — slight penalty but less severe
+      if (baseScore > 70) baseScore = Math.min(100, baseScore); // no bonus
+    }
+    ramo.score = Math.min(100, Math.max(0, baseScore));
+
+    // Flags
+    ramo.applyingManual = manVal==='Sim';
+    ramo.criticalManual = manVal==='Sim' && baseScore < 60; // applying but not ready
+  });
+
+  var activeRamos = RAMOS.filter(function(r){return r.active && r.score!==null;});
+  activeRamos.sort(function(a,b){return b.score-a.score;});
+
+  // ── Blocos special alerts ──────────────────────────────────
+  var fixVarScore  = parseInt(g('bloFixVar')||'0');
+  var especScore   = parseInt(g('bloEspec')||'0');
+  var chefesScore = g('blocosChefes')==='Sim';
+  var blocoAlerts  = [];
+
+  if (fixVarScore < 50 && !chefesScore) {
+    blocoAlerts.push({level:'muitoCritico', msg:'Menos de metade dos escotistas entende a diferença entre atividade fixa e variável, e os chefes de seção não dominam o tema. Isso compromete diretamente a qualidade dos blocos.'});
+  } else if (fixVarScore < 50) {
+    blocoAlerts.push({level:'critico', msg:'Menos de metade dos escotistas entende a diferença entre atividade fixa e variável. Ponto de alta atenção para garantir a qualidade dos blocos.'});
+  }
+  if (especScore < 50 && !chefesScore) {
+    blocoAlerts.push({level:'muitoCritico', msg:'Menos de metade dos escotistas entende como especialidades e insígnias se relacionam com os blocos, e os chefes não dominam. Risco real de progressão inadequada dos jovens.'});
+  } else if (especScore < 50) {
+    blocoAlerts.push({level:'critico', msg:'Menos de metade dos escotistas entende o papel das especialidades e insígnias nos blocos. Atenção redobrada necessária.'});
+  }
+
+  return {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts};
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1307,7 +1927,7 @@ function generateResult() {
   el.innerHTML = `<div class="result-cover"><div class="spinner"></div><p>Calculando diagnóstico...</p></div>`;
 
   setTimeout(() => {
-    const {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4} = calcScores();
+    const {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts} = calcScores();
 
     const complexLabel = ['🟢 Baixa','🟡 Média','🟠 Alta','🔴 Crítica'][complexity];
     const complexCls   = ['cc-baixa','cc-media','cc-alta','cc-critica'][complexity];
@@ -1515,6 +2135,42 @@ function generateResult() {
         `:''}
       </div>
 
+
+      <!-- BLOCOS ALERTS -->
+      ${blocoAlerts.length>0 ? blocoAlerts.map(function(a){
+        return '<div class="alert-blocos"><div class="alert-title">'+(a.level==='muitoCritico'?'🚨 MUITO CRÍTICO':'⚠ ATENÇÃO')+' — Blocos de Aprendizagem</div><div class="alert-text">'+a.msg+'</div></div>';
+      }).join('') : ''}
+
+      <!-- RANKING DE RAMOS -->
+      ${activeRamos.length>0 ? `
+      <div class="ranking-section">
+        <h3>Ranking de Maturidade por Ramo</h3>
+        <p style="font-size:.83rem;color:var(--text2);margin-bottom:1rem;line-height:1.5">Baseado na aplicação de todos os processos do Programa Atualizado e na declaração de uso do Manual do Escotista. Ramos que declaram aplicar o programa mas têm indicadores fracos recebem penalização adicional.</p>
+        ${activeRamos.map(function(ramo, idx){
+          var pos = idx+1;
+          var posCls = pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';
+          var itemCls = ramo.score>=70?'r-ok':ramo.score>=50?'r-att':ramo.score>=30?'r-urg':'r-crit';
+          var col = ramo.score>=70?'#2e7d32':ramo.score>=50?'#f57f17':'#b71c1c';
+          var tags = [];
+          if(ramo.applyingManual && !ramo.criticalManual) tags.push('<span class="rtag rtag-ok">✅ Aplicando o Manual</span>');
+          if(ramo.criticalManual) tags.push('<span class="rtag rtag-crit">🚨 Aplicando sem consolidação</span>');
+          if(!ramo.applyingManual) tags.push('<span class="rtag rtag-att">📋 Manual ainda não aplicado</span>');
+          if(ramo.score>=70) tags.push('<span class="rtag rtag-ok">Bem preparado</span>');
+          else if(ramo.score>=50) tags.push('<span class="rtag rtag-att">Em desenvolvimento</span>');
+          else tags.push('<span class="rtag rtag-urg">Precisa de atenção</span>');
+          return '<div class="ranking-item '+itemCls+'">'
+            +'<div class="ranking-pos '+posCls+'">'+pos+'º</div>'
+            +'<div class="ranking-body">'
+            +'<div class="ranking-name" style="color:'+ramo.color+'">'+ramo.label+'</div>'
+            +'<div class="ranking-bar-wrap">'
+            +'<div class="ranking-bar"><div class="ranking-bar-fill" style="width:'+ramo.score+'%;background:'+col+'"></div></div>'
+            +'<div class="ranking-score" style="color:'+col+'">'+ramo.score+'%</div>'
+            +'</div>'
+            +'<div class="ranking-tags">'+tags.join('')+'</div>'
+            +'</div></div>';
+        }).join('')}
+      </div>` : ''}
+
       <!-- ACTIONS -->
       <div class="result-actions">
         <button class="btn btn-secondary" onclick="showStep(1)">← Preencher novamente</button>
@@ -1526,7 +2182,7 @@ function generateResult() {
     // Draw radar chart
     drawRadar(radarLabels, radarData);
 
-    // Enviar respostas para Google Sheets
+    // Enviar para Google Sheets
     enviarParaSheets(calcScores());
 
   }, 600);
@@ -1737,7 +2393,9 @@ function downloadRelatorio() {
       ['Compreensão escotistas', gr('bloComp')], ['Chefes dominam', gr('blocosChefes')],
       ['Lobinho', gr('bLob')], ['Escoteiro', gr('bEsc')],
       ['Sênior', gr('bSen')], ['Pioneiro', gr('bPio')],
-      ['Suporte', gr('blocosSuporte')]
+      ['Suporte', gr('blocosSuporte')],
+      ['Diferença fixa/variável', gr('bloFixVar')],
+      ['Especialidades e insígnias na progressão', gr('bloEspec')]
     ]},
     { sec: 'Processo de Equivalência', items: [
       ['Compreensão escotistas', gr('eqComp')], ['Chefes dominam', gr('equivChefes')],
@@ -1826,7 +2484,31 @@ function downloadRelatorio() {
     '.cc-media{background:#fff8e1;color:#f57f17;}',
     '.cc-alta{background:#fff3e0;color:#e65100;}',
     '.cc-critica{background:#ffebee;color:#b71c1c;}',
-    '.result-actions,.nav-row{display:none!important;}'
+    '.result-actions,.nav-row{display:none!important;}',
+    '.ranking-section{border:1px solid #e8ecf0;border-radius:8px;padding:1.25rem;margin-bottom:1rem;}',
+    '.ranking-section h3{font-size:.88rem;font-weight:700;margin-bottom:.75rem;color:#003366;}',
+    '.ranking-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .8rem;border-radius:6px;margin-bottom:.5rem;border:1px solid transparent;}',
+    '.ranking-pos{font-size:1.2rem;font-weight:900;color:#90a4ae;min-width:24px;text-align:center;}',
+    '.ranking-pos.gold{color:#c9a84c;}.ranking-pos.silver{color:#90a4ae;}.ranking-pos.bronze{color:#a1654a;}',
+    '.ranking-body{flex:1;}',
+    '.ranking-name{font-weight:600;font-size:.85rem;margin-bottom:.25rem;}',
+    '.ranking-bar-wrap{display:flex;align-items:center;gap:.5rem;}',
+    '.ranking-bar{height:8px;border-radius:4px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.ranking-bar-fill{height:100%;border-radius:4px;}',
+    '.ranking-score{font-weight:700;font-size:.85rem;min-width:36px;text-align:right;}',
+    '.ranking-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;}',
+    '.rtag{font-size:.68rem;padding:2px 6px;border-radius:20px;font-weight:500;}',
+    '.rtag-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.rtag-att{background:#fff8e1;color:#f57f17;}',
+    '.rtag-urg{background:#ffebee;color:#b71c1c;}',
+    '.rtag-crit{background:#7b0000;color:white;}',
+    '.ranking-item.r-ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
+    '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
+    '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
+    '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
   ].join('\n');
 
   var parts = [
@@ -1934,7 +2616,9 @@ function printRelatorio() {
       ['Compreensão escotistas', gr('bloComp')], ['Chefes dominam', gr('blocosChefes')],
       ['Lobinho', gr('bLob')], ['Escoteiro', gr('bEsc')],
       ['Sênior', gr('bSen')], ['Pioneiro', gr('bPio')],
-      ['Suporte', gr('blocosSuporte')]
+      ['Suporte', gr('blocosSuporte')],
+      ['Diferença fixa/variável', gr('bloFixVar')],
+      ['Especialidades e insígnias na progressão', gr('bloEspec')]
     ]},
     { sec: 'Processo de Equivalência', items: [
       ['Compreensão escotistas', gr('eqComp')], ['Chefes dominam', gr('equivChefes')],
@@ -2023,6 +2707,30 @@ function printRelatorio() {
     '.cc-alta{background:#fff3e0;color:#e65100;}',
     '.cc-critica{background:#ffebee;color:#b71c1c;}',
     '.result-actions,.nav-row{display:none!important;}',
+    '.ranking-section{border:1px solid #e8ecf0;border-radius:8px;padding:1.25rem;margin-bottom:1rem;}',
+    '.ranking-section h3{font-size:.88rem;font-weight:700;margin-bottom:.75rem;color:#003366;}',
+    '.ranking-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .8rem;border-radius:6px;margin-bottom:.5rem;border:1px solid transparent;}',
+    '.ranking-pos{font-size:1.2rem;font-weight:900;color:#90a4ae;min-width:24px;text-align:center;}',
+    '.ranking-pos.gold{color:#c9a84c;}.ranking-pos.silver{color:#90a4ae;}.ranking-pos.bronze{color:#a1654a;}',
+    '.ranking-body{flex:1;}',
+    '.ranking-name{font-weight:600;font-size:.85rem;margin-bottom:.25rem;}',
+    '.ranking-bar-wrap{display:flex;align-items:center;gap:.5rem;}',
+    '.ranking-bar{height:8px;border-radius:4px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.ranking-bar-fill{height:100%;border-radius:4px;}',
+    '.ranking-score{font-weight:700;font-size:.85rem;min-width:36px;text-align:right;}',
+    '.ranking-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;}',
+    '.rtag{font-size:.68rem;padding:2px 6px;border-radius:20px;font-weight:500;}',
+    '.rtag-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.rtag-att{background:#fff8e1;color:#f57f17;}',
+    '.rtag-urg{background:#ffebee;color:#b71c1c;}',
+    '.rtag-crit{background:#7b0000;color:white;}',
+    '.ranking-item.r-ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
+    '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
+    '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
+    '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
     '@page{margin:1.5cm;size:A4;}'
   ].join('\n');
 
@@ -2055,123 +2763,591 @@ function printRelatorio() {
 }
 
 
-// ══════════════════════════════════════════════════════════════
-// ENVIO PARA GOOGLE SHEETS
-// ══════════════════════════════════════════════════════════════
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz_KhqEB6B0pB-lok9YPYYABApvoOURFL6h5epOhWcmMoNGBy4crouKW7U7UltlLiueRA/exec';
 
-function enviarParaSheets(resultado) {
-  if (!SHEETS_URL) return; // URL ainda não configurada
+// ══════════════════════════════════════════════════════════════
+// DOWNLOAD RELATÓRIO
+// ══════════════════════════════════════════════════════════════
+function downloadRelatorio() {
+  var resultEl = document.getElementById('resultStep');
+  if (!resultEl || !resultEl.innerHTML.trim()) {
+    alert('Gere o resultado antes de baixar o relatório.');
+    return;
+  }
 
   function gv(id) { return (document.getElementById(id) || {}).value || ''; }
   function gr(name) {
     var el = document.querySelector('input[name="' + name + '"]:checked');
     return el ? el.value : '';
   }
+  function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-  var complexLabel = ['Baixa','Média','Alta','Crítica'][resultado.complexity] || '';
+  var nomeGrupo = gv('nomeGrupo') || 'Grupo Escoteiro';
+  var dataResp  = gv('dataResp') || new Date().toISOString().slice(0,10);
+
+  var canvas   = document.getElementById('radarChart');
+  var chartImg = canvas ? canvas.toDataURL('image/png') : '';
+
+  var resultHTML = resultEl.innerHTML;
+  if (chartImg) {
+    resultHTML = resultHTML.replace(
+      /<canvas[^>]*id="radarChart"[^>]*><\/canvas>/,
+      '<img src="' + chartImg + '" style="display:block;max-width:520px;width:100%;margin:0 auto;" alt="Perfil de Maturidade">'
+    );
+  }
+
+  var secs = [
+    { sec: 'Identificação', items: [
+      ['Grupo', gv('nomeGrupo')], ['Numeral', gv('numeralGrupo')],
+      ['Distrito', gv('distrito')], ['Responsável', gv('responsavel')],
+      ['Função', gv('funcao')], ['Data', gv('dataResp')]
+    ]},
+    { sec: 'Ramos e Seções', items: [
+      ['Ninhada ativa', gr('ninhada')],
+      ['Pretende iniciar Ninhada', gr('ninhadaPretende') || 'N/A'],
+      ['Meses para Ninhada', gv('ninhadaMeses') || 'N/A'],
+      ['Suporte para Ninhada', gr('ninhadaSuporte') || 'N/A'],
+      ['Seções Lobinho', gv('lobinhoN')], ['Seções Escoteiro', gv('escoteiroN')],
+      ['Seções Sênior', gv('seniorN')], ['Clã Pioneiro', gr('cla')==='1'?'Sim':'Não']
+    ]},
+    { sec: 'Paxtu', items: [
+      ['Já virou no Paxtu', gr('paxtuFeito')],
+      ['Data prevista de virada', gv('paxtuData') || 'N/A'],
+      ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
+      ['Suporte para Paxtu', gr('paxtuSuporte')]
+    ]},
+    { sec: 'Cerimônia de Acolhida', items: [
+      ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
+      ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
+    ]},
+    { sec: 'Ciclo de Programa', items: [
+      ['Compreensão escotistas', gr('cicComp')], ['Chefes dominam', gr('cicloChefes')],
+      ['Aplicação', gr('cicloAplic')], ['Suporte', gr('cicloSuporte')]
+    ]},
+    { sec: 'Caminhos entre Ramos', items: [
+      ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
+      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
+      ['Suporte', gr('caminhosSuporte')]
+    ]},
+    { sec: 'Reconhecimento de Ramo e Desafio Pessoal', items: [
+      ['Compreensão escotistas', gr('recComp')], ['Chefes dominam', gr('reconhChefes')],
+      ['Suporte', gr('reconhSuporte')]
+    ]},
+    { sec: 'Blocos de Aprendizagem', items: [
+      ['Compreensão escotistas', gr('bloComp')], ['Chefes dominam', gr('blocosChefes')],
+      ['Lobinho', gr('bLob')], ['Escoteiro', gr('bEsc')],
+      ['Sênior', gr('bSen')], ['Pioneiro', gr('bPio')],
+      ['Suporte', gr('blocosSuporte')],
+      ['Diferença fixa/variável', gr('bloFixVar')],
+      ['Especialidades e insígnias na progressão', gr('bloEspec')]
+    ]},
+    { sec: 'Processo de Equivalência', items: [
+      ['Compreensão escotistas', gr('eqComp')], ['Chefes dominam', gr('equivChefes')],
+      ['Lobinho', gr('eLob')], ['Escoteiro', gr('eEsc')],
+      ['Sênior', gr('eSen')], ['Pioneiro', gr('ePio')],
+      ['Suporte', gr('equivSuporte')]
+    ]},
+    { sec: 'Comunicação com os Jovens', items: [
+      ['Lobinho', gr('jLob')], ['Escoteiro', gr('jEsc')],
+      ['Sênior', gr('jSen')], ['Pioneiro', gr('jPio')],
+      ['Jovens entendem', gr('jovEnt')], ['Suporte', gr('jovensSuporte')]
+    ]}
+  ];
+
+  var respostasHTML = '';
+  secs.forEach(function(s) {
+    respostasHTML += '<div class="res-sec"><div class="res-sec-title">' + esc(s.sec) + '</div><table class="res-table">';
+    s.items.forEach(function(item) {
+      respostasHTML += '<tr><td class="res-label">' + esc(item[0]) + '</td><td class="res-value">' + esc(item[1]) + '</td></tr>';
+    });
+    respostasHTML += '</table></div>';
+  });
+
+  var css = [
+    '*{box-sizing:border-box;margin:0;padding:0}',
+    'body{font-family:Arial,sans-serif;font-size:12px;color:#1a2535;background:#f0f4f8;padding:2rem;}',
+    '.page{max-width:860px;margin:0 auto;background:white;border-radius:12px;overflow:hidden;}',
+    '.page-header{background:#003366;color:white;padding:1.5rem 2rem;border-bottom:3px solid #c9a84c;}',
+    '.page-header h1{font-size:1.2rem;font-weight:700;margin-bottom:.2rem;}',
+    '.page-header .meta{font-size:.75rem;color:rgba(255,255,255,.7);}',
+    '.sec-div{background:#1a4b8c;color:white;padding:.5rem 2rem;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}',
+    '.respostas{padding:1.5rem 2rem;}',
+    '.res-sec{margin-bottom:1.25rem;}',
+    '.res-sec-title{font-size:.88rem;font-weight:700;color:#003366;margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:1.5px solid #d6e4f0;}',
+    '.res-table{width:100%;border-collapse:collapse;}',
+    '.res-table tr:nth-child(even) td{background:#f8f9fa;}',
+    '.res-label{padding:.3rem .4rem;color:#4a5568;width:45%;}',
+    '.res-value{padding:.3rem .4rem;font-weight:500;}',
+    '.resultado-section{padding:1.5rem 2rem;}',
+    '.result-hero{background:#003366;border-radius:8px;padding:1.25rem;color:white;margin-bottom:1rem;}',
+    '.result-hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;}',
+    '.hero-card{background:rgba(255,255,255,.1);border-radius:6px;padding:.6rem;text-align:center;border:1px solid rgba(255,255,255,.15);}',
+    '.hero-val{font-size:1.6rem;font-weight:900;color:#c9a84c;line-height:1;margin-bottom:.2rem;}',
+    '.hero-lbl{font-size:.65rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.04em;}',
+    '.hero-sub{font-size:.75rem;color:rgba(255,255,255,.8);margin-top:.2rem;}',
+    '.alert{border-radius:6px;padding:.6rem .8rem;margin-bottom:.6rem;display:flex;gap:.5rem;align-items:flex-start;}',
+    '.alert-icon{font-size:.9rem;flex-shrink:0;}',
+    '.alert-title{font-weight:600;font-size:.8rem;margin-bottom:.1rem;}',
+    '.alert-text{font-size:.75rem;line-height:1.45;color:#4a5568;}',
+    '.alert.critical{background:#ffebee;border-left:4px solid #b71c1c;}',
+    '.alert.critical .alert-title{color:#b71c1c;}',
+    '.alert.warning{background:#fff3e0;border-left:4px solid #e65100;}',
+    '.alert.warning .alert-title{color:#e65100;}',
+    '.alert.caution{background:#fff8e1;border-left:4px solid #f57f17;}',
+    '.alert.caution .alert-title{color:#f57f17;}',
+    '.alert.ok{background:#e8f5e9;border-left:4px solid #1b5e20;}',
+    '.alert.ok .alert-title{color:#1b5e20;}',
+    '.chart-wrap{border:1px solid #e8ecf0;border-radius:8px;padding:.75rem;margin-bottom:1rem;text-align:center;}',
+    '.chart-title{font-size:.9rem;font-weight:700;color:#003366;margin-bottom:.5rem;}',
+    '.score-table{border-radius:8px;overflow:hidden;margin-bottom:1rem;border:1px solid #e8ecf0;}',
+    '.score-table table{width:100%;border-collapse:collapse;}',
+    '.score-table th{background:#003366;color:white;padding:.5rem .6rem;font-size:.7rem;font-weight:600;text-transform:uppercase;text-align:left;}',
+    '.score-table td{padding:.5rem .6rem;font-size:.78rem;border-bottom:1px solid #e8ecf0;vertical-align:middle;}',
+    '.score-table tr:last-child td{border-bottom:none;}',
+    '.score-table tr:nth-child(even) td{background:#f8f9fa;}',
+    '.score-bar-wrap{display:flex;align-items:center;gap:.4rem;}',
+    '.score-bar{height:6px;border-radius:3px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.score-bar-fill{height:100%;border-radius:3px;}',
+    '.score-num{font-weight:700;font-size:.85rem;min-width:30px;text-align:right;}',
+    '.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.68rem;font-weight:600;}',
+    '.badge-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.badge-att{background:#fff8e1;color:#f57f17;}',
+    '.badge-urg{background:#ffebee;color:#b71c1c;}',
+    '.priority-section{border:1px solid #e8ecf0;border-radius:8px;padding:1rem;margin-bottom:1rem;}',
+    '.priority-section h3{font-size:.88rem;font-weight:700;margin-bottom:.6rem;}',
+    '.priority-item{display:flex;gap:.5rem;align-items:flex-start;padding:.45rem .6rem;border-radius:5px;margin-bottom:.35rem;border:1px solid transparent;}',
+    '.priority-item.urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.priority-item.att{background:#fff8e1;border-color:#fce08a;}',
+    '.priority-item.ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.priority-icon{font-size:.85rem;flex-shrink:0;margin-top:.1rem;}',
+    '.priority-name{font-weight:600;font-size:.78rem;}',
+    '.priority-name.urg{color:#b71c1c;}.priority-name.att{color:#f57f17;}.priority-name.ok{color:#1b5e20;}',
+    '.priority-rec{font-size:.74rem;color:#4a5568;margin-top:.1rem;line-height:1.4;}',
+    '.complexity-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .65rem;border-radius:20px;font-size:.7rem;font-weight:600;}',
+    '.cc-baixa{background:#e8f5e9;color:#1b5e20;}',
+    '.cc-media{background:#fff8e1;color:#f57f17;}',
+    '.cc-alta{background:#fff3e0;color:#e65100;}',
+    '.cc-critica{background:#ffebee;color:#b71c1c;}',
+    '.result-actions,.nav-row{display:none!important;}',
+    '.ranking-section{border:1px solid #e8ecf0;border-radius:8px;padding:1.25rem;margin-bottom:1rem;}',
+    '.ranking-section h3{font-size:.88rem;font-weight:700;margin-bottom:.75rem;color:#003366;}',
+    '.ranking-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .8rem;border-radius:6px;margin-bottom:.5rem;border:1px solid transparent;}',
+    '.ranking-pos{font-size:1.2rem;font-weight:900;color:#90a4ae;min-width:24px;text-align:center;}',
+    '.ranking-pos.gold{color:#c9a84c;}.ranking-pos.silver{color:#90a4ae;}.ranking-pos.bronze{color:#a1654a;}',
+    '.ranking-body{flex:1;}',
+    '.ranking-name{font-weight:600;font-size:.85rem;margin-bottom:.25rem;}',
+    '.ranking-bar-wrap{display:flex;align-items:center;gap:.5rem;}',
+    '.ranking-bar{height:8px;border-radius:4px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.ranking-bar-fill{height:100%;border-radius:4px;}',
+    '.ranking-score{font-weight:700;font-size:.85rem;min-width:36px;text-align:right;}',
+    '.ranking-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;}',
+    '.rtag{font-size:.68rem;padding:2px 6px;border-radius:20px;font-weight:500;}',
+    '.rtag-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.rtag-att{background:#fff8e1;color:#f57f17;}',
+    '.rtag-urg{background:#ffebee;color:#b71c1c;}',
+    '.rtag-crit{background:#7b0000;color:white;}',
+    '.ranking-item.r-ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
+    '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
+    '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
+    '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
+  ].join('\n');
+
+  var parts = [
+    '<!DOCTYPE html><html lang="pt-BR"><head>',
+    '<meta charset="UTF-8">',
+    '<title>Relatorio - ' + nomeGrupo + '</title>',
+    '<style>' + css + '<\/style>',
+    '</head><body><div class="page">',
+    '<div class="page-header">',
+    '<h1>Diagn\u00f3stico \u2014 ' + esc(nomeGrupo) + '</h1>',
+    '<div class="meta">Regi\u00e3o Escoteira de Minas Gerais &nbsp;|&nbsp; ' + esc(dataResp) + ' &nbsp;|&nbsp; ' + esc(gv('responsavel')) + ' &nbsp;|&nbsp; ' + esc(gv('distrito')) + '</div>',
+    '</div>',
+    '<div class="sec-div">Respostas do Formul\u00e1rio</div>',
+    '<div class="respostas">' + respostasHTML + '</div>',
+    '<div class="sec-div">Resultado e An\u00e1lise</div>',
+    '<div class="resultado-section">' + resultHTML + '</div>',
+    '</div></body></html>'
+  ];
+
+  var doc = parts.join('');
+  var blob = new Blob([doc], {type: 'text/html;charset=utf-8'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'Diagnostico_' + nomeGrupo.replace(/\s+/g, '_') + '_' + dataResp + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════════════════════════
+// PRINT RELATÓRIO
+// ══════════════════════════════════════════════════════════════
+function printRelatorio() {
+  var resultEl = document.getElementById('resultStep');
+  if (!resultEl || !resultEl.innerHTML.trim()) {
+    alert('Gere o resultado antes de imprimir.');
+    return;
+  }
+
+  function gv(id) { return (document.getElementById(id) || {}).value || ''; }
+  function gr(name) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : '';
+  }
+  function esc(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  var nomeGrupo = gv('nomeGrupo') || 'Grupo Escoteiro';
+  var dataResp  = gv('dataResp') || '';
+
+  // Snapshot radar chart
+  var canvas   = document.getElementById('radarChart');
+  var chartImg = canvas ? canvas.toDataURL('image/png') : '';
+
+  // Clone result HTML and replace canvas with image
+  var resultHTML = resultEl.innerHTML;
+  if (chartImg) {
+    resultHTML = resultHTML.replace(
+      /<canvas[^>]*id="radarChart"[^>]*><\/canvas>/,
+      '<img src="' + chartImg + '" style="display:block;max-width:520px;width:100%;margin:0 auto;" alt="Perfil de Maturidade">'
+    );
+  }
+
+  // Build answers table rows
+  var secs = [
+    { sec: 'Identificação', items: [
+      ['Grupo', gv('nomeGrupo')], ['Numeral', gv('numeralGrupo')],
+      ['Distrito', gv('distrito')], ['Responsável', gv('responsavel')],
+      ['Função', gv('funcao')], ['Data', gv('dataResp')]
+    ]},
+    { sec: 'Ramos e Seções', items: [
+      ['Ninhada ativa', gr('ninhada')],
+      ['Pretende iniciar Ninhada', gr('ninhadaPretende') || 'N/A'],
+      ['Meses para Ninhada', gv('ninhadaMeses') || 'N/A'],
+      ['Suporte para Ninhada', gr('ninhadaSuporte') || 'N/A'],
+      ['Seções Lobinho', gv('lobinhoN')], ['Seções Escoteiro', gv('escoteiroN')],
+      ['Seções Sênior', gv('seniorN')], ['Clã Pioneiro', gr('cla')==='1'?'Sim':'Não']
+    ]},
+    { sec: 'Paxtu', items: [
+      ['Já virou no Paxtu', gr('paxtuFeito')],
+      ['Data prevista de virada', gv('paxtuData') || 'N/A'],
+      ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
+      ['Suporte para Paxtu', gr('paxtuSuporte')]
+    ]},
+    { sec: 'Cerimônia de Acolhida', items: [
+      ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
+      ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
+    ]},
+    { sec: 'Ciclo de Programa', items: [
+      ['Compreensão escotistas', gr('cicComp')], ['Chefes dominam', gr('cicloChefes')],
+      ['Aplicação', gr('cicloAplic')], ['Suporte', gr('cicloSuporte')]
+    ]},
+    { sec: 'Caminhos entre Ramos', items: [
+      ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
+      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
+      ['Suporte', gr('caminhosSuporte')]
+    ]},
+    { sec: 'Reconhecimento de Ramo e Desafio Pessoal', items: [
+      ['Compreensão escotistas', gr('recComp')], ['Chefes dominam', gr('reconhChefes')],
+      ['Suporte', gr('reconhSuporte')]
+    ]},
+    { sec: 'Blocos de Aprendizagem', items: [
+      ['Compreensão escotistas', gr('bloComp')], ['Chefes dominam', gr('blocosChefes')],
+      ['Lobinho', gr('bLob')], ['Escoteiro', gr('bEsc')],
+      ['Sênior', gr('bSen')], ['Pioneiro', gr('bPio')],
+      ['Suporte', gr('blocosSuporte')],
+      ['Diferença fixa/variável', gr('bloFixVar')],
+      ['Especialidades e insígnias na progressão', gr('bloEspec')]
+    ]},
+    { sec: 'Processo de Equivalência', items: [
+      ['Compreensão escotistas', gr('eqComp')], ['Chefes dominam', gr('equivChefes')],
+      ['Lobinho', gr('eLob')], ['Escoteiro', gr('eEsc')],
+      ['Sênior', gr('eSen')], ['Pioneiro', gr('ePio')],
+      ['Suporte', gr('equivSuporte')]
+    ]},
+    { sec: 'Comunicação com os Jovens', items: [
+      ['Lobinho', gr('jLob')], ['Escoteiro', gr('jEsc')],
+      ['Sênior', gr('jSen')], ['Pioneiro', gr('jPio')],
+      ['Jovens entendem', gr('jovEnt')], ['Suporte', gr('jovensSuporte')]
+    ]}
+  ];
+
+  var respostasHTML = '';
+  secs.forEach(function(s) {
+    respostasHTML += '<div class="res-sec"><div class="res-sec-title">' + esc(s.sec) + '</div><table class="res-table">';
+    s.items.forEach(function(item) {
+      respostasHTML += '<tr><td class="res-label">' + esc(item[0]) + '</td><td class="res-value">' + esc(item[1]) + '</td></tr>';
+    });
+    respostasHTML += '</table></div>';
+  });
+
+  var css = [
+    '*{box-sizing:border-box;margin:0;padding:0}',
+    'body{font-family:Arial,sans-serif;font-size:12px;color:#1a2535;background:white;}',
+    '.page-header{background:#003366;color:white;padding:1.25rem 1.5rem;border-bottom:3px solid #c9a84c;margin-bottom:1.5rem;}',
+    '.page-header h1{font-size:1.15rem;font-weight:700;margin-bottom:.2rem;}',
+    '.page-header .meta{font-size:.75rem;color:rgba(255,255,255,.7);}',
+    '.sec-div{background:#1a4b8c;color:white;padding:.4rem 1.5rem;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1rem;}',
+    '.respostas{padding:0 1.5rem 1.5rem;}',
+    '.res-sec{margin-bottom:1.25rem;}',
+    '.res-sec-title{font-size:.88rem;font-weight:700;color:#003366;margin-bottom:.4rem;padding-bottom:.25rem;border-bottom:1.5px solid #d6e4f0;}',
+    '.res-table{width:100%;border-collapse:collapse;}',
+    '.res-table tr:nth-child(even) td{background:#f8f9fa;}',
+    '.res-label{padding:.3rem .4rem;color:#4a5568;width:45%;}',
+    '.res-value{padding:.3rem .4rem;font-weight:500;}',
+    '.resultado-section{padding:0 1.5rem 1.5rem;}',
+    '.result-hero{background:#003366;border-radius:8px;padding:1.25rem;color:white;margin-bottom:1rem;}',
+    '.result-hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;}',
+    '.hero-card{background:rgba(255,255,255,.1);border-radius:6px;padding:.6rem;text-align:center;border:1px solid rgba(255,255,255,.15);}',
+    '.hero-val{font-size:1.6rem;font-weight:900;color:#c9a84c;line-height:1;margin-bottom:.2rem;}',
+    '.hero-lbl{font-size:.65rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.04em;}',
+    '.hero-sub{font-size:.75rem;color:rgba(255,255,255,.8);margin-top:.2rem;}',
+    '.alert{border-radius:6px;padding:.6rem .8rem;margin-bottom:.6rem;display:flex;gap:.5rem;align-items:flex-start;}',
+    '.alert-icon{font-size:.9rem;flex-shrink:0;}',
+    '.alert-title{font-weight:600;font-size:.8rem;margin-bottom:.1rem;}',
+    '.alert-text{font-size:.75rem;line-height:1.45;color:#4a5568;}',
+    '.alert.critical{background:#ffebee;border-left:4px solid #b71c1c;}',
+    '.alert.critical .alert-title{color:#b71c1c;}',
+    '.alert.warning{background:#fff3e0;border-left:4px solid #e65100;}',
+    '.alert.warning .alert-title{color:#e65100;}',
+    '.alert.caution{background:#fff8e1;border-left:4px solid #f57f17;}',
+    '.alert.caution .alert-title{color:#f57f17;}',
+    '.alert.ok{background:#e8f5e9;border-left:4px solid #1b5e20;}',
+    '.alert.ok .alert-title{color:#1b5e20;}',
+    '.chart-wrap{border:1px solid #e8ecf0;border-radius:8px;padding:.75rem;margin-bottom:1rem;text-align:center;}',
+    '.chart-title{font-size:.9rem;font-weight:700;color:#003366;margin-bottom:.5rem;}',
+    '.score-table{border-radius:8px;overflow:hidden;margin-bottom:1rem;border:1px solid #e8ecf0;}',
+    '.score-table table{width:100%;border-collapse:collapse;}',
+    '.score-table th{background:#003366;color:white;padding:.5rem .6rem;font-size:.7rem;font-weight:600;text-transform:uppercase;text-align:left;}',
+    '.score-table td{padding:.5rem .6rem;font-size:.78rem;border-bottom:1px solid #e8ecf0;vertical-align:middle;}',
+    '.score-table tr:last-child td{border-bottom:none;}',
+    '.score-table tr:nth-child(even) td{background:#f8f9fa;}',
+    '.score-bar-wrap{display:flex;align-items:center;gap:.4rem;}',
+    '.score-bar{height:6px;border-radius:3px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.score-bar-fill{height:100%;border-radius:3px;}',
+    '.score-num{font-weight:700;font-size:.85rem;min-width:30px;text-align:right;}',
+    '.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.68rem;font-weight:600;}',
+    '.badge-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.badge-att{background:#fff8e1;color:#f57f17;}',
+    '.badge-urg{background:#ffebee;color:#b71c1c;}',
+    '.priority-section{border:1px solid #e8ecf0;border-radius:8px;padding:1rem;margin-bottom:1rem;}',
+    '.priority-section h3{font-size:.88rem;font-weight:700;margin-bottom:.6rem;}',
+    '.priority-item{display:flex;gap:.5rem;align-items:flex-start;padding:.45rem .6rem;border-radius:5px;margin-bottom:.35rem;border:1px solid transparent;}',
+    '.priority-item.urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.priority-item.att{background:#fff8e1;border-color:#fce08a;}',
+    '.priority-item.ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.priority-icon{font-size:.85rem;flex-shrink:0;margin-top:.1rem;}',
+    '.priority-name{font-weight:600;font-size:.78rem;}',
+    '.priority-name.urg{color:#b71c1c;}.priority-name.att{color:#f57f17;}.priority-name.ok{color:#1b5e20;}',
+    '.priority-rec{font-size:.74rem;color:#4a5568;margin-top:.1rem;line-height:1.4;}',
+    '.complexity-chip{display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .65rem;border-radius:20px;font-size:.7rem;font-weight:600;}',
+    '.cc-baixa{background:#e8f5e9;color:#1b5e20;}',
+    '.cc-media{background:#fff8e1;color:#f57f17;}',
+    '.cc-alta{background:#fff3e0;color:#e65100;}',
+    '.cc-critica{background:#ffebee;color:#b71c1c;}',
+    '.result-actions,.nav-row{display:none!important;}',
+    '.ranking-section{border:1px solid #e8ecf0;border-radius:8px;padding:1.25rem;margin-bottom:1rem;}',
+    '.ranking-section h3{font-size:.88rem;font-weight:700;margin-bottom:.75rem;color:#003366;}',
+    '.ranking-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .8rem;border-radius:6px;margin-bottom:.5rem;border:1px solid transparent;}',
+    '.ranking-pos{font-size:1.2rem;font-weight:900;color:#90a4ae;min-width:24px;text-align:center;}',
+    '.ranking-pos.gold{color:#c9a84c;}.ranking-pos.silver{color:#90a4ae;}.ranking-pos.bronze{color:#a1654a;}',
+    '.ranking-body{flex:1;}',
+    '.ranking-name{font-weight:600;font-size:.85rem;margin-bottom:.25rem;}',
+    '.ranking-bar-wrap{display:flex;align-items:center;gap:.5rem;}',
+    '.ranking-bar{height:8px;border-radius:4px;flex:1;background:#e8ecf0;overflow:hidden;}',
+    '.ranking-bar-fill{height:100%;border-radius:4px;}',
+    '.ranking-score{font-weight:700;font-size:.85rem;min-width:36px;text-align:right;}',
+    '.ranking-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem;}',
+    '.rtag{font-size:.68rem;padding:2px 6px;border-radius:20px;font-weight:500;}',
+    '.rtag-ok{background:#e8f5e9;color:#1b5e20;}',
+    '.rtag-att{background:#fff8e1;color:#f57f17;}',
+    '.rtag-urg{background:#ffebee;color:#b71c1c;}',
+    '.rtag-crit{background:#7b0000;color:white;}',
+    '.ranking-item.r-ok{background:#e8f5e9;border-color:#a5d6a7;}',
+    '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
+    '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
+    '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
+    '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
+    '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
+    '@page{margin:1.5cm;size:A4;}'
+  ].join('\n');
+
+  var html_parts = [
+    '<!DOCTYPE html><html lang="pt-BR"><head>',
+    '<meta charset="UTF-8">',
+    '<title>Relatorio - ' + nomeGrupo + '</title>',
+    '<style>' + css + '<\/style>',
+    '</head><body>',
+    '<div class="page-header">',
+    '<h1>Diagn\u00f3stico \u2014 ' + esc(nomeGrupo) + '</h1>',
+    '<div class="meta">Regi\u00e3o Escoteira de Minas Gerais &nbsp;|&nbsp; ' + esc(dataResp) + ' &nbsp;|&nbsp; ' + esc(gv('responsavel')) + ' &nbsp;|&nbsp; ' + esc(gv('distrito')) + '</div>',
+    '</div>',
+    '<div class="sec-div">Respostas do Formul\u00e1rio</div>',
+    '<div class="respostas">' + respostasHTML + '</div>',
+    '<div class="sec-div">Resultado e An\u00e1lise</div>',
+    '<div class="resultado-section">' + resultHTML + '</div>',
+    '</body></html>'
+  ];
+
+  var printDoc = html_parts.join('');
+
+  var w = window.open('', '_blank', 'width=900,height=700');
+  if (!w) { alert('Permita pop-ups para imprimir.'); return; }
+  w.document.open();
+  w.document.write(printDoc);
+  w.document.close();
+  w.onload = function() { w.focus(); w.print(); };
+  setTimeout(function() { try { w.focus(); w.print(); } catch(e){} }, 1500);
+}
+
+
+
+// ══════════════════════════════════════════════════════════════
+// ENVIO PARA GOOGLE SHEETS (JSONP)
+// Substitua a URL abaixo pela URL da sua implantação Apps Script
+// ══════════════════════════════════════════════════════════════
+var SHEETS_URL = ''; // Ex: https://script.google.com/macros/s/SEU_ID/exec
+
+function enviarParaSheets(resultado) {
+  if (!SHEETS_URL) return;
+
+  function gv(id) { return (document.getElementById(id)||{}).value||''; }
+  function gr(name) { var el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:''; }
+
+  // Complexidade e status legíveis
+  var complexLabel = ['Baixa','Média','Alta','Crítica'][resultado.complexity]||'';
   var paxtuStatus  = resultado.paxtuFeito ? 'Realizada' :
-    (resultado.monthsUntil <= 6 && resultado.monthsUntil >= 0 ? 'Em ' + resultado.monthsUntil + ' meses' :
-    (resultado.monthsUntil < 999 ? 'Em ' + resultado.monthsUntil + ' meses' : 'Sem data'));
+    (resultado.monthsUntil<=6&&resultado.monthsUntil>=0 ? 'Em '+resultado.monthsUntil+' meses' :
+    resultado.monthsUntil<999 ? 'Em '+resultado.monthsUntil+' meses' : 'Sem data');
 
+  // Suportes solicitados
   var suportes = [];
-  if (gr('paxtuSuporte') === 'Sim')      suportes.push('Paxtu');
-  if (gr('acolhidaSuporte') === 'Sim')   suportes.push('Acolhida');
-  if (gr('cicloSuporte') === 'Sim')      suportes.push('Ciclo');
-  if (gr('caminhosSuporte') === 'Sim')   suportes.push('Caminhos');
-  if (gr('reconhSuporte') === 'Sim')     suportes.push('Reconhecimento');
-  if (gr('blocosSuporte') === 'Sim')     suportes.push('Blocos');
-  if (gr('equivSuporte') === 'Sim')      suportes.push('Equivalência');
-  if (gr('jovensSuporte') === 'Sim')     suportes.push('Jovens');
+  if(gr('paxtuSuporte')==='Sim')      suportes.push('Paxtu');
+  if(gr('acolhidaSuporte')==='Sim')   suportes.push('Acolhida');
+  if(gr('cicloSuporte')==='Sim')      suportes.push('Ciclo');
+  if(gr('caminhosSuporte')==='Sim')   suportes.push('Caminhos');
+  if(gr('reconhSuporte')==='Sim')     suportes.push('Reconhecimento');
+  if(gr('blocosSuporte')==='Sim')     suportes.push('Blocos');
+  if(gr('equivSuporte')==='Sim')      suportes.push('Equivalência');
+  if(gr('jovensSuporte')==='Sim')     suportes.push('Jovens');
+
+  // Scores e ranking por ramo
+  var ramoScores = {}, ramoManual = {}, rankingStr = '';
+  if (resultado.activeRamos && resultado.activeRamos.length) {
+    resultado.activeRamos.forEach(function(r){
+      ramoScores[r.key] = r.score;
+      ramoManual[r.key] = r.fields ? r.fields.manual : '';
+    });
+    rankingStr = resultado.activeRamos.map(function(r,i){
+      return (i+1)+'º '+r.label+' ('+r.score+'%)';
+    }).join(' | ');
+  }
+
+  // Flags blocos
+  var fixVarVal  = parseInt(gr('bloFixVar')||'0');
+  var especVal   = parseInt(gr('bloEspec')||'0');
+  var chefBlocos = gr('blocosChefes')==='Sim';
+  var alertaFixVar = fixVarVal<50 ? (chefBlocos?'Crítico':'Muito Crítico') : '';
+  var alertaEspec  = especVal<50  ? (chefBlocos?'Crítico':'Muito Crítico') : '';
+  var flagManualSemConsolidacao = resultado.activeRamos
+    ? resultado.activeRamos.some(function(r){return r.criticalManual;})
+    : false;
 
   var payload = {
     respostas: {
-      dataResp:         gv('dataResp'),
-      nomeGrupo:        gv('nomeGrupo'),
-      numeralGrupo:     gv('numeralGrupo'),
-      distrito:         gv('distrito'),
-      responsavel:      gv('responsavel'),
-      funcao:           gv('funcao'),
-      ninhada:          gr('ninhada'),
-      ninhadaPretende:  gr('ninhadaPretende'),
-      ninhadaMeses:     gv('ninhadaMeses'),
-      ninhadaSuporte:   gr('ninhadaSuporte'),
-      lobinhoN:         gv('lobinhoN'),
-      escoteiroN:       gv('escoteiroN'),
-      seniorN:          gv('seniorN'),
-      cla:              gr('cla'),
-      paxtuFeito:       gr('paxtuFeito'),
-      paxtuData:        gv('paxtuData'),
-      paxtuSeguro:      gr('paxtuSeguro'),
-      paxtuSuporte:     gr('paxtuSuporte'),
-      acolhComp:        gr('acolhComp'),
-      acolhidaChefes:   gr('acolhidaChefes'),
-      acolhidaAplic:    gr('acolhidaAplic'),
-      acolhidaSuporte:  gr('acolhidaSuporte'),
-      cicComp:          gr('cicComp'),
-      cicloChefes:      gr('cicloChefes'),
-      cicloAplic:       gr('cicloAplic'),
-      cicloSuporte:     gr('cicloSuporte'),
-      kamComp:          gr('kamComp'),
-      caminhosChefes:   gr('caminhosChefes'),
-      cFil:             gr('cFil'),
-      cLob:             gr('cLob'),
-      cEsc:             gr('cEsc'),
-      cSen:             gr('cSen'),
-      caminhosSuporte:  gr('caminhosSuporte'),
-      recComp:          gr('recComp'),
-      reconhChefes:     gr('reconhChefes'),
-      reconhSuporte:    gr('reconhSuporte'),
-      bloComp:          gr('bloComp'),
-      blocosChefes:     gr('blocosChefes'),
-      bLob:             gr('bLob'),
-      bEsc:             gr('bEsc'),
-      bSen:             gr('bSen'),
-      bPio:             gr('bPio'),
-      blocosSuporte:    gr('blocosSuporte'),
-      eqComp:           gr('eqComp'),
-      equivChefes:      gr('equivChefes'),
-      eLob:             gr('eLob'),
-      eEsc:             gr('eEsc'),
-      eSen:             gr('eSen'),
-      ePio:             gr('ePio'),
-      equivSuporte:     gr('equivSuporte'),
-      jLob:             gr('jLob'),
-      jEsc:             gr('jEsc'),
-      jSen:             gr('jSen'),
-      jPio:             gr('jPio'),
-      jovEnt:           gr('jovEnt'),
-      jovensSuporte:    gr('jovensSuporte')
+      // Identificação
+      dataResp:gv('dataResp'), nomeGrupo:gv('nomeGrupo'), numeralGrupo:gv('numeralGrupo'),
+      distrito:gv('distrito'), responsavel:gv('responsavel'), funcao:gv('funcao'),
+      // Ramos
+      ninhada:gr('ninhada'), ninhadaPretende:gr('ninhadaPretende'),
+      ninhadaMeses:gv('ninhadaMeses'), ninhadaSuporte:gr('ninhadaSuporte'),
+      lobinhoN:gv('lobinhoN'), escoteiroN:gv('escoteiroN'), seniorN:gv('seniorN'),
+      cla:gr('cla'),
+      // Paxtu
+      paxtuFeito:gr('paxtuFeito'), paxtuData:gv('paxtuData'),
+      paxtuSeguro:gr('paxtuSeguro'), paxtuSuporte:gr('paxtuSuporte'),
+      // Acolhida
+      acolhComp:gr('acolhComp'), acolhidaChefes:gr('acolhidaChefes'),
+      acolhidaAplic:gr('acolhidaAplic'), acolhidaSuporte:gr('acolhidaSuporte'),
+      aRamoLob:gr('aRamoLob'), aRamoEsc:gr('aRamoEsc'),
+      aRamoSen:gr('aRamoSen'), aRamoPio:gr('aRamoPio'),
+      acolhManLob:gr('acolhManLob'), acolhManEsc:gr('acolhManEsc'),
+      acolhManSen:gr('acolhManSen'), acolhManPio:gr('acolhManPio'),
+      // Ciclo
+      cicComp:gr('cicComp'), cicloChefes:gr('cicloChefes'),
+      cicloAplic:gr('cicloAplic'), cicloSuporte:gr('cicloSuporte'),
+      cicRamoLob:gr('cicRamoLob'), cicRamoEsc:gr('cicRamoEsc'),
+      cicRamoSen:gr('cicRamoSen'), cicRamoPio:gr('cicRamoPio'),
+      cicloManLob:gr('cicloManLob'), cicloManEsc:gr('cicloManEsc'),
+      cicloManSen:gr('cicloManSen'), cicloManPio:gr('cicloManPio'),
+      // Caminhos
+      kamComp:gr('kamComp'), caminhosChefes:gr('caminhosChefes'),
+      cFil:gr('cFil'), cLob:gr('cLob'), cEsc:gr('cEsc'), cSen:gr('cSen'),
+      caminhosSuporte:gr('caminhosSuporte'),
+      camManLob:gr('camManLob'), camManEsc:gr('camManEsc'),
+      camManSen:gr('camManSen'), camManPio:gr('camManPio'),
+      // Reconhecimento
+      recComp:gr('recComp'), reconhChefes:gr('reconhChefes'), reconhSuporte:gr('reconhSuporte'),
+      recRamoLob:gr('recRamoLob'), recRamoEsc:gr('recRamoEsc'),
+      recRamoSen:gr('recRamoSen'), recRamoPio:gr('recRamoPio'),
+      recManLob:gr('recManLob'), recManEsc:gr('recManEsc'),
+      recManSen:gr('recManSen'), recManPio:gr('recManPio'),
+      // Blocos
+      bloComp:gr('bloComp'), blocosChefes:gr('blocosChefes'),
+      bloFixVar:gr('bloFixVar'), bloEspec:gr('bloEspec'),
+      bLob:gr('bLob'), bEsc:gr('bEsc'), bSen:gr('bSen'), bPio:gr('bPio'),
+      blocosSuporte:gr('blocosSuporte'),
+      bloManLob:gr('bloManLob'), bloManEsc:gr('bloManEsc'),
+      bloManSen:gr('bloManSen'), bloManPio:gr('bloManPio'),
+      // Equivalência
+      eqComp:gr('eqComp'), equivChefes:gr('equivChefes'),
+      eLob:gr('eLob'), eEsc:gr('eEsc'), eSen:gr('eSen'), ePio:gr('ePio'),
+      equivSuporte:gr('equivSuporte'),
+      equivManLob:gr('equivManLob'), equivManEsc:gr('equivManEsc'),
+      equivManSen:gr('equivManSen'), equivManPio:gr('equivManPio'),
+      // Jovens
+      jLob:gr('jLob'), jEsc:gr('jEsc'), jSen:gr('jSen'), jPio:gr('jPio'),
+      jovEnt:gr('jovEnt'), jovensSuporte:gr('jovensSuporte'),
+      jovManLob:gr('jovManLob'), jovManEsc:gr('jovManEsc'),
+      jovManSen:gr('jovManSen'), jovManPio:gr('jovManPio')
     },
     scores: {
-      avg:        resultado.avg,
-      complexidade: complexLabel,
-      paxtuStatus:  paxtuStatus,
-      paxtu:      resultado.scores.paxtu,
-      acolhida:   resultado.scores.acolhida,
-      ciclo:      resultado.scores.ciclo,
-      caminhos:   resultado.scores.caminhos,
-      reconh:     resultado.scores.reconh,
-      blocos:     resultado.scores.blocos,
-      equiv:      resultado.scores.equiv,
-      jovens:     resultado.scores.jovens
+      avg:resultado.avg, complexidade:complexLabel, paxtuStatus:paxtuStatus,
+      paxtu:resultado.scores.paxtu, acolhida:resultado.scores.acolhida,
+      ciclo:resultado.scores.ciclo, caminhos:resultado.scores.caminhos,
+      reconh:resultado.scores.reconh, blocos:resultado.scores.blocos,
+      equiv:resultado.scores.equiv, jovens:resultado.scores.jovens,
+      scoreLob:ramoScores['lob'], scoreEsc:ramoScores['esc'],
+      scoreSen:ramoScores['sen'], scorePio:ramoScores['pio'],
+      manualLob:ramoManual['lob'], manualEsc:ramoManual['esc'],
+      manualSen:ramoManual['sen'], manualPio:ramoManual['pio'],
+      rankingRamos:rankingStr
     },
     alertas: {
-      flag2:    resultado.flag2,
-      flag3:    resultado.flag3,
-      flag4:    resultado.flag4,
-      suportes: suportes
+      flag2:resultado.flag2, flag3:resultado.flag3, flag4:resultado.flag4,
+      flagManualSemConsolidacao:flagManualSemConsolidacao,
+      alertaBlocosFixVar:alertaFixVar, alertaBlocosEspec:alertaEspec,
+      suportes:suportes
     }
   };
 
-  fetch(SHEETS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(function() {
-    // silently fail — não interrompe o fluxo do usuário
-  });
+  try {
+    var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    var cbName  = '_cb' + Date.now();
+    var url     = SHEETS_URL + '?data=' + encoded + '&cb=' + cbName;
+    var script  = document.createElement('script');
+    script.src  = url;
+    script.onerror = function() { try{document.body.removeChild(script);}catch(e){} };
+    script.onload  = function() { try{document.body.removeChild(script);}catch(e){} };
+    document.body.appendChild(script);
+    setTimeout(function() { try{document.body.removeChild(script);}catch(e){} }, 5000);
+  } catch(e) { /* silently fail */ }
 }
 
 // Init progress
