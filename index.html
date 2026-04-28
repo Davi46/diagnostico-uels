@@ -462,6 +462,16 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .ranking-item.r-att{background:var(--amar-cl);border-color:#fce08a;}
 .ranking-item.r-urg{background:var(--verm-cl);border-color:#f8c0c0;}
 .ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}
+.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+.ranking-detail-col.fortes h4{color:var(--verde);}
+.ranking-detail-col.desenvolver h4{color:var(--verm);}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
+.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
+.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
+.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
+@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}
 .alert-blocos{
   background:#fff0f0;border-left:4px solid #8b0000;
   border-radius:8px;padding:1rem 1.25rem;margin-bottom:.75rem;
@@ -752,46 +762,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="acolhManLob" id="acolhManLob_s" value="Sim"><label for="acolhManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="acolhManLob" id="acolhManLob_n" value="Não"><label for="acolhManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="acolhManEsc" id="acolhManEsc_s" value="Sim"><label for="acolhManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="acolhManEsc" id="acolhManEsc_n" value="Não"><label for="acolhManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="acolhManSen" id="acolhManSen_s" value="Sim"><label for="acolhManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="acolhManSen" id="acolhManSen_n" value="Não"><label for="acolhManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="acolhManPio" id="acolhManPio_s" value="Sim"><label for="acolhManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="acolhManPio" id="acolhManPio_n" value="Não"><label for="acolhManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -878,46 +849,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="cicloManLob" id="cicloManLob_s" value="Sim"><label for="cicloManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="cicloManLob" id="cicloManLob_n" value="Não"><label for="cicloManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="cicloManEsc" id="cicloManEsc_s" value="Sim"><label for="cicloManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="cicloManEsc" id="cicloManEsc_n" value="Não"><label for="cicloManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="cicloManSen" id="cicloManSen_s" value="Sim"><label for="cicloManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="cicloManSen" id="cicloManSen_n" value="Não"><label for="cicloManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="cicloManPio" id="cicloManPio_s" value="Sim"><label for="cicloManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="cicloManPio" id="cicloManPio_n" value="Não"><label for="cicloManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -937,7 +869,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="scale-wrap" id="caminhosComp"></div>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes compreendem os Caminhos com segurança?</label>
+      <label class="q-label">Todos os chefes de Seção compreendem os Caminhos com segurança?</label>
       <div class="pill-group">
         <input type="radio" name="caminhosChefes" id="kch_s" value="Sim"><label for="kch_s">Sim</label>
         <input type="radio" name="caminhosChefes" id="kch_n" value="Não"><label for="kch_n">Não</label>
@@ -986,46 +918,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="camManLob" id="camManLob_s" value="Sim"><label for="camManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="camManLob" id="camManLob_n" value="Não"><label for="camManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="camManEsc" id="camManEsc_s" value="Sim"><label for="camManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="camManEsc" id="camManEsc_n" value="Não"><label for="camManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="camManSen" id="camManSen_s" value="Sim"><label for="camManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="camManSen" id="camManSen_n" value="Não"><label for="camManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="camManPio" id="camManPio_s" value="Sim"><label for="camManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="camManPio" id="camManPio_n" value="Não"><label for="camManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -1045,7 +938,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="scale-wrap" id="reconhComp"></div>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes compreendem com segurança o Reconhecimento de Ramo e Desafio Pessoal?</label>
+      <label class="q-label">Todos os chefes de Seção compreendem com segurança o Reconhecimento de Ramo e Desafio Pessoal?</label>
       <div class="pill-group">
         <input type="radio" name="reconhChefes" id="rch_s" value="Sim"><label for="rch_s">Sim</label>
         <input type="radio" name="reconhChefes" id="rch_n" value="Não"><label for="rch_n">Não</label>
@@ -1102,46 +995,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="recManLob" id="recManLob_s" value="Sim"><label for="recManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="recManLob" id="recManLob_n" value="Não"><label for="recManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="recManEsc" id="recManEsc_s" value="Sim"><label for="recManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="recManEsc" id="recManEsc_n" value="Não"><label for="recManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="recManSen" id="recManSen_s" value="Sim"><label for="recManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="recManSen" id="recManSen_n" value="Não"><label for="recManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="recManPio" id="recManPio_s" value="Sim"><label for="recManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="recManPio" id="recManPio_n" value="Não"><label for="recManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -1161,7 +1015,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="scale-wrap" id="blocosComp"></div>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes compreendem os Blocos com segurança?</label>
+      <label class="q-label">Todos os chefes de Seção compreendem os Blocos com segurança?</label>
       <div class="pill-group">
         <input type="radio" name="blocosChefes" id="bch_s" value="Sim"><label for="bch_s">Sim</label>
         <input type="radio" name="blocosChefes" id="bch_n" value="Não"><label for="bch_n">Não</label>
@@ -1218,46 +1072,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="bloManLob" id="bloManLob_s" value="Sim"><label for="bloManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="bloManLob" id="bloManLob_n" value="Não"><label for="bloManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="bloManEsc" id="bloManEsc_s" value="Sim"><label for="bloManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="bloManEsc" id="bloManEsc_n" value="Não"><label for="bloManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="bloManSen" id="bloManSen_s" value="Sim"><label for="bloManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="bloManSen" id="bloManSen_n" value="Não"><label for="bloManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="bloManPio" id="bloManPio_s" value="Sim"><label for="bloManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="bloManPio" id="bloManPio_n" value="Não"><label for="bloManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -1277,7 +1092,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="scale-wrap" id="equivComp"></div>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes compreendem o processo de Equivalência com segurança?</label>
+      <label class="q-label">Todos os chefes de Seção compreendem o processo de Equivalência com segurança?</label>
       <div class="pill-group">
         <input type="radio" name="equivChefes" id="ech_s" value="Sim"><label for="ech_s">Sim</label>
         <input type="radio" name="equivChefes" id="ech_n" value="Não"><label for="ech_n">Não</label>
@@ -1326,46 +1141,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
-  <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
-    <div class="ramo-field ramo-lob" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="equivManLob" id="equivManLob_s" value="Sim"><label for="equivManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="equivManLob" id="equivManLob_n" value="Não"><label for="equivManLob_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-esc" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="equivManEsc" id="equivManEsc_s" value="Sim"><label for="equivManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="equivManEsc" id="equivManEsc_n" value="Não"><label for="equivManEsc_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-sen" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="equivManSen" id="equivManSen_s" value="Sim"><label for="equivManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="equivManSen" id="equivManSen_n" value="Não"><label for="equivManSen_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-    <div class="ramo-field ramo-pio" style="display:none">
-      <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
-        <div class="pill-group">
-          <input type="radio" name="equivManPio" id="equivManPio_s" value="Sim"><label for="equivManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="equivManPio" id="equivManPio_n" value="Não"><label for="equivManPio_n">Ainda não</label>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
     <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
@@ -1427,42 +1203,59 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       </div>
     </div>
   </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
+    <button class="btn btn-primary" onclick="goNext()">Próximo →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ STEP 11 – Manual do Escotista -->
+<div class="step" data-step="11">
+  <div class="sec-header">
+    <div class="sec-num">11</div>
+    <h1 class="sec-title">Aplicação do Manual do Escotista</h1>
+    <p class="sec-desc">Esta é a pergunta mais importante do diagnóstico. Um ramo que declara estar aplicando o Programa Atualizado com base no Manual do Escotista deve ter todos os processos anteriores consolidados. Caso contrário, é um ponto crítico de atenção.</p>
+  </div>
   <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="divider"><div class="divider-line"></div><span class="divider-text" style="color:var(--azul);font-weight:700">Aplicação do Manual do Escotista por Ramo</span><div class="divider-line"></div></div>
-    <div class="info-note" style="margin-bottom:1rem">Esta pergunta é fundamental para o ranking de maturidade. Um ramo que declara estar aplicando o Programa Atualizado deve ter todos os processos anteriores consolidados.</div>
+    <div class="info-note" style="margin-bottom:1.25rem;font-size:.88rem">Responda apenas para os ramos que seu grupo possui. Esta resposta influencia diretamente o ranking de maturidade por ramo no resultado final.</div>
+
     <div class="ramo-field ramo-lob" style="display:none">
       <div class="field">
         <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Lobinho já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
         <div class="pill-group">
-          <input type="radio" name="jovManLob" id="jovManLob_s" value="Sim"><label for="jovManLob_s">Sim, já aplicamos</label>
-          <input type="radio" name="jovManLob" id="jovManLob_n" value="Não"><label for="jovManLob_n">Ainda não</label>
+          <input type="radio" name="manualLob" id="manualLob_s" value="Sim"><label for="manualLob_s">Sim, já aplicamos</label>
+          <input type="radio" name="manualLob" id="manualLob_n" value="Não"><label for="manualLob_n">Ainda não</label>
         </div>
       </div>
     </div>
+
     <div class="ramo-field ramo-esc" style="display:none">
       <div class="field">
         <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Escoteiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
         <div class="pill-group">
-          <input type="radio" name="jovManEsc" id="jovManEsc_s" value="Sim"><label for="jovManEsc_s">Sim, já aplicamos</label>
-          <input type="radio" name="jovManEsc" id="jovManEsc_n" value="Não"><label for="jovManEsc_n">Ainda não</label>
+          <input type="radio" name="manualEsc" id="manualEsc_s" value="Sim"><label for="manualEsc_s">Sim, já aplicamos</label>
+          <input type="radio" name="manualEsc" id="manualEsc_n" value="Não"><label for="manualEsc_n">Ainda não</label>
         </div>
       </div>
     </div>
+
     <div class="ramo-field ramo-sen" style="display:none">
       <div class="field">
         <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Sênior já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
         <div class="pill-group">
-          <input type="radio" name="jovManSen" id="jovManSen_s" value="Sim"><label for="jovManSen_s">Sim, já aplicamos</label>
-          <input type="radio" name="jovManSen" id="jovManSen_n" value="Não"><label for="jovManSen_n">Ainda não</label>
+          <input type="radio" name="manualSen" id="manualSen_s" value="Sim"><label for="manualSen_s">Sim, já aplicamos</label>
+          <input type="radio" name="manualSen" id="manualSen_n" value="Não"><label for="manualSen_n">Ainda não</label>
         </div>
       </div>
     </div>
+
     <div class="ramo-field ramo-pio" style="display:none">
       <div class="field">
-        <label class="q-label" style="font-weight:600;color:var(--azul)">O Ramo Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
+        <label class="q-label" style="font-weight:600;color:var(--azul)">O Clã Pioneiro já está aplicando o Programa Educativo Atualizado com base no Manual do Escotista?</label>
         <div class="pill-group">
-          <input type="radio" name="jovManPio" id="jovManPio_s" value="Sim"><label for="jovManPio_s">Sim, já aplicamos</label>
-          <input type="radio" name="jovManPio" id="jovManPio_n" value="Não"><label for="jovManPio_n">Ainda não</label>
+          <input type="radio" name="manualPio" id="manualPio_s" value="Sim"><label for="manualPio_s">Sim, já aplicamos</label>
+          <input type="radio" name="manualPio" id="manualPio_n" value="Não"><label for="manualPio_n">Ainda não</label>
         </div>
       </div>
     </div>
@@ -1473,8 +1266,9 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ STEP 11 – RESULTADO -->
-<div class="step" data-step="11" id="resultStep">
+
+<!-- ═══════════════════════════════════════════ STEP 12 – RESULTADO -->
+<div class="step" data-step="12" id="resultStep">
 </div>
 
 </div><!-- /main -->
@@ -1484,7 +1278,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 // STATE
 // ══════════════════════════════════════════════════════════════
 let currentStep = 1;
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 11;
 
 const compOptions = [
   {v:'0',   label:'Ainda não entendem (0%)'},
@@ -1764,29 +1558,7 @@ function calcScores() {
     equiv:equivScore, jovens:jovensScore};
   const avg = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/8);
 
-  // ── Alertas ──
-  const equivNenhumRamo = eRamos.every(n => g(n)!=='Sim');
-  const flag3 = paxtuFeito && equivNenhumRamo && eTotal>0; // já virou + sem equiv
-
-  const fragil = (score, chef) => score<50 && chef!=='Sim';
-  const flag2 = paxtuFeito && (
-    fragil(acolhScore, g('acolhidaChefes')) ||
-    fragil(cicloScore, g('cicloChefes'))    ||
-    fragil(caminhosScore, g('caminhosChefes')) ||
-    fragil(blocosScore, g('blocosChefes'))
-  );
-
-  const flag4 = !paxtuFeito && monthsUntil<=6 && monthsUntil>=0 && (
-    fragil(acolhScore, g('acolhidaChefes')) ||
-    fragil(cicloScore, g('cicloChefes'))    ||
-    fragil(caminhosScore, g('caminhosChefes')) ||
-    fragil(equivScore, g('equivChefes'))
-  );
-
-
-  // ── Per-ramo scores ──────────────────────────────────────
-  // Each ramo gets scored on: acolhida, ciclo, caminhos, reconh, blocos, equiv, jovens
-  // Plus the "applying manual" question which is a multiplier
+  // ── Per-ramo scores (computed BEFORE general alerts so flags can use them) ──
 
   function ramoAppScore(fields) {
     // fields = array of radio names; Sim=100, NSA=skip, Não=0
@@ -1813,12 +1585,7 @@ function calcScores() {
         blocos:    ramoAppScore(['bLob']),
         equiv:     ramoAppScore(['eLob']),
         jovens:    ramoAppScore(['jLob']),
-        manual:    (function(){
-          var vals=['acolhManLob','cicloManLob','camManLob','recManLob','bloManLob','equivManLob','jovManLob'].map(function(n){return g(n);}).filter(function(v){return v;});
-          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
-          if(vals.some(function(v){return v==='Não';})) return 'Não';
-          return '';
-        })(),
+        manual:    g('manualLob'),
       }
     },
     {key:'esc', label:'Ramo Escoteiro', color:'#2e7d32', active: parseInt(gv('escoteiroN'))||0 > 0,
@@ -1829,12 +1596,7 @@ function calcScores() {
         blocos:    ramoAppScore(['bEsc']),
         equiv:     ramoAppScore(['eEsc']),
         jovens:    ramoAppScore(['jEsc']),
-        manual:    (function(){
-          var vals=['acolhManEsc','cicloManEsc','camManEsc','recManEsc','bloManEsc','equivManEsc','jovManEsc'].map(function(n){return g(n);}).filter(function(v){return v;});
-          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
-          if(vals.some(function(v){return v==='Não';})) return 'Não';
-          return '';
-        })(),
+        manual:    g('manualEsc'),
       }
     },
     {key:'sen', label:'Ramo Sênior',    color:'#b71c1c', active: parseInt(gv('seniorN'))||0 > 0,
@@ -1845,12 +1607,7 @@ function calcScores() {
         blocos:    ramoAppScore(['bSen']),
         equiv:     ramoAppScore(['eSen']),
         jovens:    ramoAppScore(['jSen']),
-        manual:    (function(){
-          var vals=['acolhManSen','cicloManSen','camManSen','recManSen','bloManSen','equivManSen','jovManSen'].map(function(n){return g(n);}).filter(function(v){return v;});
-          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
-          if(vals.some(function(v){return v==='Não';})) return 'Não';
-          return '';
-        })(),
+        manual:    g('manualSen'),
       }
     },
     {key:'pio', label:'Clã Pioneiro',   color:'#4a148c', active: parseInt(g('cla')||'0') > 0,
@@ -1861,12 +1618,7 @@ function calcScores() {
         blocos:    ramoAppScore(['bPio']),
         equiv:     ramoAppScore(['ePio']),
         jovens:    ramoAppScore(['jPio']),
-        manual:    (function(){
-          var vals=['acolhManPio','cicloManPio','camManPio','recManPio','bloManPio','equivManPio','jovManPio'].map(function(n){return g(n);}).filter(function(v){return v;});
-          if(vals.some(function(v){return v==='Sim';})) return 'Sim';
-          if(vals.some(function(v){return v==='Não';})) return 'Não';
-          return '';
-        })(),
+        manual:    g('manualPio'),
       }
     },
   ];
@@ -1892,11 +1644,108 @@ function calcScores() {
 
     // Flags
     ramo.applyingManual = manVal==='Sim';
-    ramo.criticalManual = manVal==='Sim' && baseScore < 60; // applying but not ready
+    // criticalManual: ramo says applying manual BUT has any process with score < 50
+    // This is evaluated ONLY on this ramo's own field answers — no cross-ramo comparison
+    var thisRamoHasWeakProcess = Object.keys(ramo.fields).some(function(k) {
+      if (k === 'manual') return false;
+      var v = ramo.fields[k];
+      return v !== null && v < 50; // has data AND it's below 50%
+    });
+    ramo.criticalManual = manVal === 'Sim' && thisRamoHasWeakProcess;
+
+    // ── Per-ramo detail analysis ──────────────────────────
+    var TEMAS = [
+      {key:'acolhida', label:'Cerimônia de Acolhida'},
+      {key:'ciclo',    label:'Ciclo de Programa'},
+      {key:'reconh',   label:'Reconhecimento de Ramo'},
+      {key:'blocos',   label:'Blocos de Aprendizagem'},
+      {key:'equiv',    label:'Processo de Equivalência'},
+      {key:'jovens',   label:'Comunicação com Jovens'},
+    ];
+    ramo.fortes = [];
+    ramo.desenvolver = [];
+
+    TEMAS.forEach(function(t) {
+      var v = ramo.fields[t.key];
+      if (v === null) return; // não respondido ou NSA para este ramo — ignora
+      if (v >= 75)  ramo.fortes.push(t.label);
+      else if (v < 50) ramo.desenvolver.push(t.label); // abaixo de 50% = a desenvolver
+    });
+
+    // Manual status as detail item
+    if (manVal === 'Sim' && baseScore >= 60) {
+      ramo.fortes.push('Aplicando o Manual do Escotista');
+    } else if (manVal === 'Sim' && baseScore < 60) {
+      ramo.desenvolver.push('Consolidar processos antes de avançar na aplicação do Manual');
+    } else if (!manVal || manVal === 'Não') {
+      ramo.desenvolver.push('Iniciar aplicação do Manual do Escotista');
+    }
+
+    // If no data available for this ramo
+    if (ramo.fortes.length === 0 && ramo.desenvolver.length === 0) {
+      ramo.desenvolver.push('Preencha as respostas por ramo para obter análise detalhada');
+    }
   });
 
   var activeRamos = RAMOS.filter(function(r){return r.active && r.score!==null;});
   activeRamos.sort(function(a,b){return b.score-a.score;});
+
+  // ── Alertas gerais (agora com dados de ramo disponíveis) ──────────────────
+  const equivNenhumRamo = eRamos.every(n => g(n)!=='Sim');
+  const flag3 = paxtuFeito && equivNenhumRamo && eTotal>0;
+
+  const fragil = (score, chef) => score<50 && chef!=='Sim';
+  const flag2 = paxtuFeito && (
+    fragil(acolhScore, g('acolhidaChefes')) ||
+    fragil(cicloScore, g('cicloChefes'))    ||
+    fragil(caminhosScore, g('caminhosChefes')) ||
+    fragil(blocosScore, g('blocosChefes'))
+  );
+
+  const flag4 = !paxtuFeito && monthsUntil<=6 && monthsUntil>=0 && (
+    fragil(acolhScore, g('acolhidaChefes')) ||
+    fragil(cicloScore, g('cicloChefes'))    ||
+    fragil(caminhosScore, g('caminhosChefes')) ||
+    fragil(equivScore, g('equivChefes'))
+  );
+
+  // ── Alertas por ramo — cada ramo avaliado de forma isolada ─────────────────
+  var ramoAlerts = [];
+
+  activeRamos.forEach(function(r) {
+    var temNaoAplicando = r.desenvolver.filter(function(d){ return d.indexOf('Manual') === -1; });
+
+    // 1. Ramo aplicando o Manual com processos fracos (crítico — avaliado só por ele mesmo)
+    if (r.criticalManual) {
+      ramoAlerts.push({
+        level: 'critical',
+        titulo: '🚨 ' + r.label + ' — Aplicando o Manual sem processos consolidados',
+        msg: r.label + ' declara estar aplicando o Programa Atualizado com base no Manual do Escotista, mas tem processos não consolidados neste próprio ramo: '
+          + (temNaoAplicando.length > 0 ? temNaoAplicando.join(', ') : 'verifique os processos')
+          + '. Risco real de aplicação incorreta para os jovens deste ramo.'
+      });
+    }
+
+    // 2. Ramo com score crítico (< 30%) — independente do Manual
+    else if (r.score < 30) {
+      ramoAlerts.push({
+        level: 'critical',
+        titulo: '🔴 ' + r.label + ' — Maturidade muito baixa (' + r.score + '%)',
+        msg: 'Este ramo tem maturidade muito baixa no Programa Atualizado.'
+          + (temNaoAplicando.length > 0 ? ' Processos a priorizar: ' + temNaoAplicando.join(', ') + '.' : '')
+      });
+    }
+
+    // 3. Ramo em atenção (30–49%)
+    else if (r.score >= 30 && r.score < 50) {
+      ramoAlerts.push({
+        level: 'warning',
+        titulo: '⚠ ' + r.label + ' — Em desenvolvimento (' + r.score + '%)',
+        msg: 'Este ramo está progredindo, mas ainda tem processos a consolidar.'
+          + (temNaoAplicando.length > 0 ? ' Foco em: ' + temNaoAplicando.join(', ') + '.' : '')
+      });
+    }
+  });
 
   // ── Blocos special alerts ──────────────────────────────────
   var fixVarScore  = parseInt(g('bloFixVar')||'0');
@@ -1915,19 +1764,19 @@ function calcScores() {
     blocoAlerts.push({level:'critico', msg:'Menos de metade dos escotistas entende o papel das especialidades e insígnias nos blocos. Atenção redobrada necessária.'});
   }
 
-  return {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts};
+  return {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts, ramoAlerts};
 }
 
 // ══════════════════════════════════════════════════════════════
 // RENDER RESULT
 // ══════════════════════════════════════════════════════════════
 function generateResult() {
-  showStep(11);
+  showStep(12);
   const el = document.getElementById('resultStep');
   el.innerHTML = `<div class="result-cover"><div class="spinner"></div><p>Calculando diagnóstico...</p></div>`;
 
   setTimeout(() => {
-    const {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts} = calcScores();
+    const {scores, avg, complexity, paxtuFeito, monthsUntil, flag2, flag3, flag4, activeRamos, blocoAlerts, ramoAlerts} = calcScores();
 
     const complexLabel = ['🟢 Baixa','🟡 Média','🟠 Alta','🔴 Crítica'][complexity];
     const complexCls   = ['cc-baixa','cc-media','cc-alta','cc-critica'][complexity];
@@ -1939,14 +1788,14 @@ function generateResult() {
     else paxtuStatus = '📅 Sem data';
 
     const dims = [
-      {key:'paxtu',   label:'Paxtu / Virada',        score:scores.paxtu},
-      {key:'acolhida',label:'Cerimônia de Acolhida',  score:scores.acolhida},
-      {key:'ciclo',   label:'Ciclo de Programa',      score:scores.ciclo},
-      {key:'caminhos',label:'Caminhos entre Ramos',   score:scores.caminhos},
-      {key:'reconh',  label:'Reconhecimento de Ramo', score:scores.reconh},
-      {key:'blocos',  label:'Blocos de Aprendizagem', score:scores.blocos},
-      {key:'equiv',   label:'Processo de Equivalência',score:scores.equiv},
-      {key:'jovens',  label:'Comunicação c/ Jovens',  score:scores.jovens},
+      {key:'paxtu',   label:'Paxtu',                 score:scores.paxtu},
+      {key:'acolhida',label:'Acolhida',               score:scores.acolhida},
+      {key:'ciclo',   label:'Ciclo de\nPrograma',    score:scores.ciclo},
+      {key:'caminhos',label:'Caminhos',               score:scores.caminhos},
+      {key:'reconh',  label:'Reconhecimento',         score:scores.reconh},
+      {key:'blocos',  label:'Blocos de\nAprendizagem', score:scores.blocos},
+      {key:'equiv',   label:'Equivalência',            score:scores.equiv},
+      {key:'jovens',  label:'Jovens',                 score:scores.jovens},
     ];
 
     const recs = {
@@ -2048,7 +1897,13 @@ function generateResult() {
         </div>
       </div>`:''}
 
-      ${!flag2&&!flag3&&!flag4?`<div class="alert ok">
+      <!-- Alertas por ramo -->
+      ${ramoAlerts && ramoAlerts.length>0 ? ramoAlerts.map(function(a){
+        var cls = a.level==='critical' ? 'critical' : 'warning';
+        return '<div class="alert '+cls+'"><div class="alert-icon">'+(a.level==='critical'?'🔴':'⚠')+'</div><div class="alert-body"><div class="alert-title">'+a.titulo+'</div><div class="alert-text">'+a.msg+'</div></div></div>';
+      }).join('') : ''}
+
+      ${!flag2&&!flag3&&!flag4&&(!ramoAlerts||ramoAlerts.length===0)?`<div class="alert ok">
         <div class="alert-icon">✅</div>
         <div class="alert-body">
           <div class="alert-title">Nenhum alerta crítico identificado</div>
@@ -2095,7 +1950,7 @@ function generateResult() {
       <div class="priority-section">
         <h3>Prioridades de Ação</h3>
 
-        ${urgentes.length>0?`
+        ${(urgentes.length>0 || (activeRamos && activeRamos.some(function(r){return r.score<30;})))?`
           <div style="font-size:.78rem;font-weight:600;color:var(--verm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;margin-top:.5rem">🔴 Foco imediato, score abaixo de 40%</div>
           ${urgentes.map(d=>`
             <div class="priority-item urg">
@@ -2106,9 +1961,12 @@ function generateResult() {
               </div>
             </div>
           `).join('')}
+          ${activeRamos && activeRamos.filter(function(r){return r.score<30;}).map(function(r){
+            return '<div class="priority-item urg"><div class="priority-icon">🔴</div><div class="priority-body"><div class="priority-name urg">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' tem maturidade crítica. Pontos urgentes: '+(r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ')||'todos os processos precisam de atenção')+'.</div></div></div>';
+          }).join('')}
         `:''}
 
-        ${atencao.length>0?`
+        ${(atencao.length>0 || (activeRamos && activeRamos.some(function(r){return r.score>=30&&r.score<50;})))?`
           <div style="font-size:.78rem;font-weight:600;color:var(--amar);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;margin-top:1rem">⚠ Em desenvolvimento, 40% a 69%</div>
           ${atencao.map(d=>`
             <div class="priority-item att">
@@ -2119,6 +1977,9 @@ function generateResult() {
               </div>
             </div>
           `).join('')}
+          ${activeRamos && activeRamos.filter(function(r){return r.score>=30&&r.score<50;}).map(function(r){
+            return '<div class="priority-item att"><div class="priority-icon">⚠</div><div class="priority-body"><div class="priority-name att">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' está em desenvolvimento. Defina ações concretas para: '+(r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ')||'ver análise detalhada no ranking')+'.</div></div></div>';
+          }).join('')}
         `:''}
 
         ${bons.length>0?`
@@ -2151,6 +2012,8 @@ function generateResult() {
           var posCls = pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';
           var itemCls = ramo.score>=70?'r-ok':ramo.score>=50?'r-att':ramo.score>=30?'r-urg':'r-crit';
           var col = ramo.score>=70?'#2e7d32':ramo.score>=50?'#f57f17':'#b71c1c';
+
+          // Status tags
           var tags = [];
           if(ramo.applyingManual && !ramo.criticalManual) tags.push('<span class="rtag rtag-ok">✅ Aplicando o Manual</span>');
           if(ramo.criticalManual) tags.push('<span class="rtag rtag-crit">🚨 Aplicando sem consolidação</span>');
@@ -2158,6 +2021,23 @@ function generateResult() {
           if(ramo.score>=70) tags.push('<span class="rtag rtag-ok">Bem preparado</span>');
           else if(ramo.score>=50) tags.push('<span class="rtag rtag-att">Em desenvolvimento</span>');
           else tags.push('<span class="rtag rtag-urg">Precisa de atenção</span>');
+
+          // Pontos fortes
+          var fortesHTML = '';
+          if(ramo.fortes && ramo.fortes.length > 0) {
+            fortesHTML = ramo.fortes.map(function(f){ return '<li>'+f+'</li>'; }).join('');
+          } else {
+            fortesHTML = '<li style="color:var(--cinza3);font-style:italic">Nenhum ponto consolidado ainda</li>';
+          }
+
+          // Pontos a desenvolver
+          var desenvolverHTML = '';
+          if(ramo.desenvolver && ramo.desenvolver.length > 0) {
+            desenvolverHTML = ramo.desenvolver.map(function(d){ return '<li>'+d+'</li>'; }).join('');
+          } else {
+            desenvolverHTML = '<li style="color:var(--cinza3);font-style:italic">Sem pontos críticos identificados</li>';
+          }
+
           return '<div class="ranking-item '+itemCls+'">'
             +'<div class="ranking-pos '+posCls+'">'+pos+'º</div>'
             +'<div class="ranking-body">'
@@ -2167,6 +2047,10 @@ function generateResult() {
             +'<div class="ranking-score" style="color:'+col+'">'+ramo.score+'%</div>'
             +'</div>'
             +'<div class="ranking-tags">'+tags.join('')+'</div>'
+            +'<div class="ranking-detail">'
+            +'<div class="ranking-detail-col fortes"><h4>Pontos Fortes</h4><ul>'+fortesHTML+'</ul></div>'
+            +'<div class="ranking-detail-col desenvolver"><h4>A Desenvolver</h4><ul>'+desenvolverHTML+'</ul></div>'
+            +'</div>'
             +'</div></div>';
         }).join('')}
       </div>` : ''}
@@ -2281,8 +2165,8 @@ function drawRadar(labels, data) {
     ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
   }
 
-  // ── Labels with generous padding ──
-  const LABEL_R = R + 44;  // distance from centre to label anchor
+  // ── Labels ──
+  const LABEL_R = R + 52;
   ctx.font = 'bold 12px DM Sans, sans-serif';
 
   for (let i = 0; i < N; i++) {
@@ -2292,27 +2176,29 @@ function drawRadar(labels, data) {
     const col = data[i] >= 70 ? '#1b5e20' : data[i] >= 40 ? '#c44f00' : '#b71c1c';
     ctx.fillStyle = col;
 
-    // Alignment based on position
     const EPS = W * 0.08;
     ctx.textAlign    = lx < cx - EPS ? 'right' : lx > cx + EPS ? 'left' : 'center';
-    ctx.textBaseline = ly < cy - EPS ? 'bottom' : ly > cy + EPS ? 'top'  : 'middle';
+    ctx.textBaseline = ly < cy - EPS ? 'bottom' : ly > cy + EPS ? 'top' : 'middle';
 
-    // Word-wrap into up to 3 lines of ≤14 chars each
-    const words = labels[i].split(' ');
+    // Split on explicit \n first, then wrap long words
+    const rawLines = labels[i].split('\n');
     const lines = [];
-    let cur = '';
-    words.forEach(w => {
-      const test = cur ? cur + ' ' + w : w;
-      if (test.length > 14 && cur) { lines.push(cur); cur = w; }
-      else cur = test;
+    rawLines.forEach(segment => {
+      const words = segment.split(' ');
+      let cur = '';
+      words.forEach(w => {
+        const test = cur ? cur + ' ' + w : w;
+        if (test.length > 12 && cur) { lines.push(cur); cur = w; }
+        else cur = test;
+      });
+      if (cur) lines.push(cur);
     });
-    if (cur) lines.push(cur);
 
-    const LH = 15;  // line-height px
+    const LH = 16;
     const totalH = lines.length * LH;
     let startY = ly;
-    if (ctx.textBaseline === 'bottom')  startY = ly - totalH + LH;
-    else if (ctx.textBaseline === 'middle') startY = ly - (totalH - LH) / 2;
+    if (ctx.textBaseline === 'bottom')       startY = ly - totalH + LH;
+    else if (ctx.textBaseline === 'middle')  startY = ly - (totalH - LH) / 2;
 
     lines.forEach((line, li) => {
       ctx.fillText(line, lx, startY + li * LH);
@@ -2506,6 +2392,16 @@ function downloadRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+.ranking-detail-col.fortes h4{color:var(--verde);}
+.ranking-detail-col.desenvolver h4{color:var(--verm);}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
+.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
+.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
+.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
+@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
@@ -2728,6 +2624,16 @@ function printRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+.ranking-detail-col.fortes h4{color:var(--verde);}
+.ranking-detail-col.desenvolver h4{color:var(--verm);}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
+.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
+.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
+.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
+@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
@@ -2950,6 +2856,16 @@ function downloadRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+.ranking-detail-col.fortes h4{color:var(--verde);}
+.ranking-detail-col.desenvolver h4{color:var(--verm);}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
+.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
+.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
+.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
+@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
@@ -3172,6 +3088,16 @@ function printRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
+.ranking-detail-col.fortes h4{color:var(--verde);}
+.ranking-detail-col.desenvolver h4{color:var(--verm);}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
+.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
+.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
+.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
+@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
@@ -3277,45 +3203,45 @@ function enviarParaSheets(resultado) {
       acolhidaAplic:gr('acolhidaAplic'), acolhidaSuporte:gr('acolhidaSuporte'),
       aRamoLob:gr('aRamoLob'), aRamoEsc:gr('aRamoEsc'),
       aRamoSen:gr('aRamoSen'), aRamoPio:gr('aRamoPio'),
-      acolhManLob:gr('acolhManLob'), acolhManEsc:gr('acolhManEsc'),
-      acolhManSen:gr('acolhManSen'), acolhManPio:gr('acolhManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Ciclo
       cicComp:gr('cicComp'), cicloChefes:gr('cicloChefes'),
       cicloAplic:gr('cicloAplic'), cicloSuporte:gr('cicloSuporte'),
       cicRamoLob:gr('cicRamoLob'), cicRamoEsc:gr('cicRamoEsc'),
       cicRamoSen:gr('cicRamoSen'), cicRamoPio:gr('cicRamoPio'),
-      cicloManLob:gr('cicloManLob'), cicloManEsc:gr('cicloManEsc'),
-      cicloManSen:gr('cicloManSen'), cicloManPio:gr('cicloManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Caminhos
       kamComp:gr('kamComp'), caminhosChefes:gr('caminhosChefes'),
       cFil:gr('cFil'), cLob:gr('cLob'), cEsc:gr('cEsc'), cSen:gr('cSen'),
       caminhosSuporte:gr('caminhosSuporte'),
-      camManLob:gr('camManLob'), camManEsc:gr('camManEsc'),
-      camManSen:gr('camManSen'), camManPio:gr('camManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Reconhecimento
       recComp:gr('recComp'), reconhChefes:gr('reconhChefes'), reconhSuporte:gr('reconhSuporte'),
       recRamoLob:gr('recRamoLob'), recRamoEsc:gr('recRamoEsc'),
       recRamoSen:gr('recRamoSen'), recRamoPio:gr('recRamoPio'),
-      recManLob:gr('recManLob'), recManEsc:gr('recManEsc'),
-      recManSen:gr('recManSen'), recManPio:gr('recManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Blocos
       bloComp:gr('bloComp'), blocosChefes:gr('blocosChefes'),
       bloFixVar:gr('bloFixVar'), bloEspec:gr('bloEspec'),
       bLob:gr('bLob'), bEsc:gr('bEsc'), bSen:gr('bSen'), bPio:gr('bPio'),
       blocosSuporte:gr('blocosSuporte'),
-      bloManLob:gr('bloManLob'), bloManEsc:gr('bloManEsc'),
-      bloManSen:gr('bloManSen'), bloManPio:gr('bloManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Equivalência
       eqComp:gr('eqComp'), equivChefes:gr('equivChefes'),
       eLob:gr('eLob'), eEsc:gr('eEsc'), eSen:gr('eSen'), ePio:gr('ePio'),
       equivSuporte:gr('equivSuporte'),
-      equivManLob:gr('equivManLob'), equivManEsc:gr('equivManEsc'),
-      equivManSen:gr('equivManSen'), equivManPio:gr('equivManPio'),
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio'),
       // Jovens
       jLob:gr('jLob'), jEsc:gr('jEsc'), jSen:gr('jSen'), jPio:gr('jPio'),
       jovEnt:gr('jovEnt'), jovensSuporte:gr('jovensSuporte'),
-      jovManLob:gr('jovManLob'), jovManEsc:gr('jovManEsc'),
-      jovManSen:gr('jovManSen'), jovManPio:gr('jovManPio')
+      manualLob:gr('manualLob'), manualEsc:gr('manualEsc'),
+      manualSen:gr('manualSen'), manualPio:gr('manualPio')
     },
     scores: {
       avg:resultado.avg, complexidade:complexLabel, paxtuStatus:paxtuStatus,
