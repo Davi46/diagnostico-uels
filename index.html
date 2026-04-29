@@ -1226,6 +1226,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="pill-group">
           <input type="radio" name="manualLob" id="manualLob_s" value="Sim"><label for="manualLob_s">Sim, já aplicamos</label>
           <input type="radio" name="manualLob" id="manualLob_n" value="Não"><label for="manualLob_n">Ainda não</label>
+          <input type="radio" name="manualLob" id="manualLob_na" value="NSA"><label for="manualLob_na">Não se Aplica</label>
         </div>
       </div>
     </div>
@@ -1236,6 +1237,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="pill-group">
           <input type="radio" name="manualEsc" id="manualEsc_s" value="Sim"><label for="manualEsc_s">Sim, já aplicamos</label>
           <input type="radio" name="manualEsc" id="manualEsc_n" value="Não"><label for="manualEsc_n">Ainda não</label>
+          <input type="radio" name="manualEsc" id="manualEsc_na" value="NSA"><label for="manualEsc_na">Não se Aplica</label>
         </div>
       </div>
     </div>
@@ -1246,6 +1248,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="pill-group">
           <input type="radio" name="manualSen" id="manualSen_s" value="Sim"><label for="manualSen_s">Sim, já aplicamos</label>
           <input type="radio" name="manualSen" id="manualSen_n" value="Não"><label for="manualSen_n">Ainda não</label>
+          <input type="radio" name="manualSen" id="manualSen_na" value="NSA"><label for="manualSen_na">Não se Aplica</label>
         </div>
       </div>
     </div>
@@ -1256,6 +1259,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <div class="pill-group">
           <input type="radio" name="manualPio" id="manualPio_s" value="Sim"><label for="manualPio_s">Sim, já aplicamos</label>
           <input type="radio" name="manualPio" id="manualPio_n" value="Não"><label for="manualPio_n">Ainda não</label>
+          <input type="radio" name="manualPio" id="manualPio_na" value="NSA"><label for="manualPio_na">Não se Aplica</label>
         </div>
       </div>
     </div>
@@ -1318,7 +1322,14 @@ buildScale('equivComp',     'eqComp',     compOptions);
 buildScale('jovensEntend',  'jovEnt',     jovensOptions);
 
 // Set today's date
-document.getElementById('dataResp').valueAsDate = new Date();
+(function(){
+  var d = new Date();
+  var yyyy = d.getFullYear();
+  var mm = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  var el = document.getElementById('dataResp');
+  if(el) el.value = yyyy+'-'+mm+'-'+dd;
+})();
 
 // ══════════════════════════════════════════════════════════════
 // NAVIGATION
@@ -1645,13 +1656,16 @@ function calcScores() {
     // Flags
     ramo.applyingManual = manVal==='Sim';
     // criticalManual: ramo says applying manual BUT has any process with score < 50
-    // This is evaluated ONLY on this ramo's own field answers — no cross-ramo comparison
+    // NSA means ramo doesn't have that transition — skip it
+    // Only applies to this ramo's own answers, no cross-ramo comparison
     var thisRamoHasWeakProcess = Object.keys(ramo.fields).some(function(k) {
       if (k === 'manual') return false;
       var v = ramo.fields[k];
-      return v !== null && v < 50; // has data AND it's below 50%
+      return v !== null && v < 50;
     });
-    ramo.criticalManual = manVal === 'Sim' && thisRamoHasWeakProcess;
+    ramo.criticalManual = (manVal === 'Sim') && thisRamoHasWeakProcess;
+    // If NSA — ramo doesn't exist, no alert needed
+    if (manVal === 'NSA') { ramo.criticalManual = false; ramo.applyingManual = false; }
 
     // ── Per-ramo detail analysis ──────────────────────────
     var TEMAS = [
@@ -1788,14 +1802,14 @@ function generateResult() {
     else paxtuStatus = '📅 Sem data';
 
     const dims = [
-      {key:'paxtu',   label:'Paxtu',                 score:scores.paxtu},
-      {key:'acolhida',label:'Acolhida',               score:scores.acolhida},
-      {key:'ciclo',   label:'Ciclo de\nPrograma',    score:scores.ciclo},
-      {key:'caminhos',label:'Caminhos',               score:scores.caminhos},
-      {key:'reconh',  label:'Reconhecimento',         score:scores.reconh},
-      {key:'blocos',  label:'Blocos de\nAprendizagem', score:scores.blocos},
-      {key:'equiv',   label:'Equivalência',            score:scores.equiv},
-      {key:'jovens',  label:'Jovens',                 score:scores.jovens},
+      {key:'paxtu',   label:'1',  fullLabel:'1. Paxtu / Virada Sistêmica',        score:scores.paxtu},
+      {key:'acolhida',label:'2',  fullLabel:'2. Cerimônia de Acolhida',            score:scores.acolhida},
+      {key:'ciclo',   label:'3',  fullLabel:'3. Ciclo de Programa',                score:scores.ciclo},
+      {key:'caminhos',label:'4',  fullLabel:'4. Caminhos entre Ramos',             score:scores.caminhos},
+      {key:'reconh',  label:'5',  fullLabel:'5. Reconhecimento de Ramo',           score:scores.reconh},
+      {key:'blocos',  label:'6',  fullLabel:'6. Blocos de Aprendizagem',           score:scores.blocos},
+      {key:'equiv',   label:'7',  fullLabel:'7. Processo de Equivalência',         score:scores.equiv},
+      {key:'jovens',  label:'8',  fullLabel:'8. Comunicação com os Jovens',        score:scores.jovens},
     ];
 
     const recs = {
@@ -1898,10 +1912,14 @@ function generateResult() {
       </div>`:''}
 
       <!-- Alertas por ramo -->
-      ${ramoAlerts && ramoAlerts.length>0 ? ramoAlerts.map(function(a){
-        var cls = a.level==='critical' ? 'critical' : 'warning';
-        return '<div class="alert '+cls+'"><div class="alert-icon">'+(a.level==='critical'?'🔴':'⚠')+'</div><div class="alert-body"><div class="alert-title">'+a.titulo+'</div><div class="alert-text">'+a.msg+'</div></div></div>';
-      }).join('') : ''}
+      ${(function(){
+        if(!ramoAlerts || ramoAlerts.length===0) return '';
+        return ramoAlerts.map(function(a){
+          var cls = a.level==='critical' ? 'critical' : 'warning';
+          var icon = a.level==='critical' ? '🔴' : '⚠';
+          return '<div class="alert '+cls+'"><div class="alert-icon">'+icon+'</div><div class="alert-body"><div class="alert-title">'+a.titulo+'</div><div class="alert-text">'+a.msg+'</div></div></div>';
+        }).join('');
+      })()}
 
       ${!flag2&&!flag3&&!flag4&&(!ramoAlerts||ramoAlerts.length===0)?`<div class="alert ok">
         <div class="alert-icon">✅</div>
@@ -1923,6 +1941,16 @@ function generateResult() {
       <div class="chart-wrap">
         <div class="chart-title">Perfil de Maturidade por Dimensão</div>
         <canvas id="radarChart" width="420" height="420"></canvas>
+        <div style="margin-top:1.25rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:.3rem .75rem;">
+          ${(function(){return dims.map(function(d){
+            var col = d.score>=70?'#1b5e20':d.score>=40?'#c44f00':'#b71c1c';
+            return '<div style="display:flex;align-items:baseline;gap:.35rem;font-size:.78rem;">'
+              +'<span style="font-weight:700;color:'+col+';min-width:18px">'+d.label+'</span>'
+              +'<span style="color:#4a5568">'+d.fullLabel.split('. ').slice(1).join('. ')+'</span>'
+              +'<span style="margin-left:auto;font-weight:600;color:'+col+'">'+d.score+'%</span>'
+              +'</div>';
+          }).join('');})()}
+        </div>
       </div>
 
       <!-- TABELA SCORES -->
@@ -1935,7 +1963,7 @@ function generateResult() {
           </tr></thead>
           <tbody>
             ${dims.map(d=>`<tr>
-              <td style="font-weight:500">${d.label}</td>
+              <td style="font-weight:500">${d.fullLabel}</td>
               <td><div class="score-bar-wrap">
                 <div class="score-bar"><div class="score-bar-fill" style="width:${d.score}%;background:${barColor(d.score)}"></div></div>
                 <div class="score-num" style="color:${barColor(d.score)}">${d.score}%</div>
@@ -1961,9 +1989,13 @@ function generateResult() {
               </div>
             </div>
           `).join('')}
-          ${activeRamos && activeRamos.filter(function(r){return r.score<30;}).map(function(r){
-            return '<div class="priority-item urg"><div class="priority-icon">🔴</div><div class="priority-body"><div class="priority-name urg">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' tem maturidade crítica. Pontos urgentes: '+(r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ')||'todos os processos precisam de atenção')+'.</div></div></div>';
-          }).join('')}
+          ${(function(){
+            if(!activeRamos) return '';
+            return activeRamos.filter(function(r){return r.score<30;}).map(function(r){
+              var pts = r.desenvolver ? r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ') : '';
+              return '<div class="priority-item urg"><div class="priority-icon">🔴</div><div class="priority-body"><div class="priority-name urg">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' tem maturidade crítica. Processos urgentes: '+(pts||'todos os processos precisam de atenção')+'.</div></div></div>';
+            }).join('');
+          })()}
         `:''}
 
         ${(atencao.length>0 || (activeRamos && activeRamos.some(function(r){return r.score>=30&&r.score<50;})))?`
@@ -1977,9 +2009,13 @@ function generateResult() {
               </div>
             </div>
           `).join('')}
-          ${activeRamos && activeRamos.filter(function(r){return r.score>=30&&r.score<50;}).map(function(r){
-            return '<div class="priority-item att"><div class="priority-icon">⚠</div><div class="priority-body"><div class="priority-name att">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' está em desenvolvimento. Defina ações concretas para: '+(r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ')||'ver análise detalhada no ranking')+'.</div></div></div>';
-          }).join('')}
+          ${(function(){
+            if(!activeRamos) return '';
+            return activeRamos.filter(function(r){return r.score>=30&&r.score<50;}).map(function(r){
+              var pts = r.desenvolver ? r.desenvolver.filter(function(d){return d.indexOf('Manual')===-1;}).join(', ') : '';
+              return '<div class="priority-item att"><div class="priority-icon">⚠</div><div class="priority-body"><div class="priority-name att">'+r.label+' — Maturidade '+r.score+'%</div><div class="priority-rec">'+r.label+' está em desenvolvimento. Defina ações: '+(pts||'ver análise detalhada no ranking')+'.</div></div></div>';
+            }).join('');
+          })()}
         `:''}
 
         ${bons.length>0?`
@@ -2392,16 +2428,14 @@ function downloadRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
-    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
-.ranking-detail-col.fortes h4{color:var(--verde);}
-.ranking-detail-col.desenvolver h4{color:var(--verm);}
-.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
-.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
-.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
-.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
-.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
-@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}',
+    '.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}',
+    '.ranking-detail-col.fortes h4{color:#1b5e20;}',
+    '.ranking-detail-col.desenvolver h4{color:#b71c1c;}',
+    '.ranking-detail-col ul{list-style:none;padding:0;margin:0;}',
+    '.ranking-detail-col ul li{font-size:.78rem;color:#4a5568;line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}',
+    '.ranking-detail-col.fortes ul li::before{content:"\u2713";color:#1b5e20;font-weight:700;flex-shrink:0;}',
+    '.ranking-detail-col.desenvolver ul li::before{content:"\u2192";color:#b71c1c;font-weight:700;flex-shrink:0;}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
@@ -2624,16 +2658,14 @@ function printRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
-    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
-.ranking-detail-col.fortes h4{color:var(--verde);}
-.ranking-detail-col.desenvolver h4{color:var(--verm);}
-.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
-.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
-.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
-.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
-.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
-@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}',
+    '.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}',
+    '.ranking-detail-col.fortes h4{color:#1b5e20;}',
+    '.ranking-detail-col.desenvolver h4{color:#b71c1c;}',
+    '.ranking-detail-col ul{list-style:none;padding:0;margin:0;}',
+    '.ranking-detail-col ul li{font-size:.78rem;color:#4a5568;line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}',
+    '.ranking-detail-col.fortes ul li::before{content:"\u2713";color:#1b5e20;font-weight:700;flex-shrink:0;}',
+    '.ranking-detail-col.desenvolver ul li::before{content:"\u2192";color:#b71c1c;font-weight:700;flex-shrink:0;}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
@@ -2856,16 +2888,14 @@ function downloadRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
-    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
-.ranking-detail-col.fortes h4{color:var(--verde);}
-.ranking-detail-col.desenvolver h4{color:var(--verm);}
-.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
-.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
-.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
-.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
-.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
-@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}',
+    '.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}',
+    '.ranking-detail-col.fortes h4{color:#1b5e20;}',
+    '.ranking-detail-col.desenvolver h4{color:#b71c1c;}',
+    '.ranking-detail-col ul{list-style:none;padding:0;margin:0;}',
+    '.ranking-detail-col ul li{font-size:.78rem;color:#4a5568;line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}',
+    '.ranking-detail-col.fortes ul li::before{content:"\u2713";color:#1b5e20;font-weight:700;flex-shrink:0;}',
+    '.ranking-detail-col.desenvolver ul li::before{content:"\u2192";color:#b71c1c;font-weight:700;flex-shrink:0;}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}'
@@ -3088,16 +3118,14 @@ function printRelatorio() {
     '.ranking-item.r-att{background:#fff8e1;border-color:#fce08a;}',
     '.ranking-item.r-urg{background:#ffebee;border-color:#f8c0c0;}',
     '.ranking-item.r-crit{background:#fff0f0;border-color:#c62828;}',
-    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}
-.ranking-detail-col.fortes h4{color:var(--verde);}
-.ranking-detail-col.desenvolver h4{color:var(--verm);}
-.ranking-detail-col ul{list-style:none;padding:0;margin:0;}
-.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}
-.ranking-detail-col ul li::before{flex-shrink:0;margin-top:.1rem;}
-.ranking-detail-col.fortes ul li::before{content:"✓";color:var(--verde);font-weight:700;}
-.ranking-detail-col.desenvolver ul li::before{content:"→";color:var(--verm);font-weight:700;}
-@media(max-width:500px){.ranking-detail{grid-template-columns:1fr;}}',
+    '.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}',
+    '.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;}',
+    '.ranking-detail-col.fortes h4{color:#1b5e20;}',
+    '.ranking-detail-col.desenvolver h4{color:#b71c1c;}',
+    '.ranking-detail-col ul{list-style:none;padding:0;margin:0;}',
+    '.ranking-detail-col ul li{font-size:.78rem;color:#4a5568;line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start;}',
+    '.ranking-detail-col.fortes ul li::before{content:"\u2713";color:#1b5e20;font-weight:700;flex-shrink:0;}',
+    '.ranking-detail-col.desenvolver ul li::before{content:"\u2192";color:#b71c1c;font-weight:700;flex-shrink:0;}',
     '.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.6rem;}',
     '.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.78rem;margin-bottom:.2rem;}',
     '.alert-blocos .alert-text{font-size:.74rem;color:#4a5568;line-height:1.45;}',
