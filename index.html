@@ -3166,7 +3166,7 @@ function printRelatorio() {
 // ENVIO PARA GOOGLE SHEETS (JSONP)
 // Substitua a URL abaixo pela URL da sua implantação Apps Script
 // ══════════════════════════════════════════════════════════════
-var SHEETS_URL = ''; // Ex: https://script.google.com/macros/s/SEU_ID/exec
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxCiR1LcZadFtLjx0-HqyWbsOw4wGtAHk-OM7moAoNWURuNPvqorYl0f0QcqIcBa0_2XQ/exec'; // Ex: https://script.google.com/macros/s/SEU_ID/exec
 
 function enviarParaSheets(resultado) {
   if (!SHEETS_URL) return;
@@ -3292,15 +3292,13 @@ function enviarParaSheets(resultado) {
   };
 
   try {
-    var encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-    var cbName  = '_cb' + Date.now();
-    var url     = SHEETS_URL + '?data=' + encoded + '&cb=' + cbName;
-    var script  = document.createElement('script');
-    script.src  = url;
-    script.onerror = function() { try{document.body.removeChild(script);}catch(e){} };
-    script.onload  = function() { try{document.body.removeChild(script);}catch(e){} };
-    document.body.appendChild(script);
-    setTimeout(function() { try{document.body.removeChild(script);}catch(e){} }, 5000);
+    // POST com no-cors: o browser não lê a resposta, mas o Apps Script
+    // recebe o body corretamente via doPost — sem o redirect 302 que bloqueia o GET.
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode:   'no-cors',
+      body:   JSON.stringify(payload)
+    }).catch(function(){});
   } catch(e) { /* silently fail */ }
 }
 
