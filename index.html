@@ -1354,7 +1354,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
-    <button class="btn btn-gold" onclick="generateResult()">Ver Resultado →</button>
+    <button class="btn btn-gold" onclick="validarEGerarResultado()">Ver Resultado →</button>
   </div>
 </div>
 
@@ -1489,7 +1489,9 @@ function validarStep(step) {
   else if (step === 3) {
     campos.push({type:'radio', name:'paxtuFeito',   errId:'err-paxtuFeito'});
     campos.push({type:'radio', name:'paxtuSuporte', errId:'err-paxtuSuporte'});
-    if (gr('paxtuFeito') === 'Não') {
+    // paxtuSeguro is shown and required only when paxtuFeito = Não
+    var paxtuFeitoVal = gr('paxtuFeito');
+    if (paxtuFeitoVal === 'Não') {
       campos.push({type:'radio', name:'paxtuSeguro', errId:'err-paxtuSeguro'});
     }
   }
@@ -2082,6 +2084,11 @@ function calcScores() {
 // ══════════════════════════════════════════════════════════════
 // RENDER RESULT
 // ══════════════════════════════════════════════════════════════
+function validarEGerarResultado() {
+  if (!validarStep(11)) return;
+  generateResult();
+}
+
 function generateResult() {
   showStep(12);
   const el = document.getElementById('resultStep');
@@ -2391,7 +2398,6 @@ function generateResult() {
 
       <!-- ACTIONS -->
       <div class="result-actions">
-        <button class="btn btn-secondary" onclick="showStep(1)">← Preencher novamente</button>
         <button class="btn btn-primary" onclick="printRelatorio()">🖨 Imprimir relatório</button>
         <button class="btn btn-gold" onclick="downloadRelatorio()">⬇ Baixar relatório</button>
       </div>
