@@ -169,6 +169,23 @@ input:focus,select:focus,textarea:focus{
   background:white;
   box-shadow:0 0 0 3px rgba(26,75,140,.12);
 }
+input.field-error,select.field-error{
+  border-color:var(--verm)!important;
+  background:#fff8f8;
+  box-shadow:0 0 0 3px rgba(183,28,28,.1);
+}
+.field-error-msg{
+  display:none;
+  color:var(--verm);
+  font-size:.78rem;
+  margin-top:.35rem;
+  font-weight:500;
+  align-items:center;
+  gap:.3rem;
+}
+.field-error-msg.visible{
+  display:flex;
+}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5568' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;padding-right:2.5rem;}
 
 /* ── RADIO/CHECK PILLS ── */
@@ -497,7 +514,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <span class="title">Planejamento de Implementação da<br>Atualização do Programa Educativo</span>
     </div>
   </div>
-  <span class="header-badge">Diagnóstico de Grupo</span>
+  <span class="header-badge">Diagnóstico da Unidade Escoteira Local</span>
 </header>
 
 <div class="progress-wrap" id="progressWrap">
@@ -512,26 +529,29 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div class="step active" data-step="1">
   <div class="sec-header">
     <div class="sec-num">1</div>
-    <h1 class="sec-title">Identificação do Grupo</h1>
-    <p class="sec-desc">Informe os dados básicos do seu Grupo Escoteiro. Essas informações aparecerão no relatório de diagnóstico gerado ao final.</p>
+    <h1 class="sec-title">Identificação da Unidade Escoteira Local</h1>
+    <p class="sec-desc">Informe os dados básicos da sua UEL. Essas informações aparecerão no relatório de diagnóstico gerado ao final.</p>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Nome do Grupo Escoteiro <span class="req">*</span></label>
+      <label class="q-label">Nome da UEL <span class="req">*</span></label>
       <input type="text" id="nomeGrupo" placeholder="Ex: Grupo Escoteiro Esperança">
+      <span class="field-error-msg" id="err-nomeGrupo">⚠ Campo obrigatório</span>
     </div>
     <div class="grid-2">
       <div class="field">
-        <label class="q-label">Numeral do Grupo</label>
+        <label class="q-label">Numeral da UEL <span class="req">*</span></label>
         <input type="number" id="numeralGrupo" placeholder="Ex: 42" min="1">
+        <span class="field-error-msg" id="err-numeralGrupo">⚠ Campo obrigatório</span>
       </div>
       <div class="field">
-        <label class="q-label">Data de preenchimento</label>
+        <label class="q-label">Data de preenchimento <span class="req">*</span></label>
         <input type="date" id="dataResp">
+        <span class="field-error-msg" id="err-dataResp">⚠ Campo obrigatório</span>
       </div>
     </div>
     <div class="field">
-      <label class="q-label">Distrito pertencente</label>
+      <label class="q-label">Distrito pertencente <span class="req">*</span></label>
       <select id="distrito">
         <option value="">Selecione seu Distrito</option>
         <option>Distrito Norte de Minas</option>
@@ -550,15 +570,18 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <option>Distrito Sul de Minas</option>
         <option>Não sei meu distrito</option>
       </select>
+      <span class="field-error-msg" id="err-distrito">⚠ Selecione seu distrito</span>
     </div>
     <div class="grid-2">
       <div class="field">
-        <label class="q-label">Nome de quem está preenchendo</label>
+        <label class="q-label">Nome de quem está preenchendo <span class="req">*</span></label>
         <input type="text" id="responsavel" placeholder="Seu nome">
+        <span class="field-error-msg" id="err-responsavel">⚠ Campo obrigatório</span>
       </div>
       <div class="field">
-        <label class="q-label">Função no Grupo</label>
-        <input type="text" id="funcao" placeholder="Ex: Chefe de Grupo">
+        <label class="q-label">Função na UEL <span class="req">*</span></label>
+        <input type="text" id="funcao" placeholder="Ex: Diretor de Métodos Educativos">
+        <span class="field-error-msg" id="err-funcao">⚠ Campo obrigatório</span>
       </div>
     </div>
   </div>
@@ -573,64 +596,71 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-header">
     <div class="sec-num">2</div>
     <h1 class="sec-title">Ramos e Seções Ativas</h1>
-    <p class="sec-desc">Informe a estrutura atual do grupo. Esse dado é usado para calcular a complexidade da implementação.</p>
+    <p class="sec-desc">Informe a estrutura atual da UEL. Esse dado é usado para calcular a complexidade da implementação.</p>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">O grupo possui Ninhada ativa (Ramo Filhote)?</label>
+      <label class="q-label">A UEL possui Ninhada ativa (Ramo Filhotes)? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="ninhada" id="ninhada_s" value="Sim" onchange="toggleNinhada()"><label for="ninhada_s">Sim</label>
         <input type="radio" name="ninhada" id="ninhada_n" value="Não" onchange="toggleNinhada()"><label for="ninhada_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-ninhada">⚠ Selecione uma opção</span>
     </div>
   </div>
 
   <div class="card" id="ninhadaCard" style="display:none">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Planejamento de Ninhada</span><div class="divider-line"></div></div>
     <div class="field">
-      <label class="q-label">O grupo pretende iniciar uma Ninhada (Ramo Filhote)?</label>
+      <label class="q-label">A UEL pretende iniciar uma Ninhada (Ramo Filhotes)? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="ninhadaPretende" id="npt_s" value="Sim" onchange="toggleNinhadaMeses()"><label for="npt_s">Sim</label>
         <input type="radio" name="ninhadaPretende" id="npt_n" value="Não" onchange="toggleNinhadaMeses()"><label for="npt_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-ninhadaPretende">⚠ Selecione uma opção</span>
     </div>
     <div id="ninhadaMesesField" style="display:none">
       <div class="field">
-        <label class="q-label">Em até quantos meses o grupo pretende iniciar a Ninhada?</label>
+        <label class="q-label">Em até quantos meses a UEL pretende iniciar a Ninhada? <span class="req">*</span></label>
         <input type="number" id="ninhadaMeses" min="1" max="24" placeholder="Ex: 6">
       </div>
     </div>
     <div class="field">
-      <label class="q-label">O grupo gostaria de ter suporte da região para o processo de abertura de uma Ninhada?</label>
+      <label class="q-label">A UEL gostaria de ter suporte da região para o processo de abertura de uma Ninhada? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="ninhadaSuporte" id="nsup_s" value="Sim"><label for="nsup_s">Sim</label>
         <input type="radio" name="ninhadaSuporte" id="nsup_n" value="Não"><label for="nsup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-ninhadaSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="grid-2">
       <div class="field">
-        <label class="q-label">Seções Ramo Lobinho ativas</label>
+        <label class="q-label">Seções Ramo Lobinho ativas <span class="req">*</span></label>
         <input type="number" id="lobinhoN" value="0" min="0" max="20">
+      <span class="field-error-msg" id="err-lobinhoN">⚠ Informe o número de seções</span>
       </div>
       <div class="field">
-        <label class="q-label">Seções Ramo Escoteiro ativas</label>
+        <label class="q-label">Seções Ramo Escoteiro ativas <span class="req">*</span></label>
         <input type="number" id="escoteiroN" value="0" min="0" max="20">
+      <span class="field-error-msg" id="err-escoteiroN">⚠ Informe o número de seções</span>
       </div>
       <div class="field">
-        <label class="q-label">Seções Ramo Sênior ativas</label>
+        <label class="q-label">Seções Ramo Sênior ativas <span class="req">*</span></label>
         <input type="number" id="seniorN" value="0" min="0" max="20">
+      <span class="field-error-msg" id="err-seniorN">⚠ Informe o número de seções</span>
       </div>
       <div class="field">
-        <label class="q-label">O grupo possui Clã Pioneiro ativo?</label>
+        <label class="q-label">A UEL possui Clã Pioneiro ativo? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="cla" id="cla_s" value="1"><label for="cla_s">Sim</label>
           <input type="radio" name="cla" id="cla_n" value="0"><label for="cla_n">Não</label>
         </div>
+      <span class="field-error-msg" id="err-cla">⚠ Selecione uma opção</span>
       </div>
     </div>
-    <div class="info-note" id="complexidadeNote">Preencha os campos acima para ver a complexidade estimada do seu grupo.</div>
+    <div class="info-note" id="complexidadeNote">Preencha os campos acima para ver a complexidade estimada da sua UEL.</div>
   </div>
   <div class="nav-row">
     <button class="btn btn-secondary" onclick="goPrev()">← Voltar</button>
@@ -643,25 +673,26 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-header">
     <div class="sec-num">3</div>
     <h1 class="sec-title">Atualização via Sistema Paxtu</h1>
-    <p class="sec-desc">A virada sistêmica via Paxtu é um marco central da implementação do novo programa educativo.</p>
+    <p class="sec-desc">A virada sistêmica via Paxtu é um marco central da implementação do Programa Educativo Atualizado.</p>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">O grupo já realizou a atualização do programa via Paxtu? <span class="req">*</span></label>
+      <label class="q-label">A UEL já realizou a atualização do Programa Educativo via Paxtu? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="paxtuFeito" id="paxtu_s" value="Sim" onchange="togglePaxtuData()"><label for="paxtu_s">Sim, já realizamos</label>
         <input type="radio" name="paxtuFeito" id="paxtu_n" value="Não" onchange="togglePaxtuData()"><label for="paxtu_n">Ainda não</label>
       </div>
+      <span class="field-error-msg" id="err-paxtuFeito">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card" id="paxtuDataCard" style="display:none">
     <div class="field">
-      <label class="q-label">Qual a data prevista para a virada? (deixe em branco se não souber)</label>
+      <label class="q-label">Qual a data prevista para a virada? (deixe em branco se não souber) <span class="req">*</span></label>
       <input type="date" id="paxtuData">
-      <div class="info-note" style="margin-top:.5rem">Essa data é usada para avaliar se o grupo está em risco de realizar a virada sem preparo adequado.</div>
+      <div class="info-note" style="margin-top:.5rem">Essa data é usada para avaliar se a UEL está em risco de realizar a virada sem preparo adequado.</div>
     </div>
     <div class="field">
-      <label class="q-label">O grupo se sente seguro para realizar a virada via Paxtu?</label>
+      <label class="q-label">A UEL se sente seguro para realizar a virada via Paxtu? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="paxtuSeguro" id="pseg_s" value="Sim"><label for="pseg_s">Sim</label>
         <input type="radio" name="paxtuSeguro" id="pseg_n" value="Não"><label for="pseg_n">Não</label>
@@ -670,11 +701,12 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">O grupo gostaria de suporte da região para esse processo?</label>
+      <label class="q-label">A UEL gostaria de suporte da região para esse processo? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="paxtuSuporte" id="psup_s" value="Sim"><label for="psup_s">Sim</label>
         <input type="radio" name="paxtuSuporte" id="psup_n" value="Não"><label for="psup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-paxtuSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="nav-row">
@@ -687,78 +719,86 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div class="step" data-step="4">
   <div class="sec-header">
     <div class="sec-num">4</div>
-    <h1 class="sec-title">Período e Cerimônia de Acolhida</h1>
+    <h1 class="sec-title">Período e cerimônia de acolhida</h1>
     <p class="sec-desc">A Acolhida é o processo de menor complexidade para iniciar, pode ser implementado mesmo antes da virada sistêmica.</p>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem o Período e Cerimônia de Acolhida?</label>
+      <label class="q-label">Os escotistas compreendem o período e cerimônia de acolhida? <span class="req">*</span></label>
       <div class="scale-wrap" id="acolhidaComp"></div>
+      <span class="field-error-msg" id="err-acolhComp">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Todos os chefes de seção compreendem com segurança o período de acolhida?</label>
+      <label class="q-label">Todos os chefes de seção compreendem com segurança o período de acolhida? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="acolhidaChefes" id="ach_s" value="Sim"><label for="ach_s">Sim, todos dominam</label>
         <input type="radio" name="acolhidaChefes" id="ach_n" value="Não"><label for="ach_n">Não totalmente</label>
       </div>
+      <span class="field-error-msg" id="err-acolhidaChefes">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo já está aplicando a cerimônia de acolhida?</label>
+      <label class="q-label">A UEL já está aplicando a cerimônia de acolhida? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="acolhidaAplic" id="aap_s" value="Sim"><label for="aap_s">Sim</label>
         <input type="radio" name="acolhidaAplic" id="aap_n" value="Não"><label for="aap_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-acolhidaAplic">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo precisa de orientação da região sobre Acolhida?</label>
+      <label class="q-label">A UEL precisa de orientação da região sobre acolhida? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="acolhidaSuporte" id="asup_s" value="Sim"><label for="asup_s">Sim</label>
         <input type="radio" name="acolhidaSuporte" id="asup_n" value="Não"><label for="asup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-acolhidaSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
     <div class="ramo-field ramo-lob" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Lobinho já está aplicando a Cerimônia de Acolhida?</label>
+        <label class="q-label">Ramo Lobinho já está aplicando a cerimônia de acolhida? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="aRamoLob" id="aRamolob_s" value="Sim"><label for="aRamolob_s">Sim</label>
           <input type="radio" name="aRamoLob" id="aRamolob_n" value="Não"><label for="aRamolob_n">Não</label>
           <input type="radio" name="aRamoLob" id="aRamolob_na" value="NSA"><label for="aRamolob_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-aRamoLob">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-esc" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Escoteiro já está aplicando a Cerimônia de Acolhida?</label>
+        <label class="q-label">Ramo Escoteiro já está aplicando a cerimônia de acolhida? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="aRamoEsc" id="aRamoesc_s" value="Sim"><label for="aRamoesc_s">Sim</label>
           <input type="radio" name="aRamoEsc" id="aRamoesc_n" value="Não"><label for="aRamoesc_n">Não</label>
           <input type="radio" name="aRamoEsc" id="aRamoesc_na" value="NSA"><label for="aRamoesc_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-aRamoEsc">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-sen" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Sênior já está aplicando a Cerimônia de Acolhida?</label>
+        <label class="q-label">Ramo Sênior já está aplicando a cerimônia de acolhida? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="aRamoSen" id="aRamosen_s" value="Sim"><label for="aRamosen_s">Sim</label>
           <input type="radio" name="aRamoSen" id="aRamosen_n" value="Não"><label for="aRamosen_n">Não</label>
           <input type="radio" name="aRamoSen" id="aRamosen_na" value="NSA"><label for="aRamosen_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-aRamoSen">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-pio" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Pioneiro já está aplicando a Cerimônia de Acolhida?</label>
+        <label class="q-label">Ramo Pioneiro já está aplicando a cerimônia de acolhida? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="aRamoPio" id="aRamopio_s" value="Sim"><label for="aRamopio_s">Sim</label>
           <input type="radio" name="aRamoPio" id="aRamopio_n" value="Não"><label for="aRamopio_n">Não</label>
           <input type="radio" name="aRamoPio" id="aRamopio_na" value="NSA"><label for="aRamopio_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-aRamoPio">⚠ Selecione uma opção</span>
       </div>
     </div>
   </div>
@@ -774,78 +814,86 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-header">
     <div class="sec-num">5</div>
     <h1 class="sec-title">Ciclo de Programa, 3 Fases</h1>
-    <p class="sec-desc">Planejar → Fazer → Avaliar. O ciclo de programa é fundamental para o planejamento de uma seção e também pode ser implementado antes da virada sistêmica.</p>
+    <p class="sec-desc">Planejar → Fazer → Avaliar. O Ciclo de Progarama é fundamental para o planejamento de uma seção e também pode ser implementado antes da virada sistêmica.</p>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem o Ciclo de Programa do Programa Atualizado?</label>
+      <label class="q-label">Os escotistas compreendem o Ciclo de Programa em 3 fases? <span class="req">*</span></label>
       <div class="scale-wrap" id="cicloComp"></div>
+      <span class="field-error-msg" id="err-cicComp">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Todos os chefes de seção compreendem o ciclo com segurança?</label>
+      <label class="q-label">Todos os chefes de seção compreendem o ciclo com segurança? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cicloChefes" id="cch_s" value="Sim"><label for="cch_s">Sim</label>
         <input type="radio" name="cicloChefes" id="cch_n" value="Não"><label for="cch_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-cicloChefes">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo já aplica o formato de ciclo nas 3 fases?</label>
+      <label class="q-label">A UEL já aplica o formato de ciclo nas 3 fases? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cicloAplic" id="cap_t" value="todas"><label for="cap_t">Sim, todas as seções</label>
         <input type="radio" name="cicloAplic" id="cap_p" value="parcial"><label for="cap_p">Sim, algumas seções</label>
         <input type="radio" name="cicloAplic" id="cap_n" value="nao"><label for="cap_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-cicloAplic">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo precisa de orientação da região para o Ciclo?</label>
+      <label class="q-label">A UEL precisa de orientação da região para o Ciclo? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cicloSuporte" id="csup_s" value="Sim"><label for="csup_s">Sim</label>
         <input type="radio" name="cicloSuporte" id="csup_n" value="Não"><label for="csup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-cicloSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
     <div class="ramo-field ramo-lob" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Lobinho já aplica o Ciclo de Programa nas 3 fases?</label>
+        <label class="q-label">Ramo Lobinho já aplica o Ciclo de Programa nas 3 fases? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="cicRamoLob" id="cicRamolob_s" value="Sim"><label for="cicRamolob_s">Sim</label>
           <input type="radio" name="cicRamoLob" id="cicRamolob_n" value="Não"><label for="cicRamolob_n">Não</label>
           <input type="radio" name="cicRamoLob" id="cicRamolob_na" value="NSA"><label for="cicRamolob_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-cicRamoLob">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-esc" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Escoteiro já aplica o Ciclo de Programa nas 3 fases?</label>
+        <label class="q-label">Ramo Escoteiro já aplica o Ciclo de Programa nas 3 fases? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="cicRamoEsc" id="cicRamoesc_s" value="Sim"><label for="cicRamoesc_s">Sim</label>
           <input type="radio" name="cicRamoEsc" id="cicRamoesc_n" value="Não"><label for="cicRamoesc_n">Não</label>
           <input type="radio" name="cicRamoEsc" id="cicRamoesc_na" value="NSA"><label for="cicRamoesc_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-cicRamoEsc">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-sen" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Sênior já aplica o Ciclo de Programa nas 3 fases?</label>
+        <label class="q-label">Ramo Sênior já aplica o Ciclo de Programa nas 3 fases? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="cicRamoSen" id="cicRamosen_s" value="Sim"><label for="cicRamosen_s">Sim</label>
           <input type="radio" name="cicRamoSen" id="cicRamosen_n" value="Não"><label for="cicRamosen_n">Não</label>
           <input type="radio" name="cicRamoSen" id="cicRamosen_na" value="NSA"><label for="cicRamosen_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-cicRamoSen">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-pio" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Pioneiro já aplica o Ciclo de Programa nas 3 fases?</label>
+        <label class="q-label">Ramo Pioneiro já aplica o Ciclo de Programa nas 3 fases? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="cicRamoPio" id="cicRamopio_s" value="Sim"><label for="cicRamopio_s">Sim</label>
           <input type="radio" name="cicRamoPio" id="cicRamopio_n" value="Não"><label for="cicRamopio_n">Não</label>
           <input type="radio" name="cicRamoPio" id="cicRamopio_na" value="NSA"><label for="cicRamopio_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-cicRamoPio">⚠ Selecione uma opção</span>
       </div>
     </div>
   </div>
@@ -865,57 +913,64 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem os Caminhos (transição entre ramos)?</label>
+      <label class="q-label">Os escotistas compreendem os Caminhos (transição entre ramos)? <span class="req">*</span></label>
       <div class="scale-wrap" id="caminhosComp"></div>
+      <span class="field-error-msg" id="err-kamComp">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes de Seção compreendem os Caminhos com segurança?</label>
+      <label class="q-label">Todos os Chefes de Seção compreendem os Caminhos com segurança? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="caminhosChefes" id="kch_s" value="Sim"><label for="kch_s">Sim</label>
         <input type="radio" name="caminhosChefes" id="kch_n" value="Não"><label for="kch_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-caminhosChefes">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
     <div class="field">
-      <label class="q-label">Ramo Filhote → Lobinho está aplicando os Caminhos?</label>
+      <label class="q-label">Ramo Filhotes → Lobinho está aplicando os Caminhos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cFil" id="cfil_s" value="Sim"><label for="cfil_s">Sim</label>
         <input type="radio" name="cFil" id="cfil_n" value="Não"><label for="cfil_n">Não</label>
         <input type="radio" name="cFil" id="cfil_na" value="NSA"><label for="cfil_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-cFil">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Lobinho → Escoteiro está aplicando os Caminhos?</label>
+      <label class="q-label">Ramo Lobinho → Escoteiro está aplicando os Caminhos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cLob" id="clob_s" value="Sim"><label for="clob_s">Sim</label>
         <input type="radio" name="cLob" id="clob_n" value="Não"><label for="clob_n">Não</label>
         <input type="radio" name="cLob" id="clob_na" value="NSA"><label for="clob_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-cLob">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Escoteiro → Sênior está aplicando os Caminhos?</label>
+      <label class="q-label">Ramo Escoteiro → Sênior está aplicando os Caminhos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cEsc" id="cesc_s" value="Sim"><label for="cesc_s">Sim</label>
         <input type="radio" name="cEsc" id="cesc_n" value="Não"><label for="cesc_n">Não</label>
         <input type="radio" name="cEsc" id="cesc_na" value="NSA"><label for="cesc_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-cEsc">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Sênior → Pioneiro está aplicando os Caminhos?</label>
+      <label class="q-label">Ramo Sênior → Pioneiro está aplicando os Caminhos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="cSen" id="csen_s" value="Sim"><label for="csen_s">Sim</label>
         <input type="radio" name="cSen" id="csen_n" value="Não"><label for="csen_n">Não</label>
         <input type="radio" name="cSen" id="csen_na" value="NSA"><label for="csen_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-cSen">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo gostaria de suporte da região para Caminhos?</label>
+      <label class="q-label">A UEL gostaria de suporte da região para Caminhos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="caminhosSuporte" id="ksup_s" value="Sim"><label for="ksup_s">Sim</label>
         <input type="radio" name="caminhosSuporte" id="ksup_n" value="Não"><label for="ksup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-caminhosSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
 
@@ -934,64 +989,71 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem o Reconhecimento de Ramo e o Desafio Pessoal?</label>
+      <label class="q-label">Os escotistas compreendem o Reconhecimento de Ramo e o Desafio Pessoal? <span class="req">*</span></label>
       <div class="scale-wrap" id="reconhComp"></div>
+      <span class="field-error-msg" id="err-recComp">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes de Seção compreendem com segurança o Reconhecimento de Ramo e Desafio Pessoal?</label>
+      <label class="q-label">Todos os Chefes de Seção compreendem com segurança o Reconhecimento de Ramo e Desafio Pessoal? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="reconhChefes" id="rch_s" value="Sim"><label for="rch_s">Sim</label>
         <input type="radio" name="reconhChefes" id="rch_n" value="Não"><label for="rch_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-reconhChefes">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo gostaria de suporte da região para Reconhecimento de Ramo e Desafio Pessoal?</label>
+      <label class="q-label">A UEL gostaria de suporte da região para Reconhecimento de Ramo e Desafio Pessoal? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="reconhSuporte" id="rsup_s" value="Sim"><label for="rsup_s">Sim</label>
         <input type="radio" name="reconhSuporte" id="rsup_n" value="Não"><label for="rsup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-reconhSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
     <div class="ramo-field ramo-lob" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Lobinho já está aplicando o Reconhecimento de Ramo?</label>
+        <label class="q-label">Ramo Lobinho já está aplicando o Reconhecimento de Ramo? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="recRamoLob" id="recRamolob_s" value="Sim"><label for="recRamolob_s">Sim</label>
           <input type="radio" name="recRamoLob" id="recRamolob_n" value="Não"><label for="recRamolob_n">Não</label>
           <input type="radio" name="recRamoLob" id="recRamolob_na" value="NSA"><label for="recRamolob_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-recRamoLob">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-esc" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Escoteiro já está aplicando o Reconhecimento de Ramo?</label>
+        <label class="q-label">Ramo Escoteiro já está aplicando o Reconhecimento de Ramo? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="recRamoEsc" id="recRamoesc_s" value="Sim"><label for="recRamoesc_s">Sim</label>
           <input type="radio" name="recRamoEsc" id="recRamoesc_n" value="Não"><label for="recRamoesc_n">Não</label>
           <input type="radio" name="recRamoEsc" id="recRamoesc_na" value="NSA"><label for="recRamoesc_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-recRamoEsc">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-sen" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Sênior já está aplicando o Reconhecimento de Ramo?</label>
+        <label class="q-label">Ramo Sênior já está aplicando o Reconhecimento de Ramo? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="recRamoSen" id="recRamosen_s" value="Sim"><label for="recRamosen_s">Sim</label>
           <input type="radio" name="recRamoSen" id="recRamosen_n" value="Não"><label for="recRamosen_n">Não</label>
           <input type="radio" name="recRamoSen" id="recRamosen_na" value="NSA"><label for="recRamosen_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-recRamoSen">⚠ Selecione uma opção</span>
       </div>
     </div>
     <div class="ramo-field ramo-pio" style="display:none">
       <div class="field">
-        <label class="q-label">Ramo Pioneiro já está aplicando o Reconhecimento de Ramo?</label>
+        <label class="q-label">Ramo Pioneiro já está aplicando o Reconhecimento de Ramo? <span class="req">*</span></label>
         <div class="pill-group">
           <input type="radio" name="recRamoPio" id="recRamopio_s" value="Sim"><label for="recRamopio_s">Sim</label>
           <input type="radio" name="recRamoPio" id="recRamopio_n" value="Não"><label for="recRamopio_n">Não</label>
           <input type="radio" name="recRamoPio" id="recRamopio_na" value="NSA"><label for="recRamopio_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-recRamoPio">⚠ Selecione uma opção</span>
       </div>
     </div>
   </div>
@@ -1011,65 +1073,74 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem a estrutura dos Blocos de Aprendizagem?</label>
+      <label class="q-label">Os escotistas compreendem a estrutura dos Blocos de Aprendizagem? <span class="req">*</span></label>
       <div class="scale-wrap" id="blocosComp"></div>
+      <span class="field-error-msg" id="err-bloComp">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes de Seção compreendem os Blocos com segurança?</label>
+      <label class="q-label">Todos os Chefes de Seção compreendem e tem segurança para a aplicação dos Blocos de Aprendizagem? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="blocosChefes" id="bch_s" value="Sim"><label for="bch_s">Sim</label>
         <input type="radio" name="blocosChefes" id="bch_n" value="Não"><label for="bch_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-blocosChefes">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Os escotistas entendem a diferença entre atividade fixa e atividade variável?</label>
+      <label class="q-label">Os escotistas entendem a diferença entre atividade fixa e atividade variável? <span class="req">*</span></label>
       <div class="scale-wrap" id="blocosFixaVar"></div>
+      <span class="field-error-msg" id="err-bloFixVar">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Os escotistas entendem como as especialidades e insígnias se relacionam com os blocos e como devem ser utilizadas na progressão dos jovens?</label>
+      <label class="q-label">Os escotistas entendem como as especialidades e insígnias se relacionam com os blocos e como devem ser utilizadas na progressão dos jovens? <span class="req">*</span></label>
       <div class="scale-wrap" id="blocosEspec"></div>
+      <span class="field-error-msg" id="err-bloEspec">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Aplicação por ramo</span><div class="divider-line"></div></div>
     <div class="field">
-      <label class="q-label">Ramo Lobinho já está aplicando os Blocos?</label>
+      <label class="q-label">Ramo Lobinho já está aplicando os Blocos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="bLob" id="blb_s" value="Sim"><label for="blb_s">Sim</label>
         <input type="radio" name="bLob" id="blb_n" value="Não"><label for="blb_n">Não</label>
         <input type="radio" name="bLob" id="blb_na" value="NSA"><label for="blb_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-bLob">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Escoteiro já está aplicando os Blocos?</label>
+      <label class="q-label">Ramo Escoteiro já está aplicando os Blocos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="bEsc" id="besc_s" value="Sim"><label for="besc_s">Sim</label>
         <input type="radio" name="bEsc" id="besc_n" value="Não"><label for="besc_n">Não</label>
         <input type="radio" name="bEsc" id="besc_na" value="NSA"><label for="besc_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-bEsc">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Sênior já está aplicando os Blocos?</label>
+      <label class="q-label">Ramo Sênior já está aplicando os Blocos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="bSen" id="bsen_s" value="Sim"><label for="bsen_s">Sim</label>
         <input type="radio" name="bSen" id="bsen_n" value="Não"><label for="bsen_n">Não</label>
         <input type="radio" name="bSen" id="bsen_na" value="NSA"><label for="bsen_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-bSen">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Pioneiro já está aplicando os Blocos?</label>
+      <label class="q-label">Ramo Pioneiro já está aplicando os Blocos? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="bPio" id="bpio_s" value="Sim"><label for="bpio_s">Sim</label>
         <input type="radio" name="bPio" id="bpio_n" value="Não"><label for="bpio_n">Não</label>
         <input type="radio" name="bPio" id="bpio_na" value="NSA"><label for="bpio_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-bPio">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo gostaria de suporte da região para Blocos de Aprendizagem?</label>
+      <label class="q-label">A UEL gostaria de suporte da região para Blocos de Aprendizagem? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="blocosSuporte" id="bsup_s" value="Sim"><label for="bsup_s">Sim</label>
         <input type="radio" name="blocosSuporte" id="bsup_n" value="Não"><label for="bsup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-blocosSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
 
@@ -1088,57 +1159,64 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os escotistas compreendem como fazer o processo de Equivalência (análise de competências)?</label>
+      <label class="q-label">Os escotistas compreendem como fazer o processo de Equivalência (análise de competências dos jovens) e estão aptos a realizá-lo com segurança? <span class="req">*</span></label>
       <div class="scale-wrap" id="equivComp"></div>
+      <span class="field-error-msg" id="err-eqComp">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">Todos os chefes de Seção compreendem o processo de Equivalência com segurança?</label>
+      <label class="q-label">Todos os Chefes de Seção compreendem o processo de Equivalência com segurança? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="equivChefes" id="ech_s" value="Sim"><label for="ech_s">Sim</label>
         <input type="radio" name="equivChefes" id="ech_n" value="Não"><label for="ech_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-equivChefes">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Realização por ramo</span><div class="divider-line"></div></div>
     <div class="field">
-      <label class="q-label">Ramo Lobinho já realizou o processo de Equivalência?</label>
+      <label class="q-label">Ramo Lobinho já aplicou o processo de Equivalência? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="eLob" id="elb_s" value="Sim"><label for="elb_s">Sim</label>
         <input type="radio" name="eLob" id="elb_n" value="Não"><label for="elb_n">Não</label>
         <input type="radio" name="eLob" id="elb_na" value="NSA"><label for="elb_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-eLob">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Escoteiro já realizou o processo de Equivalência?</label>
+      <label class="q-label">Ramo Escoteiro já aplicou o processo de Equivalência? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="eEsc" id="eesc_s" value="Sim"><label for="eesc_s">Sim</label>
         <input type="radio" name="eEsc" id="eesc_n" value="Não"><label for="eesc_n">Não</label>
         <input type="radio" name="eEsc" id="eesc_na" value="NSA"><label for="eesc_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-eEsc">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Sênior já realizou o processo de Equivalência?</label>
+      <label class="q-label">Ramo Sênior já aplicou o processo de Equivalência? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="eSen" id="esen_s" value="Sim"><label for="esen_s">Sim</label>
         <input type="radio" name="eSen" id="esen_n" value="Não"><label for="esen_n">Não</label>
         <input type="radio" name="eSen" id="esen_na" value="NSA"><label for="esen_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-eSen">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Pioneiro já realizou o processo de Equivalência?</label>
+      <label class="q-label">Ramo Pioneiro já aplicou o processo de Equivalência? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="ePio" id="epio_s" value="Sim"><label for="epio_s">Sim</label>
         <input type="radio" name="ePio" id="epio_n" value="Não"><label for="epio_n">Não</label>
         <input type="radio" name="ePio" id="epio_na" value="NSA"><label for="epio_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-ePio">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">O grupo precisa de orientação da região para Equivalência?</label>
+      <label class="q-label">A UEL precisa de orientação da região para Equivalência? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="equivSuporte" id="esup_s" value="Sim"><label for="esup_s">Sim</label>
         <input type="radio" name="equivSuporte" id="esup_n" value="Não"><label for="esup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-equivSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
 
@@ -1158,49 +1236,55 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="card">
     <div class="divider"><div class="divider-line"></div><span class="divider-text">Apresentação das mudanças</span><div class="divider-line"></div></div>
     <div class="field">
-      <label class="q-label">Ramo Lobinho já apresentou as mudanças para seus jovens?</label>
+      <label class="q-label">Ramo Lobinho já apresentou as mudanças para seus jovens? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="jLob" id="jlb_s" value="Sim"><label for="jlb_s">Sim</label>
         <input type="radio" name="jLob" id="jlb_n" value="Não"><label for="jlb_n">Não</label>
         <input type="radio" name="jLob" id="jlb_na" value="NSA"><label for="jlb_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-jLob">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Escoteiro já apresentou as mudanças para seus jovens?</label>
+      <label class="q-label">Ramo Escoteiro já apresentou as mudanças para seus jovens? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="jEsc" id="jesc_s" value="Sim"><label for="jesc_s">Sim</label>
         <input type="radio" name="jEsc" id="jesc_n" value="Não"><label for="jesc_n">Não</label>
         <input type="radio" name="jEsc" id="jesc_na" value="NSA"><label for="jesc_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-jEsc">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Sênior já apresentou as mudanças para seus jovens?</label>
+      <label class="q-label">Ramo Sênior já apresentou as mudanças para seus jovens? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="jSen" id="jsen_s" value="Sim"><label for="jsen_s">Sim</label>
         <input type="radio" name="jSen" id="jsen_n" value="Não"><label for="jsen_n">Não</label>
         <input type="radio" name="jSen" id="jsen_na" value="NSA"><label for="jsen_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-jSen">⚠ Selecione uma opção</span>
     </div>
     <div class="field">
-      <label class="q-label">Ramo Pioneiro já apresentou as mudanças para seus jovens?</label>
+      <label class="q-label">Ramo Pioneiro já apresentou as mudanças para seus jovens? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="jPio" id="jpio_s" value="Sim"><label for="jpio_s">Sim</label>
         <input type="radio" name="jPio" id="jpio_n" value="Não"><label for="jpio_n">Não</label>
         <input type="radio" name="jPio" id="jpio_na" value="NSA"><label for="jpio_na">Não se Aplica</label>
       </div>
+      <span class="field-error-msg" id="err-jPio">⚠ Selecione uma opção</span>
     </div>
   </div>
   <div class="card">
     <div class="field">
-      <label class="q-label">Os jovens entenderam as mudanças e se sentem seguros com a transição?</label>
+      <label class="q-label">Os jovens entenderam as mudanças e se sentem seguros com a transição? <span class="req">*</span></label>
       <div class="scale-wrap" id="jovensEntend"></div>
+      <span class="field-error-msg" id="err-jovEnt">⚠ Selecione uma opção</span>
     </div>
     <div class="field" style="margin-top:1rem">
-      <label class="q-label">O grupo precisa de orientação da região para comunicar aos jovens?</label>
+      <label class="q-label">A UEL precisa de orientação da região para comunicar aos jovens? <span class="req">*</span></label>
       <div class="pill-group">
         <input type="radio" name="jovensSuporte" id="jsup_s" value="Sim"><label for="jsup_s">Sim</label>
         <input type="radio" name="jovensSuporte" id="jsup_n" value="Não"><label for="jsup_n">Não</label>
       </div>
+      <span class="field-error-msg" id="err-jovensSuporte">⚠ Selecione uma opção</span>
     </div>
   </div>
 
@@ -1215,10 +1299,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-header">
     <div class="sec-num">11</div>
     <h1 class="sec-title">Aplicação do Manual do Escotista</h1>
-    <p class="sec-desc">Esta é a pergunta mais importante do diagnóstico. Um ramo que declara estar aplicando o Programa Atualizado com base no Manual do Escotista deve ter todos os processos anteriores consolidados. Caso contrário, é um ponto crítico de atenção.</p>
+    <p class="sec-desc">Esta é a pergunta mais importante do diagnóstico. Um ramo que declara estar aplicando o Programa Educativo Atualizado com base no Manual do Escotista deve ter todos os processos anteriores consolidados. Caso contrário, é um ponto crítico de atenção.</p>
   </div>
   <div class="card" style="border:2px solid var(--azul-cl)">
-    <div class="info-note" style="margin-bottom:1.25rem;font-size:.88rem">Responda apenas para os ramos que seu grupo possui. Esta resposta influencia diretamente o ranking de maturidade por ramo no resultado final.</div>
+    <div class="info-note" style="margin-bottom:1.25rem;font-size:.88rem">Responda apenas para os ramos que sua UEL possui. Esta resposta influencia diretamente o ranking de maturidade por ramo no resultado final.</div>
 
     <div class="ramo-field ramo-lob" style="display:none">
       <div class="field">
@@ -1228,6 +1312,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <input type="radio" name="manualLob" id="manualLob_n" value="Não"><label for="manualLob_n">Ainda não</label>
           <input type="radio" name="manualLob" id="manualLob_na" value="NSA"><label for="manualLob_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-manualLob">⚠ Selecione uma opção</span>
       </div>
     </div>
 
@@ -1239,6 +1324,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <input type="radio" name="manualEsc" id="manualEsc_n" value="Não"><label for="manualEsc_n">Ainda não</label>
           <input type="radio" name="manualEsc" id="manualEsc_na" value="NSA"><label for="manualEsc_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-manualEsc">⚠ Selecione uma opção</span>
       </div>
     </div>
 
@@ -1250,6 +1336,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <input type="radio" name="manualSen" id="manualSen_n" value="Não"><label for="manualSen_n">Ainda não</label>
           <input type="radio" name="manualSen" id="manualSen_na" value="NSA"><label for="manualSen_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-manualSen">⚠ Selecione uma opção</span>
       </div>
     </div>
 
@@ -1261,6 +1348,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <input type="radio" name="manualPio" id="manualPio_n" value="Não"><label for="manualPio_n">Ainda não</label>
           <input type="radio" name="manualPio" id="manualPio_na" value="NSA"><label for="manualPio_na">Não se Aplica</label>
         </div>
+      <span class="field-error-msg" id="err-manualPio">⚠ Selecione uma opção</span>
       </div>
     </div>
   </div>
@@ -1362,7 +1450,216 @@ function showStep(n) {
   updateProgress();
 }
 
-function goNext() { showStep(currentStep + 1); }
+function goNext() {
+  if (!validarStep(currentStep)) return;
+  showStep(currentStep + 1);
+}
+
+function validarStep(step) {
+  var campos = [];
+
+  // ── Step 1 — Identificação ──────────────────────────────
+  if (step === 1) {
+    campos = [
+      {type:'input', id:'nomeGrupo',    errId:'err-nomeGrupo',    check:function(v){return v.trim()!=='';}, msg:'Campo obrigatório'},
+      {type:'input', id:'numeralGrupo', errId:'err-numeralGrupo', check:function(v){return v.trim()!==''&&parseInt(v)>0;}, msg:'Campo obrigatório'},
+      {type:'input', id:'dataResp',     errId:'err-dataResp',     check:function(v){return v.trim()!=='';}, msg:'Campo obrigatório'},
+      {type:'select',id:'distrito',     errId:'err-distrito',     check:function(v){return v.trim()!=='';}, msg:'Selecione seu distrito'},
+      {type:'input', id:'responsavel',  errId:'err-responsavel',  check:function(v){return v.trim()!=='';}, msg:'Campo obrigatório'},
+      {type:'input', id:'funcao',       errId:'err-funcao',       check:function(v){return v.trim()!=='';}, msg:'Campo obrigatório'},
+    ];
+  }
+
+  // ── Step 2 — Ramos e Seções ─────────────────────────────
+  else if (step === 2) {
+    campos.push({type:'radio', name:'ninhada',  errId:'err-ninhada'});
+    campos.push({type:'radio', name:'cla',      errId:'err-cla'});
+    // Conditional: ninhadaPretende only if ninhada = Não
+    var ninhadaVal = gr('ninhada');
+    if (ninhadaVal === 'Não') {
+      campos.push({type:'radio', name:'ninhadaPretende', errId:'err-ninhadaPretende'});
+      if (gr('ninhadaPretende') === 'Sim') {
+        campos.push({type:'input', id:'ninhadaMeses', errId:'err-ninhadaMeses', check:function(v){return v.trim()!=='';}, msg:'Campo obrigatório'});
+      }
+      campos.push({type:'radio', name:'ninhadaSuporte', errId:'err-ninhadaSuporte'});
+    }
+  }
+
+  // ── Step 3 — Paxtu ──────────────────────────────────────
+  else if (step === 3) {
+    campos.push({type:'radio', name:'paxtuFeito',   errId:'err-paxtuFeito'});
+    campos.push({type:'radio', name:'paxtuSuporte', errId:'err-paxtuSuporte'});
+    if (gr('paxtuFeito') === 'Não') {
+      campos.push({type:'radio', name:'paxtuSeguro', errId:'err-paxtuSeguro'});
+    }
+  }
+
+  // ── Step 4 — Acolhida ───────────────────────────────────
+  else if (step === 4) {
+    campos.push({type:'scale', name:'acolhComp',    errId:'err-acolhComp'});
+    campos.push({type:'radio', name:'acolhidaChefes', errId:'err-acolhidaChefes'});
+    campos.push({type:'radio', name:'acolhidaAplic',  errId:'err-acolhidaAplic'});
+    campos.push({type:'radio', name:'acolhidaSuporte',errId:'err-acolhidaSuporte'});
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'aRamoLob', errId:'err-aRamoLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'aRamoEsc', errId:'err-aRamoEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'aRamoSen', errId:'err-aRamoSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'aRamoPio', errId:'err-aRamoPio'});
+  }
+
+  // ── Step 5 — Ciclo ──────────────────────────────────────
+  else if (step === 5) {
+    campos.push({type:'scale', name:'cicComp',    errId:'err-cicComp'});
+    campos.push({type:'radio', name:'cicloChefes', errId:'err-cicloChefes'});
+    campos.push({type:'radio', name:'cicloAplic',  errId:'err-cicloAplic'});
+    campos.push({type:'radio', name:'cicloSuporte',errId:'err-cicloSuporte'});
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'cicRamoLob', errId:'err-cicRamoLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'cicRamoEsc', errId:'err-cicRamoEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'cicRamoSen', errId:'err-cicRamoSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'cicRamoPio', errId:'err-cicRamoPio'});
+  }
+
+  // ── Step 6 — Caminhos ───────────────────────────────────
+  else if (step === 6) {
+    campos.push({type:'scale', name:'kamComp',       errId:'err-kamComp'});
+    campos.push({type:'radio', name:'caminhosChefes', errId:'err-caminhosChefes'});
+    campos.push({type:'radio', name:'cFil',           errId:'err-cFil'});
+    campos.push({type:'radio', name:'cLob',           errId:'err-cLob'});
+    campos.push({type:'radio', name:'cEsc',           errId:'err-cEsc'});
+    campos.push({type:'radio', name:'cSen',           errId:'err-cSen'});
+    campos.push({type:'radio', name:'caminhosSuporte',errId:'err-caminhosSuporte'});
+  }
+
+  // ── Step 7 — Reconhecimento ─────────────────────────────
+  else if (step === 7) {
+    campos.push({type:'scale', name:'recComp',    errId:'err-recComp'});
+    campos.push({type:'radio', name:'reconhChefes', errId:'err-reconhChefes'});
+    campos.push({type:'radio', name:'reconhSuporte',errId:'err-reconhSuporte'});
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'recRamoLob', errId:'err-recRamoLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'recRamoEsc', errId:'err-recRamoEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'recRamoSen', errId:'err-recRamoSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'recRamoPio', errId:'err-recRamoPio'});
+  }
+
+  // ── Step 8 — Blocos ─────────────────────────────────────
+  else if (step === 8) {
+    campos.push({type:'scale', name:'bloComp',    errId:'err-bloComp'});
+    campos.push({type:'radio', name:'blocosChefes', errId:'err-blocosChefes'});
+    campos.push({type:'scale', name:'bloFixVar',  errId:'err-bloFixVar'});
+    campos.push({type:'scale', name:'bloEspec',   errId:'err-bloEspec'});
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'bLob', errId:'err-bLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'bEsc', errId:'err-bEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'bSen', errId:'err-bSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'bPio', errId:'err-bPio'});
+    campos.push({type:'radio', name:'blocosSuporte', errId:'err-blocosSuporte'});
+  }
+
+  // ── Step 9 — Equivalência ───────────────────────────────
+  else if (step === 9) {
+    campos.push({type:'scale', name:'eqComp',    errId:'err-eqComp'});
+    campos.push({type:'radio', name:'equivChefes', errId:'err-equivChefes'});
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'eLob', errId:'err-eLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'eEsc', errId:'err-eEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'eSen', errId:'err-eSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'ePio', errId:'err-ePio'});
+    campos.push({type:'radio', name:'equivSuporte', errId:'err-equivSuporte'});
+  }
+
+  // ── Step 10 — Comunicação com Jovens ────────────────────
+  else if (step === 10) {
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'jLob', errId:'err-jLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'jEsc', errId:'err-jEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'jSen', errId:'err-jSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'jPio', errId:'err-jPio'});
+    campos.push({type:'scale', name:'jovEnt',     errId:'err-jovEnt'});
+    campos.push({type:'radio', name:'jovensSuporte', errId:'err-jovensSuporte'});
+  }
+
+  // ── Step 11 — Manual do Escotista ───────────────────────
+  else if (step === 11) {
+    if (isRamoAtivo('lob')) campos.push({type:'radio', name:'manualLob', errId:'err-manualLob'});
+    if (isRamoAtivo('esc')) campos.push({type:'radio', name:'manualEsc', errId:'err-manualEsc'});
+    if (isRamoAtivo('sen')) campos.push({type:'radio', name:'manualSen', errId:'err-manualSen'});
+    if (isRamoAtivo('pio')) campos.push({type:'radio', name:'manualPio', errId:'err-manualPio'});
+  }
+
+  return executarValidacao(campos);
+}
+
+// Helpers
+function isRamoAtivo(ramo) {
+  if (ramo === 'lob') return (parseInt(gv('lobinhoN'))||0) > 0;
+  if (ramo === 'esc') return (parseInt(gv('escoteiroN'))||0) > 0;
+  if (ramo === 'sen') return (parseInt(gv('seniorN'))||0) > 0;
+  if (ramo === 'pio') return gr('cla') === '1';
+  return false;
+}
+
+function executarValidacao(campos) {
+  var valido = true;
+  var primeiroErro = null;
+
+  campos.forEach(function(campo) {
+    var ok = false;
+    var errEl = document.getElementById(campo.errId);
+
+    if (campo.type === 'input' || campo.type === 'select') {
+      var el = document.getElementById(campo.id);
+      if (!el) return;
+      ok = campo.check ? campo.check(el.value) : el.value.trim() !== '';
+      if (!ok) {
+        el.classList.add('field-error');
+        if (errEl) errEl.classList.add('visible');
+        if (!primeiroErro) primeiroErro = el;
+      } else {
+        el.classList.remove('field-error');
+        if (errEl) errEl.classList.remove('visible');
+      }
+    } else if (campo.type === 'radio' || campo.type === 'scale') {
+      var checked = document.querySelector('input[name="' + campo.name + '"]:checked');
+      ok = !!checked;
+      // Find the pill-group or scale-wrap container
+      var container = errEl ? errEl.previousElementSibling : null;
+      if (!ok) {
+        if (errEl) errEl.classList.add('visible');
+        if (!primeiroErro && errEl) primeiroErro = errEl;
+        valido = false;
+      } else {
+        if (errEl) errEl.classList.remove('visible');
+      }
+      if (!ok) return; // already set valido=false above
+      return; // skip valido=false below
+    }
+
+    if (!ok) valido = false;
+  });
+
+  // Clear errors on input
+  campos.forEach(function(campo) {
+    if (campo.type === 'input' || campo.type === 'select') {
+      var el = document.getElementById(campo.id);
+      var errEl = document.getElementById(campo.errId);
+      if (!el || !errEl) return;
+      var evt = el.tagName === 'SELECT' ? 'change' : 'input';
+      el.addEventListener(evt, function() {
+        var ok = campo.check ? campo.check(el.value) : el.value.trim() !== '';
+        if (ok) { el.classList.remove('field-error'); errEl.classList.remove('visible'); }
+      });
+    } else if (campo.type === 'radio' || campo.type === 'scale') {
+      var errEl = document.getElementById(campo.errId);
+      document.querySelectorAll('input[name="' + campo.name + '"]').forEach(function(r) {
+        r.addEventListener('change', function() {
+          if (errEl) errEl.classList.remove('visible');
+        });
+      });
+    }
+  });
+
+  if (primeiroErro) {
+    primeiroErro.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  return valido;
+}
 function goPrev() { showStep(currentStep - 1); }
 
 // ══════════════════════════════════════════════════════════════
@@ -1422,16 +1719,16 @@ function updateComplexidade() {
   let nivel, cls, desc;
   if (total > 7) {
     nivel='🔴 CRÍTICA'; cls='cc-critica';
-    desc=`Total de ${total} seções. Grupo com estrutura muito complexa, a virada sistêmica impacta todas as seções ao mesmo tempo e exige planejamento detalhado e suporte especializado.`;
+    desc=`Total de ${total} seções. UEL com estrutura muito complexa, a virada sistêmica impacta todas as seções ao mesmo tempo e exige planejamento detalhado e suporte especializado.`;
   } else if (total >= 5) {
     nivel='🟠 ALTA'; cls='cc-alta';
-    desc=`Total de ${total} seções. Grupo com alta complexidade, a implementação exige coordenação cuidadosa entre os chefes de seção de todos os ramos.`;
+    desc=`Total de ${total} seções. UEL com alta complexidade, a implementação exige coordenação cuidadosa entre os chefes de seção de todos os ramos.`;
   } else if (total >= 4) {
     nivel='🟡 MÉDIA'; cls='cc-media';
     desc=`Total de ${total} seções. A implementação é viável com planejamento e engajamento de todos os chefes de seção.`;
   } else if (total >= 3) {
     nivel='🟢 BAIXA'; cls='cc-baixa';
-    desc=`Total de ${total} seções. Grupo com estrutura enxuta, a implementação tende a ser mais direta e com menor impacto simultâneo.`;
+    desc=`Total de ${total} seções. UEL com estrutura enxuta, a implementação tende a ser mais direta e com menor impacto simultâneo.`;
   } else {
     nivel='🟢 BAIXA'; cls='cc-baixa';
     desc=`Total de ${total} seção(ões) informada(s). Preencha o número de seções acima para calcular a complexidade.`;
@@ -1455,7 +1752,8 @@ document.querySelectorAll('input[name=cla]').forEach(r=>{
 function g(name) {
   return document.querySelector(`input[name="${name}"]:checked`)?.value || '';
 }
-function gv(id) { return document.getElementById(id)?.value || ''; }
+function gv(id) { var el = document.getElementById(id); return el ? el.value : ''; }
+function gr(name) { var el = document.querySelector('input[name="'+name+'"]:checked'); return el ? el.value : ''; }
 function gn(id) { return parseInt(document.getElementById(id)?.value)||0; }
 
 function cmpScore(name) {
@@ -1669,7 +1967,7 @@ function calcScores() {
 
     // ── Per-ramo detail analysis ──────────────────────────
     var TEMAS = [
-      {key:'acolhida', label:'Cerimônia de Acolhida'},
+      {key:'acolhida', label:'cerimônia de acolhida'},
       {key:'ciclo',    label:'Ciclo de Programa'},
       {key:'reconh',   label:'Reconhecimento de Ramo'},
       {key:'blocos',   label:'Blocos de Aprendizagem'},
@@ -1734,7 +2032,7 @@ function calcScores() {
       ramoAlerts.push({
         level: 'critical',
         titulo: '🚨 ' + r.label + ' — Aplicando o Manual sem processos consolidados',
-        msg: r.label + ' declara estar aplicando o Programa Atualizado com base no Manual do Escotista, mas tem processos não consolidados neste próprio ramo: '
+        msg: r.label + ' declara estar aplicando o Programa Educativo Atualizado com base no Manual do Escotista, mas tem processos não consolidados neste próprio ramo: '
           + (temNaoAplicando.length > 0 ? temNaoAplicando.join(', ') : 'verifique os processos')
           + '. Risco real de aplicação incorreta para os jovens deste ramo.'
       });
@@ -1745,7 +2043,7 @@ function calcScores() {
       ramoAlerts.push({
         level: 'critical',
         titulo: '🔴 ' + r.label + ' — Maturidade muito baixa (' + r.score + '%)',
-        msg: 'Este ramo tem maturidade muito baixa no Programa Atualizado.'
+        msg: 'Este ramo tem maturidade muito baixa no Programa Educativo Atualizado.'
           + (temNaoAplicando.length > 0 ? ' Processos a priorizar: ' + temNaoAplicando.join(', ') + '.' : '')
       });
     }
@@ -1803,7 +2101,7 @@ function generateResult() {
 
     const dims = [
       {key:'paxtu',   label:'1',  fullLabel:'1. Paxtu / Virada Sistêmica',        score:scores.paxtu},
-      {key:'acolhida',label:'2',  fullLabel:'2. Cerimônia de Acolhida',            score:scores.acolhida},
+      {key:'acolhida',label:'2',  fullLabel:'2. cerimônia de acolhida',            score:scores.acolhida},
       {key:'ciclo',   label:'3',  fullLabel:'3. Ciclo de Programa',                score:scores.ciclo},
       {key:'caminhos',label:'4',  fullLabel:'4. Caminhos entre Ramos',             score:scores.caminhos},
       {key:'reconh',  label:'5',  fullLabel:'5. Reconhecimento de Ramo',           score:scores.reconh},
@@ -1891,7 +2189,7 @@ function generateResult() {
         <div class="alert-icon">🚨</div>
         <div class="alert-body">
           <div class="alert-title">GRAVÍSSIMO, Equivalência não realizada após virada</div>
-          <div class="alert-text">O grupo já realizou a virada no Paxtu mas NÃO concluiu o processo de Equivalência em nenhum ramo. Jovens podem estar sendo prejudicados neste momento. A Equivalência deve ser a prioridade IMEDIATA do grupo.</div>
+          <div class="alert-text">A UEL já realizou a virada no Paxtu mas NÃO concluiu o processo de Equivalência em nenhum ramo. Jovens podem estar sendo prejudicados neste momento. A Equivalência deve ser a prioridade IMEDIATA da UEL.</div>
         </div>
       </div>`:''}
 
@@ -1899,7 +2197,7 @@ function generateResult() {
         <div class="alert-icon">🔴</div>
         <div class="alert-body">
           <div class="alert-title">CRÍTICO, Fragilidades sérias pós-virada</div>
-          <div class="alert-text">O grupo já virou no sistema mas apresenta fragilidades em processos essenciais (Acolhida, Ciclo, Blocos ou Caminhos) com chefes que ainda não dominam o tema. Essa situação é mais grave do que um grupo que ainda não virou e está na mesma condição. Ação corretiva urgente.</div>
+          <div class="alert-text">A UEL já virou no sistema mas apresenta fragilidades em processos essenciais (Acolhida, Ciclo, Blocos ou Caminhos) com chefes que ainda não dominam o tema. Essa situação é mais grave do que uma UEL  que ainda não virou e está na mesma condição. Ação corretiva urgente.</div>
         </div>
       </div>`:''}
 
@@ -1907,7 +2205,7 @@ function generateResult() {
         <div class="alert-icon">⚠</div>
         <div class="alert-body">
           <div class="alert-title">RISCO, Virada planejada com baixo preparo</div>
-          <div class="alert-text">O grupo planeja virar no sistema nos próximos ${monthsUntil} meses, mas há fragilidades em processos críticos com chefes que ainda não dominam os temas. Recomenda-se revisar o prazo ou intensificar a formação ANTES da virada.</div>
+          <div class="alert-text">A UEL planeja virar no sistema nos próximos ${monthsUntil} meses, mas há fragilidades em processos críticos com chefes que ainda não dominam os temas. Recomenda-se revisar o prazo ou intensificar a formação ANTES da virada.</div>
         </div>
       </div>`:''}
 
@@ -1925,7 +2223,7 @@ function generateResult() {
         <div class="alert-icon">✅</div>
         <div class="alert-body">
           <div class="alert-title">Nenhum alerta crítico identificado</div>
-          <div class="alert-text">O grupo não apresenta nenhum dos cenários de risco ou gravidade crítica no momento. Continue acompanhando os indicadores regularmente.</div>
+          <div class="alert-text">A UEL não apresenta nenhum dos cenários de risco ou gravidade crítica no momento. Continue acompanhando os indicadores regularmente.</div>
         </div>
       </div>`:''}
 
@@ -2042,7 +2340,7 @@ function generateResult() {
       ${activeRamos.length>0 ? `
       <div class="ranking-section">
         <h3>Ranking de Maturidade por Ramo</h3>
-        <p style="font-size:.83rem;color:var(--text2);margin-bottom:1rem;line-height:1.5">Baseado na aplicação de todos os processos do Programa Atualizado e na declaração de uso do Manual do Escotista. Ramos que declaram aplicar o programa mas têm indicadores fracos recebem penalização adicional.</p>
+        <p style="font-size:.83rem;color:var(--text2);margin-bottom:1rem;line-height:1.5">Baseado na aplicação de todos os processos do Programa Educativo Atualizado e na declaração de uso do Manual do Escotista. Ramos que declaram aplicar o Programa Educativo Atualizado mas têm indicadores fracos recebem penalização adicional.</p>
         ${activeRamos.map(function(ramo, idx){
           var pos = idx+1;
           var posCls = pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';
@@ -2293,7 +2591,7 @@ function downloadRelatorio() {
       ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
       ['Suporte para Paxtu', gr('paxtuSuporte')]
     ]},
-    { sec: 'Cerimônia de Acolhida', items: [
+    { sec: 'cerimônia de acolhida', items: [
       ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
       ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
     ]},
@@ -2303,7 +2601,7 @@ function downloadRelatorio() {
     ]},
     { sec: 'Caminhos entre Ramos', items: [
       ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
-      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Filhotes > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
       ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
       ['Suporte', gr('caminhosSuporte')]
     ]},
@@ -2524,7 +2822,7 @@ function printRelatorio() {
       ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
       ['Suporte para Paxtu', gr('paxtuSuporte')]
     ]},
-    { sec: 'Cerimônia de Acolhida', items: [
+    { sec: 'cerimônia de acolhida', items: [
       ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
       ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
     ]},
@@ -2534,7 +2832,7 @@ function printRelatorio() {
     ]},
     { sec: 'Caminhos entre Ramos', items: [
       ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
-      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Filhotes > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
       ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
       ['Suporte', gr('caminhosSuporte')]
     ]},
@@ -2753,7 +3051,7 @@ function downloadRelatorio() {
       ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
       ['Suporte para Paxtu', gr('paxtuSuporte')]
     ]},
-    { sec: 'Cerimônia de Acolhida', items: [
+    { sec: 'cerimônia de acolhida', items: [
       ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
       ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
     ]},
@@ -2763,7 +3061,7 @@ function downloadRelatorio() {
     ]},
     { sec: 'Caminhos entre Ramos', items: [
       ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
-      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Filhotes > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
       ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
       ['Suporte', gr('caminhosSuporte')]
     ]},
@@ -2984,7 +3282,7 @@ function printRelatorio() {
       ['Se sente seguro', gr('paxtuSeguro') || 'N/A'],
       ['Suporte para Paxtu', gr('paxtuSuporte')]
     ]},
-    { sec: 'Cerimônia de Acolhida', items: [
+    { sec: 'cerimônia de acolhida', items: [
       ['Compreensão escotistas', gr('acolhComp')], ['Chefes dominam', gr('acolhidaChefes')],
       ['Está aplicando', gr('acolhidaAplic')], ['Suporte', gr('acolhidaSuporte')]
     ]},
@@ -2994,7 +3292,7 @@ function printRelatorio() {
     ]},
     { sec: 'Caminhos entre Ramos', items: [
       ['Compreensão escotistas', gr('kamComp')], ['Chefes dominam', gr('caminhosChefes')],
-      ['Filhote > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
+      ['Filhotes > Lobinho', gr('cFil')], ['Lobinho > Escoteiro', gr('cLob')],
       ['Escoteiro > Sênior', gr('cEsc')], ['Sênior > Pioneiro', gr('cSen')],
       ['Suporte', gr('caminhosSuporte')]
     ]},
