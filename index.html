@@ -2061,6 +2061,10 @@ function calcScores() {
   activeRamos.sort(function(a,b){return b.score-a.score;});
 
   // ── Alertas gerais (agora com dados de ramo disponíveis) ──────────────────
+  // Recalculate equiv ramo data for flag3 (eRamos/eTotal removed from score refactor)
+  const eRamos = ['eLob','eEsc','eSen','ePio'];
+  let eTotal = 0;
+  eRamos.forEach(n => { const v = g(n); if (v === 'Sim' || v === 'Não') eTotal++; });
   const equivNenhumRamo = eRamos.every(n => g(n)!=='Sim');
   const flag3 = paxtuFeito && equivNenhumRamo && eTotal>0;
 
