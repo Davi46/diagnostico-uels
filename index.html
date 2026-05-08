@@ -1811,58 +1811,114 @@ function calcScores() {
   else if (monthsUntil < 999) paxtuScore = 40;
   else paxtuScore = 20;
 
+  // ── Helper: weighted score by number of sections per ramo ──────────────
+  // ramoFields = [{name: radioName, secoes: count}]
+  // Returns 0-100 weighted by sections. NSA is ignored.
+  function aplicPonderado(ramoFields) {
+    var num = 0, den = 0;
+    ramoFields.forEach(function(r) {
+      var v = g(r.name);
+      if (v === 'NSA' || v === '') return; // ignore NSA and unanswered
+      var val = v === 'Sim' ? 100 : 0;
+      num += r.secoes * val;
+      den += r.secoes;
+    });
+    return den > 0 ? Math.round(num / den) : 0;
+  }
+
+  // Section counts per ramo (Pioneiro = 1 if active)
+  const secLob = parseInt(gv('lobinhoN'))  || 0;
+  const secEsc = parseInt(gv('escoteiroN'))|| 0;
+  const secSen = parseInt(gv('seniorN'))   || 0;
+  const secPio = g('cla') === '1' ? 1 : 0;
+
   // ── Acolhida Score ──
+  // Components: compreensão + chefes + aplicação ponderada por ramo (3 comps)
   const aCmp   = cmpScore('acolhComp');
-  const aChef  = g('acolhidaChefes')==='Sim';
-  const aAplic = g('acolhidaAplic')==='Sim';
-  const acolhScore = Math.min(100, Math.round((aCmp + (aChef?25:0) + (aAplic?25:0))/1.5));
+  const aChef  = g('acolhidaChefes') === 'Sim';
+  const aAplic = aplicPonderado([
+    {name:'aRamoLob', secoes:secLob},
+    {name:'aRamoEsc', secoes:secEsc},
+    {name:'aRamoSen', secoes:secSen},
+    {name:'aRamoPio', secoes:secPio},
+  ]);
+  const acolhScore = Math.min(100, Math.round((aCmp + (aChef?100:0) + aAplic) / 3));
 
   // ── Ciclo Score ──
-  const cCmp   = cmpScore('cicComp');
-  const cChef  = g('cicloChefes')==='Sim';
-  const cAplic = g('cicloAplic');
-  const cAplicScore = cAplic==='todas'?25:cAplic==='parcial'?12:0;
-  const cicloScore = Math.min(100, Math.round((cCmp + (cChef?25:0) + cAplicScore)/1.5));
+  // Components: compreensão + chefes + aplicação ponderada por ramo (3 comps)
+  const cCmp  = cmpScore('cicComp');
+  const cChef = g('cicloChefes') === 'Sim';
+  const cAplic = aplicPonderado([
+    {name:'cicRamoLob', secoes:secLob},
+    {name:'cicRamoEsc', secoes:secEsc},
+    {name:'cicRamoSen', secoes:secSen},
+    {name:'cicRamoPio', secoes:secPio},
+  ]);
+  const cicloScore = Math.min(100, Math.round((cCmp + (cChef?100:0) + cAplic) / 3));
 
   // ── Caminhos Score ──
-  const kCmp   = cmpScore('kamComp');
-  const kChef  = g('caminhosChefes')==='Sim';
-  const kRamos = ['cFil','cLob','cEsc','cSen'];
-  let kAplic=0, kTotal=0;
-  kRamos.forEach(n=>{ const v=g(n); if(v==='Sim'){kAplic++;kTotal++;} else if(v==='Não') kTotal++; });
-  const kAplicScore = kTotal>0?Math.round(kAplic/kTotal*20):0;
-  const caminhosScore = Math.min(100, Math.round((kCmp + (kChef?20:0) + kAplicScore)/1.5));
+  // Caminhos is per-transition (not per ramo), so keep simple % but weight
+  // by section count of the destination ramo (transition = from->to)
+  const kCmp  = cmpScore('kamComp');
+  const kChef = g('caminhosChefes') === 'Sim';
+  // Transitions weighted by destination ramo section count
+  // cFil=Fil->Lob (dest=Lob), cLob=Lob->Esc (dest=Esc), cEsc=Esc->Sen (dest=Sen), cSen=Sen->Pio (dest=Pio)
+  const kAplic = aplicPonderado([
+    {name:'cFil', secoes:secLob},
+    {name:'cLob', secoes:secEsc},
+    {name:'cEsc', secoes:secSen},
+    {name:'cSen', secoes:secPio},
+  ]);
+  const caminhosScore = Math.min(100, Math.round((kCmp + (kChef?100:0) + kAplic) / 3));
 
   // ── Reconhecimento Score ──
+  // NOW includes weighted ramo application (was only comp+chefes before)
   const rCmp  = cmpScore('recComp');
-  const rChef = g('reconhChefes')==='Sim';
-  const reconhScore = Math.min(100, Math.round((rCmp + (rChef?33:0))/1.33));
+  const rChef = g('reconhChefes') === 'Sim';
+  const rAplic = aplicPonderado([
+    {name:'recRamoLob', secoes:secLob},
+    {name:'recRamoEsc', secoes:secEsc},
+    {name:'recRamoSen', secoes:secSen},
+    {name:'recRamoPio', secoes:secPio},
+  ]);
+  const reconhScore = Math.min(100, Math.round((rCmp + (rChef?100:0) + rAplic) / 3));
 
   // ── Blocos Score ──
-  const bCmp  = cmpScore('bloComp');
-  const bChef = g('blocosChefes')==='Sim';
-  const bRamos = ['bLob','bEsc','bSen','bPio'];
-  let bAplic=0, bTotal=0;
-  bRamos.forEach(n=>{ const v=g(n); if(v==='Sim'){bAplic++;bTotal++;} else if(v==='Não') bTotal++; });
-  const bAplicScore = bTotal>0?Math.round(bAplic/bTotal*20):0;
-  const blocosScore = Math.min(100, Math.round((bCmp + (bChef?15:0) + bAplicScore)/1.5));
+  // 5 components: comp + chefes + aplicRamo_ponderado + fixaVar + especialidades
+  const bCmp      = cmpScore('bloComp');
+  const bChef     = g('blocosChefes') === 'Sim';
+  const bFixaVar  = cmpScore('bloFixVar');
+  const bEspec    = cmpScore('bloEspec');
+  const bAplic = aplicPonderado([
+    {name:'bLob', secoes:secLob},
+    {name:'bEsc', secoes:secEsc},
+    {name:'bSen', secoes:secSen},
+    {name:'bPio', secoes:secPio},
+  ]);
+  const blocosScore = Math.min(100, Math.round((bCmp + (bChef?100:0) + bAplic + bFixaVar + bEspec) / 5));
 
   // ── Equivalência Score ──
+  // Components: comp + chefes + aplicação ponderada por ramo (3 comps)
   const eCmp  = cmpScore('eqComp');
-  const eChef = g('equivChefes')==='Sim';
-  const eRamos = ['eLob','eEsc','eSen','ePio'];
-  let eAplic=0, eTotal=0;
-  eRamos.forEach(n=>{ const v=g(n); if(v==='Sim'){eAplic++;eTotal++;} else if(v==='Não') eTotal++; });
-  const eAplicScore = eTotal>0?Math.round(eAplic/eTotal*20):0;
-  const equivScore = Math.min(100, Math.round((eCmp + (eChef?15:0) + eAplicScore)/1.5));
+  const eChef = g('equivChefes') === 'Sim';
+  const eAplic = aplicPonderado([
+    {name:'eLob', secoes:secLob},
+    {name:'eEsc', secoes:secEsc},
+    {name:'eSen', secoes:secSen},
+    {name:'ePio', secoes:secPio},
+  ]);
+  const equivScore = Math.min(100, Math.round((eCmp + (eChef?100:0) + eAplic) / 3));
 
   // ── Jovens Score ──
+  // Components: entendimento + aplicação ponderada por ramo (2 comps)
   const jEnt = parseInt(g('jovEnt')||'0');
-  const jRamos = ['jLob','jEsc','jSen','jPio'];
-  let jAplic=0, jTotal=0;
-  jRamos.forEach(n=>{ const v=g(n); if(v==='Sim'){jAplic++;jTotal++;} else if(v==='Não') jTotal++; });
-  const jAplicScore = jTotal>0?Math.round(jAplic/jTotal*20):0;
-  const jovensScore = Math.min(100, Math.round((jEnt + jAplicScore)/1.5));
+  const jAplic = aplicPonderado([
+    {name:'jLob', secoes:secLob},
+    {name:'jEsc', secoes:secEsc},
+    {name:'jSen', secoes:secSen},
+    {name:'jPio', secoes:secPio},
+  ]);
+  const jovensScore = Math.min(100, Math.round((jEnt + jAplic) / 2));
 
   const scores = {paxtu:paxtuScore, acolhida:acolhScore, ciclo:cicloScore,
     caminhos:caminhosScore, reconh:reconhScore, blocos:blocosScore,
