@@ -545,9 +545,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <span class="field-error-msg" id="err-numeralGrupo">⚠ Campo obrigatório</span>
       </div>
       <div class="field">
-        <label class="q-label">Data de preenchimento <span class="req">*</span></label>
-        <input type="date" id="dataResp">
-        <span class="field-error-msg" id="err-dataResp">⚠ Campo obrigatório</span>
+        <label class="q-label" style="display: none;">Data de preenchimento <span class="req">*</span></label>
+        <input type="date" id="dataResp" style="display: none;">
       </div>
     </div>
     <div class="field">
@@ -2025,7 +2024,7 @@ function calcScores() {
 
     // ── Per-ramo detail analysis ──────────────────────────
     var TEMAS = [
-      {key:'acolhida', label:'cerimônia de acolhida'},
+      {key:'acolhida', label:'Cerimônia de acolhida'},
       {key:'ciclo',    label:'Ciclo de Programa'},
       {key:'reconh',   label:'Reconhecimento de Ramo'},
       {key:'blocos',   label:'Blocos de Aprendizagem'},
@@ -2168,7 +2167,7 @@ function generateResult() {
 
     const dims = [
       {key:'paxtu',   label:'1',  fullLabel:'1. Paxtu / Virada Sistêmica',        score:scores.paxtu},
-      {key:'acolhida',label:'2',  fullLabel:'2. cerimônia de acolhida',            score:scores.acolhida},
+      {key:'acolhida',label:'2',  fullLabel:'2. Cerimônia de acolhida',            score:scores.acolhida},
       {key:'ciclo',   label:'3',  fullLabel:'3. Ciclo de Programa',                score:scores.ciclo},
       {key:'caminhos',label:'4',  fullLabel:'4. Caminhos entre Ramos',             score:scores.caminhos},
       {key:'reconh',  label:'5',  fullLabel:'5. Reconhecimento de Ramo',           score:scores.reconh},
@@ -2349,7 +2348,7 @@ function generateResult() {
             <div class="priority-item urg">
               <div class="priority-icon">🔴</div>
               <div class="priority-body">
-                <div class="priority-name urg">${d.label}, ${d.score}%</div>
+                <div class="priority-name urg">${d.fullLabel}, ${d.score}%</div>
                 <div class="priority-rec">${recs[d.key][1]}</div>
               </div>
             </div>
@@ -2369,7 +2368,7 @@ function generateResult() {
             <div class="priority-item att">
               <div class="priority-icon">⚠</div>
               <div class="priority-body">
-                <div class="priority-name att">${d.label}, ${d.score}%</div>
+                <div class="priority-name att">${d.fullLabel}, ${d.score}%</div>
                 <div class="priority-rec">Há progresso, mas ainda não é consistente em todas as seções. Defina uma data-alvo e monitore quinzenalmente.</div>
               </div>
             </div>
@@ -2389,7 +2388,7 @@ function generateResult() {
             <div class="priority-item ok">
               <div class="priority-icon">✅</div>
               <div class="priority-body">
-                <div class="priority-name ok">${d.label}, ${d.score}%</div>
+                <div class="priority-name ok">${d.fullLabel}, ${d.score}%</div>
                 <div class="priority-rec">${recs[d.key][0]}</div>
               </div>
             </div>
