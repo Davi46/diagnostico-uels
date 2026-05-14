@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico UELs — Mapa de Calor</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d40;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--accent:#06b6d4;--accent2:#4f9cf9;--accent3:#10b981;--text:#e8eaf0;--text2:#8b92a8;--text3:#5a6278;--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;overflow-x:hidden;min-height:100vh}
+#lov{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:999;transition:opacity .5s}
+#lov.gone{opacity:0;pointer-events:none}
+.lring{width:44px;height:44px;border:2.5px solid var(--bg4);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+.ltxt{font-size:13px;color:var(--text3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.tl{display:flex;align-items:center;gap:14px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ttl{font-family:var(--fh);font-size:15px;font-weight:600;color:var(--text)}
+.tsub{font-size:11px;color:var(--text3);margin-top:1px}
+.tr2{display:flex;align-items:center;gap:8px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:all .4s}
+.sdot.live{background:var(--accent3);box-shadow:0 0 7px var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.stxt{font-size:11px;color:var(--text2)}
+.btnr{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 14px;font-family:var(--fb);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.btnr:hover{background:var(--bg4);color:var(--text)}
+.btnr svg{width:13px;height:13px}
+.ri.spin{animation:spin .8s linear infinite}
+.main{padding:20px 28px 48px;display:flex;flex-direction:column;gap:18px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.panel-title{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.08em}
+.legend{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3)}
+.leg-box{width:12px;height:12px;border-radius:3px}
+/* HEAT TABLE */
+.heat-wrap{overflow-x:auto;padding:4px}
+.heat-table{border-collapse:separate;border-spacing:3px;min-width:100%}
+.heat-table th.dim-h{background:var(--bg3);color:var(--text2);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-radius:6px;white-space:nowrap;text-align:center}
+.heat-table th.dist-h{background:var(--bg3);color:var(--text);font-size:11px;font-weight:500;padding:8px 14px;border-radius:6px;white-space:nowrap;max-width:160px;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.heat-table th.avg-h{background:rgba(79,156,249,.12);color:var(--accent2);font-size:10px;font-weight:700;padding:8px 10px;border-radius:6px;text-align:center;letter-spacing:.06em;text-transform:uppercase}
+.heat-cell{border-radius:6px;padding:8px 4px;text-align:center;font-family:var(--fh);font-size:12px;font-weight:600;cursor:default;transition:transform .15s;min-width:52px;position:relative}
+.heat-cell:hover{transform:scale(1.08);z-index:2}
+.heat-cell.empty{background:var(--bg4);color:var(--text3);font-size:10px;font-weight:400}
+.avg-cell{border-radius:6px;padding:8px 4px;text-align:center;font-family:var(--fh);font-size:13px;font-weight:700;background:rgba(79,156,249,.08);border:1px solid rgba(79,156,249,.15);min-width:52px}
+/* N-GROUPS */
+.ngroups{font-size:10px;color:var(--text3);text-align:center;padding:6px;font-family:var(--fb)}
+/* TOOLTIP */
+.heat-cell[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100%+5px);left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);font-size:10px;font-weight:400;font-family:var(--fb);padding:4px 8px;border-radius:6px;white-space:nowrap;pointer-events:none;z-index:20;border:1px solid var(--border2)}
+</style>
+</head>
+<body>
+<div id="lov"><div class="lring"></div><div class="ltxt">Carregando dados...</div></div>
+<header class="topbar">
+  <div class="tl">
+    <div class="logo">🗺️</div>
+    <div><div class="ttl">Mapa de Calor</div><div class="tsub">Score médio por dimensão × distrito</div></div>
+  </div>
+  <div class="tr2">
+    <div class="sdot" id="sdot"></div><span class="stxt" id="stxt">Conectando...</span>
+    <a href="index.html" class="btnr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início</a>
+    <button class="btnr" onclick="loadData()"><svg class="ri" id="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>Atualizar</button>
+  </div>
+</header>
+<main class="main" id="main" style="display:none">
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">🗺️ Score médio por dimensão × distrito</span>
+      <div class="legend">
+        <div class="leg-box" style="background:#10b981"></div>≥70%
+        <div class="leg-box" style="background:#f59e0b;margin-left:6px"></div>40–69%
+        <div class="leg-box" style="background:#f43f5e;margin-left:6px"></div>&lt;40%
+        <div class="leg-box" style="background:var(--bg4);margin-left:6px"></div>s/dados
+      </div>
+    </div>
+    <div class="heat-wrap"><div id="heat-out"></div></div>
+  </div>
+</main>
+<script>
+const SURL='https://script.google.com/macros/s/AKfycbxKBgIvXS5eJjQUXMaLCZ27AUAOzbi-WGVht4Ii2Sf0UqX4C7JRiH8-qebTdlXVl28X/exec';
+const COL={dataEnvio:0,nome:2,numeral:3,distrito:4,avg:75,sPaxtu:78,sAcolh:79,sCiclo:80,sCam:81,sRec:82,sBlo:83,sEq:84,sJov:85};
+const DIMS=[{k:'sPaxtu',l:'Paxtu'},{k:'sAcolh',l:'Acolhida'},{k:'sCiclo',l:'Ciclo'},{k:'sCam',l:'Caminhos'},{k:'sRec',l:'Reconhec.'},{k:'sBlo',l:'Blocos'},{k:'sEq',l:'Equiv.'},{k:'sJov',l:'Jovens'},{k:'avg',l:'GERAL'}];
+function fetchJSONP(url){return new Promise((res,rej)=>{const cb='__cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);const s=document.createElement('script');const t=setTimeout(()=>{cleanup();rej(new Error('Timeout'));},15000);window[cb]=d=>{cleanup();res(d);};s.onerror=()=>{cleanup();rej(new Error('Erro'));};s.src=url+'?callback='+cb+'&t='+Date.now();document.head.appendChild(s);function cleanup(){clearTimeout(t);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}});}
+function sv(r,c){return c!==undefined&&c<r.length?String(r[c]??'').trim():'';}
+function sn(r,c){return parseInt(sv(r,c))||0;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function dedup(rows){const map=new Map();rows.forEach(r=>{const key=(sv(r,COL.numeral)||'?')+'|'+sv(r,COL.nome).toLowerCase();const ex=map.get(key);if(!ex){map.set(key,r);return;}if(new Date(sv(r,COL.dataEnvio))>new Date(sv(ex,COL.dataEnvio)))map.set(key,r);});return[...map.values()];}
+function cellColor(v){
+  if(v===null)return{bg:'var(--bg4)',text:'var(--text3)',border:'transparent'};
+  if(v>=70)return{bg:`rgba(16,185,129,${0.12+v/100*.28})`,text:'#34d399',border:'rgba(16,185,129,.2)'};
+  if(v>=40)return{bg:`rgba(245,158,11,${0.12+v/100*.28})`,text:'#fbbf24',border:'rgba(245,158,11,.2)'};
+  return{bg:`rgba(244,63,94,${0.15+v/100*.3})`,text:'#fb7185',border:'rgba(244,63,94,.2)'};
+}
+async function loadData(){
+  document.getElementById('ri').classList.add('spin');
+  try{
+    const raw=await fetchJSONP(SURL);
+    if(!Array.isArray(raw)||raw.length<2)throw new Error('Dados inválidos.');
+    const unique=dedup(raw.slice(1).filter(r=>sv(r,COL.nome)&&sn(r,COL.avg)>0));
+    // Agrupa por distrito
+    const byDist={};
+    unique.forEach(r=>{
+      const dist=sv(r,COL.distrito)||'Sem distrito';
+      if(!byDist[dist])byDist[dist]=[];
+      byDist[dist].push(r);
+    });
+    const dists=Object.keys(byDist).sort();
+    // Monta tabela
+    let html=`<table class="heat-table"><thead><tr><th class="dist-h">Distrito</th>`;
+    DIMS.forEach(d=>{
+      const cls=d.k==='avg'?'avg-h':'dim-h';
+      html+=`<th class="${cls}">${d.l}</th>`;
+    });
+    html+=`<th class="dim-h" style="min-width:50px">Grupos</th></tr></thead><tbody>`;
+    dists.forEach(dist=>{
+      const rows=byDist[dist];
+      html+=`<tr><td style="background:var(--bg3);border-radius:6px;padding:8px 14px;font-size:12px;font-weight:500;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${esc(dist)}">${esc(dist.replace(/^Distrito\s+/i,''))}</td>`;
+      DIMS.forEach(d=>{
+        const vals=rows.map(r=>sn(r,COL[d.k])).filter(v=>v>0);
+        if(!vals.length){html+=`<td class="heat-cell empty">—</td>`;return;}
+        const avg=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+        const c=cellColor(avg);
+        const isCls=d.k==='avg'?'avg-cell':'heat-cell';
+        html+=`<td class="${isCls}" style="background:${c.bg};color:${c.text};border:1px solid ${c.border}" data-tip="${d.l}: ${avg}%  (${vals.length} grupo${vals.length!==1?'s':''})">${avg}%</td>`;
+      });
+      html+=`<td class="ngroups">${rows.length}</td></tr>`;
+    });
+    // Linha MÉDIA GERAL
+    html+=`<tr style="border-top:2px solid var(--border2)"><td style="background:rgba(79,156,249,.08);border-radius:6px;padding:8px 14px;font-size:11px;font-weight:700;color:var(--accent2);letter-spacing:.04em;text-transform:uppercase">MÉDIA GERAL</td>`;
+    DIMS.forEach(d=>{
+      const vals=unique.map(r=>sn(r,COL[d.k])).filter(v=>v>0);
+      if(!vals.length){html+=`<td class="heat-cell empty">—</td>`;return;}
+      const avg=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+      const c=cellColor(avg);
+      html+=`<td class="avg-cell" style="color:${c.text};font-size:14px">${avg}%</td>`;
+    });
+    html+=`<td class="ngroups" style="font-weight:700;color:var(--accent2)">${unique.length}</td></tr>`;
+    html+=`</tbody></table>`;
+    document.getElementById('heat-out').innerHTML=html;
+    document.getElementById('sdot').className='sdot live';document.getElementById('stxt').textContent='Ao vivo';
+    document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';
+  }catch(e){console.error(e);document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';}
+  finally{document.getElementById('ri').classList.remove('spin');}
+}
+setInterval(loadData,60000);loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico UELs — Ninhadas</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d40;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--accent:#4f9cf9;--accent2:#7c3aed;--accent3:#10b981;--accent4:#f59e0b;--accent5:#f43f5e;--text:#e8eaf0;--text2:#8b92a8;--text3:#5a6278;--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;overflow-x:hidden;min-height:100vh}
+#lov{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:999;transition:opacity .5s}
+#lov.gone{opacity:0;pointer-events:none}
+.lring{width:44px;height:44px;border:2.5px solid var(--bg4);border-top-color:var(--accent3);border-radius:50%;animation:spin .75s linear infinite}
+.ltxt{font-size:13px;color:var(--text3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.tl{display:flex;align-items:center;gap:14px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--accent3),#059669);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ttl{font-family:var(--fh);font-size:15px;font-weight:600;color:var(--text)}
+.tsub{font-size:11px;color:var(--text3);margin-top:1px}
+.tr2{display:flex;align-items:center;gap:10px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:all .4s}
+.sdot.live{background:var(--accent3);box-shadow:0 0 7px var(--accent3);animation:pulse 2s infinite}
+.sdot.err{background:#ef4444;box-shadow:0 0 7px #ef4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.stxt{font-size:11px;color:var(--text2)}
+.btnr{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 14px;font-family:var(--fb);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.btnr:hover{background:var(--bg4);color:var(--text)}
+.btnr svg{width:13px;height:13px}
+.ri.spin{animation:spin .8s linear infinite}
+.main{padding:20px 28px 48px;display:flex;flex-direction:column;gap:20px}
+.sec-title{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.cards2{grid-template-columns:1fr}}
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;position:relative;overflow:hidden;transition:border-color .2s,transform .18s;cursor:default}
+.mc:hover{border-color:var(--border2);transform:translateY(-2px)}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.mc.green::before{background:linear-gradient(90deg,var(--accent3),transparent)}
+.mc.amber::before{background:linear-gradient(90deg,var(--accent4),transparent)}
+.mico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:18px}
+.mico.green{background:rgba(16,185,129,.13)}
+.mico.amber{background:rgba(245,158,11,.13)}
+.mv{font-family:var(--fh);font-size:38px;font-weight:700;color:var(--text);line-height:1;margin-bottom:6px}
+.ml{font-size:12px;color:var(--text2)}
+.ms{font-size:11px;color:var(--text3);margin-top:4px}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.panel-title{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.08em}
+.panel-badge{font-size:11px;color:var(--text3);background:var(--bg3);padding:3px 10px;border-radius:99px;border:1px solid var(--border);white-space:nowrap}
+.filters-row{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg3)}
+.flbl{font-size:11px;color:var(--text3);white-space:nowrap}
+.fsel{background:var(--bg2);border:1px solid var(--border2);color:var(--text);border-radius:7px;padding:5px 26px 5px 10px;font-family:var(--fb);font-size:12px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a6278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+.fsel:focus{outline:none;border-color:var(--accent3)}
+.sbox{background:var(--bg2);border:1px solid var(--border2);color:var(--text);border-radius:7px;padding:5px 10px;font-family:var(--fb);font-size:12px;min-width:180px}
+.sbox::placeholder{color:var(--text3)}.sbox:focus{outline:none;border-color:var(--accent3)}
+.fclear{background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.fclear:hover{color:var(--text);background:var(--bg4)}
+.twrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 16px;text-align:left;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;background:var(--bg3);transition:color .15s}
+thead th:hover{color:var(--text2)}
+thead th.sorted{color:var(--accent3)}
+.sa{margin-left:3px;opacity:.35;font-size:10px}
+thead th.sorted .sa{opacity:1}
+tbody tr:hover td{background:rgba(255,255,255,.022)}
+tbody td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--text);font-size:13px;white-space:nowrap;transition:background .12s}
+tbody tr:last-child td{border-bottom:none}
+.tag{display:inline-block;font-size:10px;padding:2px 9px;border-radius:99px;font-weight:500}
+.tag-g{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+.tag-a{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.meses-bar{display:flex;align-items:center;gap:8px}
+.meses-track{height:6px;border-radius:99px;background:var(--bg4);overflow:hidden;flex:1;min-width:60px}
+.meses-fill{height:100%;border-radius:99px}
+.meses-num{font-size:12px;font-weight:600;min-width:32px}
+.empty-row td{text-align:center;color:var(--text3);padding:40px!important;font-size:13px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid rgba(239,68,68,.45);color:#fca5a5;border-radius:10px;padding:12px 18px;font-size:12px;max-width:360px;z-index:500;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+#toast.on{opacity:1;transform:translateY(0)}
+#errbanner{display:none;margin:16px 28px 0;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:14px 18px}
+#errbanner.on{display:block}
+.errtl{font-family:var(--fh);font-size:13px;font-weight:600;color:#fca5a5;margin-bottom:4px}
+.errmsg{font-size:12px;color:var(--text2);line-height:1.6}
+.errmsg code{background:var(--bg4);padding:2px 7px;border-radius:4px;font-size:11px;color:#7dd3fc;font-family:monospace}
+.cblk{background:#0d1117;border:1px solid var(--border2);border-radius:8px;padding:10px 14px;margin:8px 0;font-family:monospace;font-size:11px;color:#7dd3fc;white-space:pre;overflow-x:auto;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div id="lov"><div class="lring"></div><div class="ltxt">Carregando dados...</div></div>
+<div id="toast"></div>
+
+<header class="topbar">
+  <div class="tl">
+    <div class="logo">🐺</div>
+    <div><div class="ttl">Ninhadas — Filhotes</div><div class="tsub">Diagnóstico UELs · Região Escoteira de Minas Gerais</div></div>
+  </div>
+  <div class="tr2">
+    <div class="sdot" id="sdot"></div><span class="stxt" id="stxt">Conectando...</span>
+      <a href="index.html" class="btnr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início</a>
+      <button class="btnr" onclick="loadData()"><svg class="ri" id="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>Atualizar</button>
+    </div>
+  </div>
+</header>
+
+<div id="errbanner">
+  <div class="errtl">⚠ Atualize o Apps Script para suporte a JSONP</div>
+  <div class="errmsg">Cole em <code>Extensões → Apps Script</code> e reimplante (<code>Implantar → Gerenciar → Nova versão</code>):</div>
+  <div class="cblk">function doGet(e) {
+  var ss=SpreadsheetApp.getActiveSpreadsheet(), sheet=ss.getSheets()[0];
+  var cb=e&&e.parameter&&e.parameter.callback;
+  var data=sheet.getDataRange().getValues(), json=JSON.stringify(data);
+  return cb ? ContentService.createTextOutput(cb+'('+json+')').setMimeType(ContentService.MimeType.JAVASCRIPT)
+            : ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
+}</div>
+</div>
+
+<main class="main" id="main" style="display:none">
+
+  <div>
+    <div class="sec-title">Resumo — grupos únicos</div>
+    <div class="cards2">
+      <div class="mc green">
+        <div class="mico green">🐺</div>
+        <div class="mv" id="cv-ninhada">—</div>
+        <div class="ml">Grupos com Ninhada ativa</div>
+        <div class="ms" id="cs-ninhada"></div>
+      </div>
+      <div class="mc amber">
+        <div class="mico amber">🌱</div>
+        <div class="mv" id="cv-pretende">—</div>
+        <div class="ml">Pretendem abrir Ninhada</div>
+        <div class="ms" id="cs-pretende"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NINHADA ATIVA -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">🐺 Grupos com Ninhada ativa</span>
+      <span class="panel-badge" id="b-ninhada">0 grupos</span>
+    </div>
+    <div class="filters-row">
+      <span class="flbl">Distrito:</span>
+      <select class="fsel" id="f-ninhada-dist" onchange="renderNinhada()"><option value="">Todos os distritos</option></select>
+      <input class="sbox" id="f-ninhada-q" placeholder="🔍 Buscar grupo..." oninput="renderNinhada()">
+      <button class="fclear" onclick="clearN()">Limpar</button>
+    </div>
+    <div class="twrap">
+      <table>
+        <thead><tr>
+          <th onclick="srt('ninhada','numeral',this)">Numeral <span class="sa">↕</span></th>
+          <th onclick="srt('ninhada','nome',this)">Nome do grupo <span class="sa">↕</span></th>
+          <th onclick="srt('ninhada','distrito',this)">Distrito <span class="sa">↕</span></th>
+          <th onclick="srt('ninhada','secoes',this)">Seções Lobinho <span class="sa">↕</span></th>
+        </tr></thead>
+        <tbody id="tb-ninhada"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PRETENDE NINHADA -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">🌱 Grupos que pretendem abrir Ninhada</span>
+      <span class="panel-badge" id="b-pretende">0 grupos</span>
+    </div>
+    <div class="filters-row">
+      <span class="flbl">Distrito:</span>
+      <select class="fsel" id="f-pretende-dist" onchange="renderPretende()"><option value="">Todos os distritos</option></select>
+      <input class="sbox" id="f-pretende-q" placeholder="🔍 Buscar grupo..." oninput="renderPretende()">
+      <span class="flbl" style="margin-left:8px">Prazo:</span>
+      <select class="fsel" id="f-pretende-meses" onchange="renderPretende()" style="min-width:120px"><option value="">Todos</option></select>
+      <button class="fclear" onclick="clearP()">Limpar</button>
+    </div>
+    <div class="twrap">
+      <table>
+        <thead><tr>
+          <th onclick="srt('pretende','numeral',this)">Numeral <span class="sa">↕</span></th>
+          <th onclick="srt('pretende','nome',this)">Nome do grupo <span class="sa">↕</span></th>
+          <th onclick="srt('pretende','distrito',this)">Distrito <span class="sa">↕</span></th>
+          <th onclick="srt('pretende','meses',this)">Prazo declarado <span class="sa">↕</span></th>
+        </tr></thead>
+        <tbody id="tb-pretende"></tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const SURL='https://script.google.com/macros/s/AKfycbxKBgIvXS5eJjQUXMaLCZ27AUAOzbi-WGVht4Ii2Sf0UqX4C7JRiH8-qebTdlXVl28X/exec';
+const COL={dataEnvio:0,nomeGrupo:2,numeral:3,distrito:4,ninhada:7,ninhadaPret:8,ninhadaMeses:9,lobN:11};
+
+let DN={ninhada:[],pretende:[]};
+let SORT={ninhada:{k:'numeral',d:1},pretende:{k:'numeral',d:1}};
+
+function fetchJSONP(url){
+  return new Promise((res,rej)=>{
+    const cb='__cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    const s=document.createElement('script');
+    const t=setTimeout(()=>{cleanup();rej(new Error('Timeout.'));},15000);
+    window[cb]=d=>{cleanup();res(d);};
+    s.onerror=()=>{cleanup();rej(new Error('Falha ao carregar Apps Script.'));};
+    s.src=url+'?callback='+cb+'&t='+Date.now();
+    document.head.appendChild(s);
+    function cleanup(){clearTimeout(t);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}
+  });
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function sv(r,c){return c!==undefined&&c<r.length?String(r[c]??'').trim():'';}
+function sn(r,c){return parseInt(sv(r,c))||0;}
+
+function dedup(rows){
+  const map=new Map();
+  rows.forEach(r=>{
+    const key=(sv(r,COL.numeral)||'?')+'|'+sv(r,COL.nomeGrupo).toLowerCase();
+    const ex=map.get(key);
+    if(!ex){map.set(key,r);return;}
+    const d1=new Date(sv(ex,COL.dataEnvio)||0),d2=new Date(sv(r,COL.dataEnvio)||0);
+    if(d2>d1)map.set(key,r);
+  });
+  return[...map.values()];
+}
+
+function processData(raw){
+  const rows=raw.slice(1).filter(r=>sv(r,COL.nomeGrupo));
+  const unique=dedup(rows);
+  DN.ninhada=[];DN.pretende=[];
+  unique.forEach(r=>{
+    const base={numeral:sv(r,COL.numeral)||'—',nome:sv(r,COL.nomeGrupo)||'—',distrito:sv(r,COL.distrito)||'—'};
+    if(sv(r,COL.ninhada)==='Sim'){
+      DN.ninhada.push({...base,secoes:sn(r,COL.lobN)});
+    }
+    if(sv(r,COL.ninhada)==='Não'&&sv(r,COL.ninhadaPret)==='Sim'){
+      const m=parseInt(sv(r,COL.ninhadaMeses))||null;
+      DN.pretende.push({...base,meses:m});
+    }
+  });
+}
+
+function populateFilters(){
+  const dists=[...new Set([...DN.ninhada,...DN.pretende].map(r=>r.distrito))].filter(Boolean).sort();
+  ['f-ninhada-dist','f-pretende-dist'].forEach(id=>{
+    const sel=document.getElementById(id);
+    sel.innerHTML='<option value="">Todos os distritos</option>';
+    dists.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
+  });
+  const meses=[...new Set(DN.pretende.map(r=>r.meses).filter(m=>m!==null))].sort((a,b)=>a-b);
+  const sm=document.getElementById('f-pretende-meses');
+  sm.innerHTML='<option value="">Todos os prazos</option>';
+  meses.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent='Em '+m+' meses';sm.appendChild(o);});
+}
+
+function applySort(arr,k,d){
+  return[...arr].sort((a,b)=>{
+    let va=a[k]??'zzz',vb=b[k]??'zzz';
+    if(typeof va==='string')va=va.toLowerCase();
+    if(typeof vb==='string')vb=vb.toLowerCase();
+    return d*(va>vb?1:va<vb?-1:0);
+  });
+}
+function emptyRow(c){return`<tr class="empty-row"><td colspan="${c}">Nenhum grupo encontrado.</td></tr>`;}
+function barHtml(m,max){
+  if(m===null)return'<span style="color:var(--text3);font-size:12px">—</span>';
+  const pct=Math.min(100,Math.round(m/max*100));
+  const col=m<=3?'#f43f5e':m<=6?'#f59e0b':'#10b981';
+  return`<div class="meses-bar"><div class="meses-track"><div class="meses-fill" style="width:${pct}%;background:${col}"></div></div><span class="meses-num" style="color:${col}">${m}m</span></div>`;
+}
+
+function renderNinhada(){
+  const dist=document.getElementById('f-ninhada-dist').value;
+  const q=document.getElementById('f-ninhada-q').value.toLowerCase();
+  let rows=DN.ninhada;
+  if(dist)rows=rows.filter(r=>r.distrito===dist);
+  if(q)rows=rows.filter(r=>r.nome.toLowerCase().includes(q)||r.numeral.toLowerCase().includes(q));
+  rows=applySort(rows,SORT.ninhada.k,SORT.ninhada.d);
+  document.getElementById('b-ninhada').textContent=rows.length+' grupo'+(rows.length!==1?'s':'');
+  document.getElementById('tb-ninhada').innerHTML=rows.length
+    ?rows.map(r=>`<tr><td><strong>${esc(r.numeral)}</strong></td><td>${esc(r.nome)}</td><td style="color:var(--text2)">${esc(r.distrito)}</td><td><span class="tag tag-g">${r.secoes} seção${r.secoes!==1?'ões':''}</span></td></tr>`).join('')
+    :emptyRow(4);
+}
+
+function renderPretende(){
+  const dist=document.getElementById('f-pretende-dist').value;
+  const q=document.getElementById('f-pretende-q').value.toLowerCase();
+  const m=document.getElementById('f-pretende-meses').value;
+  let rows=DN.pretende;
+  if(dist)rows=rows.filter(r=>r.distrito===dist);
+  if(m)rows=rows.filter(r=>String(r.meses)===m);
+  if(q)rows=rows.filter(r=>r.nome.toLowerCase().includes(q)||r.numeral.toLowerCase().includes(q));
+  rows=applySort(rows,SORT.pretende.k,SORT.pretende.d);
+  document.getElementById('b-pretende').textContent=rows.length+' grupo'+(rows.length!==1?'s':'');
+  const maxM=Math.max(...rows.map(r=>r.meses||0),1);
+  document.getElementById('tb-pretende').innerHTML=rows.length
+    ?rows.map(r=>`<tr><td><strong>${esc(r.numeral)}</strong></td><td>${esc(r.nome)}</td><td style="color:var(--text2)">${esc(r.distrito)}</td><td>${barHtml(r.meses,maxM)}</td></tr>`).join('')
+    :emptyRow(4);
+}
+
+function srt(table,key,th){
+  if(SORT[table].k===key)SORT[table].d*=-1;else{SORT[table].k=key;SORT[table].d=1;}
+  th.closest('table').querySelectorAll('thead th').forEach(t=>{t.classList.remove('sorted');t.querySelector('.sa').textContent='↕';});
+  th.classList.add('sorted');th.querySelector('.sa').textContent=SORT[table].d===1?'↑':'↓';
+  ({ninhada:renderNinhada,pretende:renderPretende})[table]?.();
+}
+function clearN(){document.getElementById('f-ninhada-dist').value='';document.getElementById('f-ninhada-q').value='';renderNinhada();}
+function clearP(){document.getElementById('f-pretende-dist').value='';document.getElementById('f-pretende-q').value='';document.getElementById('f-pretende-meses').value='';renderPretende();}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),6000);}
+function setStatus(st){const dot=document.getElementById('sdot'),txt=document.getElementById('stxt');dot.className='sdot'+(st==='live'?' live':st==='err'?' err':'');txt.textContent=st==='live'?'Ao vivo':st==='err'?'Erro':'Conectando...';}
+
+async function loadData(){
+  document.getElementById('ri').classList.add('spin');
+  try{
+    const result=await fetchJSONP(SURL);
+    if(!Array.isArray(result)||result.length<2)throw new Error('Dados inválidos.');
+    processData(result);populateFilters();
+    document.getElementById('cv-ninhada').textContent=DN.ninhada.length;
+    document.getElementById('cv-pretende').textContent=DN.pretende.length;
+    document.getElementById('cs-ninhada').textContent=DN.ninhada.length>0?'grupos únicos com ramo ativo':'';
+    document.getElementById('cs-pretende').textContent=DN.pretende.length>0?'sem ninhada, mas planejando':'';
+    renderNinhada();renderPretende();
+    setStatus('live');
+    document.getElementById('errbanner').classList.remove('on');
+    document.getElementById('lov').classList.add('gone');
+    document.getElementById('main').style.display='flex';
+  }catch(e){
+    console.error(e);setStatus('err');
+    document.getElementById('lov').classList.add('gone');
+    document.getElementById('errbanner').classList.add('on');
+    document.getElementById('main').style.display='flex';
+    toast('Erro: '+e.message);
+  }finally{document.getElementById('ri').classList.remove('spin');}
+}
+setInterval(loadData,60000);
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico UELs — Manual do Escotista</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d40;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--accent:#6366f1;--accent2:#4f9cf9;--accent3:#10b981;--text:#e8eaf0;--text2:#8b92a8;--text3:#5a6278;--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;overflow-x:hidden;min-height:100vh}
+#lov{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:999;transition:opacity .5s}
+#lov.gone{opacity:0;pointer-events:none}
+.lring{width:44px;height:44px;border:2.5px solid var(--bg4);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+.ltxt{font-size:13px;color:var(--text3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.tl{display:flex;align-items:center;gap:14px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),#4f46e5);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ttl{font-family:var(--fh);font-size:15px;font-weight:600;color:var(--text)}
+.tsub{font-size:11px;color:var(--text3);margin-top:1px}
+.tr2{display:flex;align-items:center;gap:8px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:all .4s}
+.sdot.live{background:var(--accent3);box-shadow:0 0 7px var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.stxt{font-size:11px;color:var(--text2)}
+.btnr{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 14px;font-family:var(--fb);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.btnr:hover{background:var(--bg4);color:var(--text)}
+.btnr svg{width:13px;height:13px}
+.ri.spin{animation:spin .8s linear infinite}
+.main{padding:20px 28px 48px;display:flex;flex-direction:column;gap:18px}
+.sec-title{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:800px){.cards4{grid-template-columns:1fr 1fr}}
+.ramo-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;position:relative;overflow:hidden}
+.ramo-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.rc-lob::before{background:linear-gradient(90deg,#e65100,transparent)}
+.rc-esc::before{background:linear-gradient(90deg,#2e7d32,transparent)}
+.rc-sen::before{background:linear-gradient(90deg,#b71c1c,transparent)}
+.rc-pio::before{background:linear-gradient(90deg,#4a148c,transparent)}
+.ramo-name{font-family:var(--fh);font-size:12px;font-weight:600;margin-bottom:14px}
+.pct-big{font-family:var(--fh);font-size:32px;font-weight:700;line-height:1;margin-bottom:4px}
+.pct-sub{font-size:11px;color:var(--text2)}
+.pct-bar-wrap{margin-top:10px}
+.pct-track{height:6px;border-radius:99px;background:var(--bg4);overflow:hidden}
+.pct-fill{height:100%;border-radius:99px}
+.status-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.stag{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:500}
+.stag-ok{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.stag-warn{background:rgba(244,63,94,.15);color:#fb7185;border:1px solid rgba(244,63,94,.2)}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.panel-title{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.08em}
+.pbadge{font-size:11px;color:var(--text3);background:var(--bg3);padding:3px 10px;border-radius:99px;border:1px solid var(--border)}
+.frow{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg3)}
+.flbl{font-size:11px;color:var(--text3);white-space:nowrap}
+.fsel{background:var(--bg2);border:1px solid var(--border2);color:var(--text);border-radius:7px;padding:5px 26px 5px 10px;font-family:var(--fb);font-size:12px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235a6278' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:150px}
+.fsel:focus{outline:none;border-color:var(--accent)}
+.sbox{background:var(--bg2);border:1px solid var(--border2);color:var(--text);border-radius:7px;padding:5px 10px;font-family:var(--fb);font-size:12px;min-width:200px}
+.sbox::placeholder{color:var(--text3)}.sbox:focus{outline:none;border-color:var(--accent)}
+.fclear{background:none;border:none;color:var(--text3);font-size:11px;cursor:pointer;padding:2px 6px;border-radius:4px}
+.fclear:hover{color:var(--text);background:var(--bg4)}
+.twrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;background:var(--bg3)}
+thead th:hover{color:var(--text2)}
+thead th.sorted{color:var(--accent)}
+.sa{margin-left:3px;opacity:.35;font-size:10px}
+thead th.sorted .sa{opacity:1}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+.chip{font-size:10px;padding:2px 8px;border-radius:99px;font-weight:500;display:inline-block}
+.chip-ok{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.chip-warn{background:rgba(244,63,94,.15);color:#fb7185;border:1px solid rgba(244,63,94,.2)}
+.chip-n{background:var(--bg4);color:var(--text3);border:1px solid var(--border)}
+.chip-na{background:rgba(90,98,120,.2);color:var(--text3);border:1px solid var(--border)}
+.empty-row td{text-align:center;color:var(--text3);padding:40px!important;font-size:13px}
+</style>
+</head>
+<body>
+<div id="lov"><div class="lring"></div><div class="ltxt">Carregando dados...</div></div>
+<header class="topbar">
+  <div class="tl">
+    <div class="logo">📖</div>
+    <div><div class="ttl">Manual do Escotista</div><div class="tsub">Adoção por ramo · Diagnóstico UELs</div></div>
+  </div>
+  <div class="tr2">
+    <div class="sdot" id="sdot"></div><span class="stxt" id="stxt">Conectando...</span>
+    <a href="index.html" class="btnr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início</a>
+    <button class="btnr" onclick="loadData()"><svg class="ri" id="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>Atualizar</button>
+  </div>
+</header>
+<main class="main" id="main" style="display:none">
+  <div>
+    <div class="sec-title">Adoção por ramo</div>
+    <div class="cards4" id="ramo-cards"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">📖 Lista detalhada por grupo</span>
+      <span class="pbadge" id="pbadge">0 grupos</span>
+    </div>
+    <div class="frow">
+      <span class="flbl">Distrito:</span>
+      <select class="fsel" id="f-dist" onchange="render()"><option value="">Todos os distritos</option></select>
+      <span class="flbl" style="margin-left:8px">Ramo:</span>
+      <select class="fsel" id="f-ramo" onchange="render()" style="min-width:150px">
+        <option value="">Todos os ramos</option>
+        <option value="lob">Ramo Lobinho</option>
+        <option value="esc">Ramo Escoteiro</option>
+        <option value="sen">Ramo Sênior</option>
+        <option value="pio">Clã Pioneiro</option>
+      </select>
+      <span class="flbl" style="margin-left:8px">Situação:</span>
+      <select class="fsel" id="f-sit" onchange="render()" style="min-width:160px">
+        <option value="">Todas</option>
+        <option value="sim">✅ Aplicando</option>
+        <option value="crit">🚨 Aplicando s/ consolidação</option>
+        <option value="nao">❌ Não aplicando</option>
+      </select>
+      <input class="sbox" id="f-q" placeholder="🔍 Buscar grupo..." oninput="render()">
+      <button class="fclear" onclick="clear_()">Limpar</button>
+    </div>
+    <div class="twrap">
+      <table>
+        <thead><tr>
+          <th onclick="srt('numeral',this)">Nº <span class="sa">↕</span></th>
+          <th onclick="srt('nome',this)">Grupo <span class="sa">↕</span></th>
+          <th onclick="srt('distrito',this)">Distrito <span class="sa">↕</span></th>
+          <th style="cursor:default">Lobinho</th>
+          <th style="cursor:default">Escoteiro</th>
+          <th style="cursor:default">Sênior</th>
+          <th style="cursor:default">Clã Pioneiro</th>
+          <th onclick="srt('alerta',this)">Alerta <span class="sa">↕</span></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<script>
+const SURL='https://script.google.com/macros/s/AKfycbxKBgIvXS5eJjQUXMaLCZ27AUAOzbi-WGVht4Ii2Sf0UqX4C7JRiH8-qebTdlXVl28X/exec';
+const COL={dataEnvio:0,nome:2,numeral:3,distrito:4,lobN:11,escN:12,senN:13,cla:14,manLob:71,manEsc:72,manSen:73,manPio:74,sLob:86,sEsc:87,sSen:88,sPio:89,aManual:94};
+const RAMOS=[{key:'lob',label:'Ramo Lobinho',col:'manLob',scol:'sLob',ativo:'lobN',color:'#e65100',cls:'rc-lob'},{key:'esc',label:'Ramo Escoteiro',col:'manEsc',scol:'sEsc',ativo:'escN',color:'#2e7d32',cls:'rc-esc'},{key:'sen',label:'Ramo Sênior',col:'manSen',scol:'sSen',ativo:'senN',color:'#b71c1c',cls:'rc-sen'},{key:'pio',label:'Clã Pioneiro',col:'manPio',scol:'sPio',ativo:'cla',color:'#4a148c',cls:'rc-pio'}];
+let DATA=[],sk='nome',sd=1;
+function fetchJSONP(url){return new Promise((res,rej)=>{const cb='__cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);const s=document.createElement('script');const t=setTimeout(()=>{cleanup();rej(new Error('Timeout'));},15000);window[cb]=d=>{cleanup();res(d);};s.onerror=()=>{cleanup();rej(new Error('Erro'));};s.src=url+'?callback='+cb+'&t='+Date.now();document.head.appendChild(s);function cleanup(){clearTimeout(t);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}});}
+function sv(r,c){return c!==undefined&&c<r.length?String(r[c]??'').trim():'';}
+function sn(r,c){return parseInt(sv(r,c))||0;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function dedup(rows){const map=new Map();rows.forEach(r=>{const key=(sv(r,COL.numeral)||'?')+'|'+sv(r,COL.nome).toLowerCase();const ex=map.get(key);if(!ex){map.set(key,r);return;}if(new Date(sv(r,COL.dataEnvio))>new Date(sv(ex,COL.dataEnvio)))map.set(key,r);});return[...map.values()];}
+function ativoRamo(r,ramo){return ramo.key==='pio'?(sv(r,COL.cla)==='Sim'):sn(r,COL[ramo.ativo])>0;}
+function chipManual(val,score,ativo){
+  if(!ativo)return'<span class="chip chip-na">N/A</span>';
+  if(val==='Sim'&&score<50)return'<span class="chip chip-warn">🚨 Sem consol.</span>';
+  if(val==='Sim')return'<span class="chip chip-ok">✅ Aplicando</span>';
+  if(val==='Não')return'<span class="chip chip-warn">❌ Não</span>';
+  return'<span class="chip chip-n">—</span>';
+}
+async function loadData(){
+  document.getElementById('ri').classList.add('spin');
+  try{
+    const raw=await fetchJSONP(SURL);
+    if(!Array.isArray(raw)||raw.length<2)throw new Error('Dados inválidos.');
+    const unique=dedup(raw.slice(1).filter(r=>sv(r,COL.nome)));
+    DATA=unique.map(r=>({
+      nome:sv(r,COL.nome),numeral:sv(r,COL.numeral)||'—',distrito:sv(r,COL.distrito)||'—',
+      manLob:sv(r,COL.manLob),manEsc:sv(r,COL.manEsc),manSen:sv(r,COL.manSen),manPio:sv(r,COL.manPio),
+      sLob:sn(r,COL.sLob),sEsc:sn(r,COL.sEsc),sSen:sn(r,COL.sSen),sPio:sn(r,COL.sPio),
+      aLob:ativoRamo(r,RAMOS[0]),aEsc:ativoRamo(r,RAMOS[1]),aSen:ativoRamo(r,RAMOS[2]),aPio:ativoRamo(r,RAMOS[3]),
+      alerta:sv(r,COL.aManual)==='SIM'?1:0,
+    }));
+    // Cards por ramo
+    document.getElementById('ramo-cards').innerHTML=RAMOS.map(ramo=>{
+      const ativos=DATA.filter(r=>r['a'+ramo.key.charAt(0).toUpperCase()+ramo.key.slice(1)]||(ramo.key==='pio'&&r.aPio));
+      const ativosArr=DATA.filter(r=>{if(ramo.key==='lob')return r.aLob;if(ramo.key==='esc')return r.aEsc;if(ramo.key==='sen')return r.aSen;return r.aPio;});
+      const sim=ativosArr.filter(r=>r['man'+ramo.key.charAt(0).toUpperCase()+ramo.key.slice(1)]==='Sim').length;
+      const crit=ativosArr.filter(r=>r['man'+ramo.key.charAt(0).toUpperCase()+ramo.key.slice(1)]==='Sim'&&r['s'+ramo.key.charAt(0).toUpperCase()+ramo.key.slice(1)]<50).length;
+      const tot=ativosArr.length||1;
+      const pct=Math.round(sim/tot*100);
+      return`<div class="ramo-card ${ramo.cls}">
+        <div class="ramo-name" style="color:${ramo.color}">${ramo.label}</div>
+        <div class="pct-big" style="color:${ramo.color}">${pct}%</div>
+        <div class="pct-sub">${sim} de ${ativosArr.length} grupos aplicando</div>
+        <div class="pct-bar-wrap"><div class="pct-track"><div class="pct-fill" style="width:${pct}%;background:${ramo.color}"></div></div></div>
+        <div class="status-row">
+          ${crit>0?`<span class="stag stag-warn">🚨 ${crit} sem consolidação</span>`:''}
+          ${sim-crit>0?`<span class="stag stag-ok">✅ ${sim-crit} com qualidade</span>`:''}
+        </div>
+      </div>`;
+    }).join('');
+    const dists=[...new Set(DATA.map(r=>r.distrito))].sort();
+    const sel=document.getElementById('f-dist');sel.innerHTML='<option value="">Todos os distritos</option>';dists.forEach(d=>{const o=document.createElement('option');o.value=d;o.textContent=d;sel.appendChild(o);});
+    document.getElementById('sdot').className='sdot live';document.getElementById('stxt').textContent='Ao vivo';
+    document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';
+    render();
+  }catch(e){console.error(e);document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';}
+  finally{document.getElementById('ri').classList.remove('spin');}
+}
+function render(){
+  const dist=document.getElementById('f-dist').value;
+  const ramo=document.getElementById('f-ramo').value;
+  const sit=document.getElementById('f-sit').value;
+  const q=document.getElementById('f-q').value.toLowerCase();
+  let rows=[...DATA];
+  if(dist)rows=rows.filter(r=>r.distrito===dist);
+  if(ramo){
+    const manKey='man'+ramo.charAt(0).toUpperCase()+ramo.slice(1);
+    const aKey='a'+ramo.charAt(0).toUpperCase()+ramo.slice(1);
+    rows=rows.filter(r=>r[aKey]);
+    if(sit==='sim')rows=rows.filter(r=>r[manKey]==='Sim');
+    else if(sit==='crit'){const sKey='s'+ramo.charAt(0).toUpperCase()+ramo.slice(1);rows=rows.filter(r=>r[manKey]==='Sim'&&r[sKey]<50);}
+    else if(sit==='nao')rows=rows.filter(r=>r[manKey]==='Não');
+  } else if(sit==='crit'){rows=rows.filter(r=>r.alerta===1);}
+  if(q)rows=rows.filter(r=>r.nome.toLowerCase().includes(q)||r.numeral.toLowerCase().includes(q));
+  rows.sort((a,b)=>sd*(a[sk]>b[sk]?1:a[sk]<b[sk]?-1:0));
+  document.getElementById('pbadge').textContent=rows.length+' grupo'+(rows.length!==1?'s':'');
+  document.getElementById('tbody').innerHTML=rows.length
+    ?rows.map(r=>`<tr>
+        <td style="color:var(--text2)">${esc(r.numeral)}</td>
+        <td><strong>${esc(r.nome)}</strong></td>
+        <td style="color:var(--text2);max-width:160px;overflow:hidden;text-overflow:ellipsis">${esc(r.distrito)}</td>
+        <td>${chipManual(r.manLob,r.sLob,r.aLob)}</td>
+        <td>${chipManual(r.manEsc,r.sEsc,r.aEsc)}</td>
+        <td>${chipManual(r.manSen,r.sSen,r.aSen)}</td>
+        <td>${chipManual(r.manPio,r.sPio,r.aPio)}</td>
+        <td>${r.alerta?'<span class="chip chip-warn">🚨 Alerta ativo</span>':'<span class="chip chip-n">—</span>'}</td>
+      </tr>`).join('')
+    :`<tr class="empty-row"><td colspan="8">Nenhum grupo encontrado.</td></tr>`;
+}
+function srt(key,th){if(sk===key)sd*=-1;else{sk=key;sd=1;}document.querySelectorAll('thead th').forEach(t=>{t.classList.remove('sorted');const s=t.querySelector('.sa');if(s)s.textContent='↕';});th.classList.add('sorted');const sa=th.querySelector('.sa');if(sa)sa.textContent=sd===1?'↑':'↓';render();}
+function clear_(){document.getElementById('f-dist').value='';document.getElementById('f-ramo').value='';document.getElementById('f-sit').value='';document.getElementById('f-q').value='';render();}
+setInterval(loadData,60000);loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico UELs — Complexidade & Estrutura</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{--bg:#0f1117;--bg2:#161b26;--bg3:#1e2535;--bg4:#252d40;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--accent:#f59e0b;--accent2:#4f9cf9;--accent3:#10b981;--text:#e8eaf0;--text2:#8b92a8;--text3:#5a6278;--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:14px;overflow-x:hidden;min-height:100vh}
+#lov{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:999;transition:opacity .5s}
+#lov.gone{opacity:0;pointer-events:none}
+.lring{width:44px;height:44px;border:2.5px solid var(--bg4);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+.ltxt{font-size:13px;color:var(--text3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:58px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.tl{display:flex;align-items:center;gap:14px}
+.logo{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),#d97706);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.ttl{font-family:var(--fh);font-size:15px;font-weight:600;color:var(--text)}
+.tsub{font-size:11px;color:var(--text3);margin-top:1px}
+.tr2{display:flex;align-items:center;gap:8px}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:all .4s}
+.sdot.live{background:var(--accent3);box-shadow:0 0 7px var(--accent3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.stxt{font-size:11px;color:var(--text2)}
+.btnr{background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:8px;padding:6px 14px;font-family:var(--fb);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;text-decoration:none}
+.btnr:hover{background:var(--bg4);color:var(--text)}
+.btnr svg{width:13px;height:13px}
+.ri.spin{animation:spin .8s linear infinite}
+.main{padding:20px 28px 48px;display:flex;flex-direction:column;gap:18px}
+.sec-title{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:700px){.row2{grid-template-columns:1fr}}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.panel-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.panel-title{font-family:var(--fh);font-size:12px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.08em}
+.chart-body{padding:20px;display:flex;align-items:center;justify-content:center}
+/* COMPLEXIDADE BARS */
+.comp-list{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.comp-row{display:flex;align-items:center;gap:12px}
+.comp-label{font-size:12px;font-weight:500;min-width:80px}
+.comp-bar-wrap{flex:1}
+.comp-track{height:8px;border-radius:99px;background:var(--bg4);overflow:hidden}
+.comp-fill{height:100%;border-radius:99px}
+.comp-count{font-family:var(--fh);font-size:13px;font-weight:700;min-width:36px;text-align:right}
+/* RAMOS TABLE */
+.twrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead th{padding:9px 14px;text-align:left;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);white-space:nowrap;background:var(--bg3)}
+tbody tr:hover td{background:rgba(255,255,255,.02)}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:13px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+.num-cell{font-family:var(--fh);font-weight:600}
+.total-row td{background:rgba(79,156,249,.06);font-weight:600}
+</style>
+</head>
+<body>
+<div id="lov"><div class="lring"></div><div class="ltxt">Carregando dados...</div></div>
+<header class="topbar">
+  <div class="tl">
+    <div class="logo">⚙️</div>
+    <div><div class="ttl">Complexidade & Estrutura</div><div class="tsub">Diagnóstico UELs · Região Escoteira de MG</div></div>
+  </div>
+  <div class="tr2">
+    <div class="sdot" id="sdot"></div><span class="stxt" id="stxt">Conectando...</span>
+    <a href="index.html" class="btnr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início</a>
+    <button class="btnr" onclick="loadData()"><svg class="ri" id="ri" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>Atualizar</button>
+  </div>
+</header>
+<main class="main" id="main" style="display:none">
+  <div class="row2">
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">⚙️ Distribuição por complexidade</span></div>
+      <div class="chart-body" style="height:240px"><canvas id="donut"></canvas></div>
+      <div class="comp-list" id="comp-list"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">📊 Seções por ramo — total geral</span></div>
+      <div class="chart-body" style="height:240px"><canvas id="ramos-chart"></canvas></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header"><span class="panel-title">🗺️ Composição de seções por distrito</span></div>
+    <div class="twrap"><table id="dist-table"></table></div>
+  </div>
+</main>
+<script>
+const SURL='https://script.google.com/macros/s/AKfycbxKBgIvXS5eJjQUXMaLCZ27AUAOzbi-WGVht4Ii2Sf0UqX4C7JRiH8-qebTdlXVl28X/exec';
+const COL={dataEnvio:0,nome:2,numeral:3,distrito:4,lobN:11,escN:12,senN:13,cla:14,complexidade:76};
+let donutChart=null,ramosChart=null;
+function fetchJSONP(url){return new Promise((res,rej)=>{const cb='__cb_'+Date.now()+'_'+Math.random().toString(36).slice(2);const s=document.createElement('script');const t=setTimeout(()=>{cleanup();rej(new Error('Timeout'));},15000);window[cb]=d=>{cleanup();res(d);};s.onerror=()=>{cleanup();rej(new Error('Erro'));};s.src=url+'?callback='+cb+'&t='+Date.now();document.head.appendChild(s);function cleanup(){clearTimeout(t);delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);}});}
+function sv(r,c){return c!==undefined&&c<r.length?String(r[c]??'').trim():'';}
+function sn(r,c){return parseInt(sv(r,c))||0;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function dedup(rows){const map=new Map();rows.forEach(r=>{const key=(sv(r,COL.numeral)||'?')+'|'+sv(r,COL.nome).toLowerCase();const ex=map.get(key);if(!ex){map.set(key,r);return;}if(new Date(sv(r,COL.dataEnvio))>new Date(sv(ex,COL.dataEnvio)))map.set(key,r);});return[...map.values()];}
+const COMP_CFG={Baixa:{color:'#10b981',order:0},Média:{color:'#f59e0b',order:1},Alta:{color:'#f97316',order:2},Crítica:{color:'#f43f5e',order:3}};
+async function loadData(){
+  document.getElementById('ri').classList.add('spin');
+  try{
+    const raw=await fetchJSONP(SURL);
+    if(!Array.isArray(raw)||raw.length<2)throw new Error('Dados inválidos.');
+    const unique=dedup(raw.slice(1).filter(r=>sv(r,COL.nome)));
+    // Complexidade
+    const compMap={};
+    unique.forEach(r=>{const c=sv(r,COL.complexidade)||'—';compMap[c]=(compMap[c]||0)+1;});
+    const compEntries=Object.entries(compMap).sort((a,b)=>(COMP_CFG[a[0]]?.order??9)-(COMP_CFG[b[0]]?.order??9));
+    const total=unique.length;
+    // Donut
+    if(donutChart)donutChart.destroy();
+    donutChart=new Chart(document.getElementById('donut'),{type:'doughnut',data:{labels:compEntries.map(([k])=>k),datasets:[{data:compEntries.map(([,v])=>v),backgroundColor:compEntries.map(([k])=>COMP_CFG[k]?.color||'#5a6278'),borderWidth:0,hoverOffset:6}]},options:{cutout:'68%',plugins:{legend:{display:false},tooltip:{backgroundColor:'#1e2535',borderColor:'rgba(255,255,255,.1)',borderWidth:1,titleColor:'#e8eaf0',bodyColor:'#8b92a8',padding:10,callbacks:{label:c=>`  ${c.label}: ${c.parsed} grupos (${Math.round(c.parsed/total*100)}%)`}}}}});
+    // Bars complexidade
+    document.getElementById('comp-list').innerHTML=compEntries.map(([k,v])=>{
+      const col=COMP_CFG[k]?.color||'#5a6278';
+      const pct=Math.round(v/total*100);
+      return`<div class="comp-row"><span class="comp-label" style="color:${col}">${k}</span><div class="comp-bar-wrap"><div class="comp-track"><div class="comp-fill" style="width:${pct}%;background:${col}"></div></div></div><span class="comp-count" style="color:${col}">${v}</span></div>`;
+    }).join('');
+    // Ramos totais
+    let tLob=0,tEsc=0,tSen=0,tPio=0;
+    unique.forEach(r=>{tLob+=sn(r,COL.lobN);tEsc+=sn(r,COL.escN);tSen+=sn(r,COL.senN);tPio+=(sv(r,COL.cla)==='Sim'?1:0);});
+    if(ramosChart)ramosChart.destroy();
+    ramosChart=new Chart(document.getElementById('ramos-chart'),{type:'bar',data:{labels:['Lobinho','Escoteiro','Sênior','Clã Pioneiro'],datasets:[{data:[tLob,tEsc,tSen,tPio],backgroundColor:['rgba(230,81,0,.75)','rgba(46,125,50,.75)','rgba(183,28,28,.75)','rgba(74,20,140,.75)'],borderRadius:6,borderSkipped:false}]},options:{plugins:{legend:{display:false},tooltip:{backgroundColor:'#1e2535',borderColor:'rgba(255,255,255,.1)',borderWidth:1,titleColor:'#e8eaf0',bodyColor:'#8b92a8',padding:10,callbacks:{label:c=>`  ${c.parsed.y} seções`}}},scales:{x:{ticks:{color:'#8b92a8',font:{size:11}},grid:{display:false},border:{display:false}},y:{ticks:{color:'#5a6278',stepSize:1,font:{size:11}},grid:{color:'rgba(255,255,255,.04)'},border:{display:false}}}}});
+    // Tabela por distrito
+    const byDist={};
+    unique.forEach(r=>{
+      const d=sv(r,COL.distrito)||'Sem distrito';
+      if(!byDist[d])byDist[d]={lob:0,esc:0,sen:0,pio:0,grupos:0};
+      byDist[d].lob+=sn(r,COL.lobN);byDist[d].esc+=sn(r,COL.escN);byDist[d].sen+=sn(r,COL.senN);byDist[d].pio+=(sv(r,COL.cla)==='Sim'?1:0);byDist[d].grupos++;
+    });
+    const dists=Object.entries(byDist).sort((a,b)=>a[0].localeCompare(b[0]));
+    let html=`<thead><tr><th>Distrito</th><th>Grupos</th><th style="color:#e65100">🟠 Lobinho</th><th style="color:#2e7d32">🟢 Escoteiro</th><th style="color:#b71c1c">🔴 Sênior</th><th style="color:#4a148c">🟣 Clã Pioneiro</th><th>Total seções</th></tr></thead><tbody>`;
+    dists.forEach(([dist,v])=>{
+      const tot=v.lob+v.esc+v.sen+v.pio;
+      html+=`<tr><td style="max-width:200px;overflow:hidden;text-overflow:ellipsis" title="${esc(dist)}">${esc(dist.replace(/^Distrito\s+/i,''))}</td><td class="num-cell" style="color:var(--text2)">${v.grupos}</td><td class="num-cell" style="color:#e65100">${v.lob}</td><td class="num-cell" style="color:#2e7d32">${v.esc}</td><td class="num-cell" style="color:#b71c1c">${v.sen}</td><td class="num-cell" style="color:#4a148c">${v.pio}</td><td class="num-cell" style="color:var(--accent2)">${tot}</td></tr>`;
+    });
+    html+=`<tr class="total-row"><td>TOTAL</td><td class="num-cell">${unique.length}</td><td class="num-cell" style="color:#e65100">${tLob}</td><td class="num-cell" style="color:#2e7d32">${tEsc}</td><td class="num-cell" style="color:#b71c1c">${tSen}</td><td class="num-cell" style="color:#4a148c">${tPio}</td><td class="num-cell" style="color:var(--accent2)">${tLob+tEsc+tSen+tPio}</td></tr>`;
+    html+=`</tbody>`;
+    document.getElementById('dist-table').innerHTML=html;
+    document.getElementById('sdot').className='sdot live';document.getElementById('stxt').textContent='Ao vivo';
+    document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';
+  }catch(e){console.error(e);document.getElementById('lov').classList.add('gone');document.getElementById('main').style.display='flex';}
+  finally{document.getElementById('ri').classList.remove('spin');}
+}
+setInterval(loadData,60000);loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório UEL — Diagnóstico</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#003366;--azul-med:#1a4b8c;--azul-cl:#d6e4f0;
+  --ouro:#c9a84c;--verde:#1b5e20;--verde-cl:#e8f5e9;
+  --verm:#b71c1c;--verm-cl:#ffebee;--laran:#e65100;--laran-cl:#fff3e0;
+  --amar:#f57f17;--amar-cl:#fff8e1;
+  --cinza:#f4f6f9;--cinza2:#e8ecf0;--cinza3:#90a4ae;
+  --text:#1a2535;--text2:#4a5568;
+  --radius:12px;--shadow:0 4px 24px rgba(0,51,102,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);background:#f0f4f8;min-height:100vh}
+#lov{position:fixed;inset:0;background:#f0f4f8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:999;transition:opacity .4s}
+#lov.gone{opacity:0;pointer-events:none}
+.lring{width:44px;height:44px;border:2.5px solid var(--cinza2);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite}
+.ltxt{font-size:13px;color:var(--cinza3);text-align:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.site-header{background:white;border-bottom:3px solid var(--ouro);padding:.6rem 2rem;min-height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,51,102,.12);flex-wrap:wrap;gap:.5rem}
+.logo-text .org{font-size:.72rem;font-weight:600;color:var(--cinza3);letter-spacing:.04em;text-transform:uppercase}
+.logo-text .title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--azul);line-height:1.2}
+.header-right{display:flex;gap:.5rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-secondary{background:white;color:var(--azul);border:1.5px solid var(--azul-cl)}.btn-secondary:hover{background:var(--azul-cl)}
+.btn-gold{background:var(--ouro);color:var(--azul)}.btn-gold:hover{background:#b8973e}
+.btn svg{width:15px;height:15px}
+.main{max-width:880px;margin:0 auto;padding:1.5rem}
+/* RESULT HERO */
+.result-hero{background:var(--azul);border-radius:var(--radius);padding:2rem;color:white;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.result-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(201,168,76,.12)}
+.result-hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:600px){.result-hero-grid{grid-template-columns:1fr 1fr}}
+.hero-card{background:rgba(255,255,255,.08);border-radius:10px;padding:1rem;border:1px solid rgba(255,255,255,.12);text-align:center}
+.hero-val{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ouro);line-height:1;margin-bottom:.25rem}
+.hero-lbl{font-size:.75rem;color:rgba(255,255,255,.65);letter-spacing:.04em;text-transform:uppercase}
+.hero-sub{font-size:.85rem;color:rgba(255,255,255,.85);margin-top:.3rem}
+/* ALERTS */
+.alert{border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem;display:flex;gap:.75rem;align-items:flex-start}
+.alert-icon{font-size:1.2rem;flex-shrink:0;margin-top:.05rem}.alert-body{flex:1}
+.alert-title{font-weight:600;font-size:.9rem;margin-bottom:.2rem}
+.alert-text{font-size:.85rem;line-height:1.55;color:var(--text2)}
+.alert.critical{background:var(--verm-cl);border-left:4px solid var(--verm)}.alert.critical .alert-title{color:var(--verm)}
+.alert.warning{background:var(--laran-cl);border-left:4px solid var(--laran)}.alert.warning .alert-title{color:var(--laran)}
+.alert.caution{background:var(--amar-cl);border-left:4px solid var(--amar)}.alert.caution .alert-title{color:var(--amar)}
+.alert.ok{background:var(--verde-cl);border-left:4px solid var(--verde)}.alert.ok .alert-title{color:var(--verde)}
+/* CHART */
+.chart-wrap{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.25rem;display:flex;flex-direction:column;align-items:center}
+.chart-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--azul);margin-bottom:1rem;text-align:center}
+/* SCORE TABLE */
+.score-table{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.25rem}
+.score-table table{width:100%;border-collapse:collapse}
+.score-table th{background:var(--azul);color:white;padding:.75rem 1rem;font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:left}
+.score-table td{padding:.75rem 1rem;font-size:.875rem;border-bottom:1px solid var(--cinza2);vertical-align:middle}
+.score-table tr:last-child td{border-bottom:none}.score-table tr:nth-child(even) td{background:var(--cinza)}
+.score-bar-wrap{display:flex;align-items:center;gap:.75rem}
+.score-bar{height:8px;border-radius:4px;flex:1;background:var(--cinza2);overflow:hidden}
+.score-bar-fill{height:100%;border-radius:4px}
+.score-num{font-weight:700;font-size:.95rem;min-width:38px;text-align:right}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:600}
+.badge-ok{background:var(--verde-cl);color:var(--verde)}.badge-att{background:var(--amar-cl);color:var(--amar)}.badge-urg{background:var(--verm-cl);color:var(--verm)}
+/* PRIORITY */
+.priority-section{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.25rem}
+.priority-section h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--azul);margin-bottom:1rem}
+.priority-item{display:flex;gap:.75rem;align-items:flex-start;padding:.6rem .75rem;border-radius:8px;margin-bottom:.5rem;border:1px solid transparent}
+.priority-item.urg{background:var(--verm-cl);border-color:#f8c0c0}.priority-item.att{background:var(--amar-cl);border-color:#fce08a}.priority-item.ok{background:var(--verde-cl);border-color:#a5d6a7}
+.priority-icon{font-size:.95rem;flex-shrink:0;margin-top:.1rem}.priority-body{flex:1}
+.priority-name{font-weight:600;font-size:.85rem}
+.priority-name.urg{color:var(--verm)}.priority-name.att{color:var(--amar)}.priority-name.ok{color:var(--verde)}
+.priority-rec{font-size:.8rem;color:var(--text2);margin-top:.2rem;line-height:1.5}
+/* BLOCOS ALERT */
+.alert-blocos{background:#fff0f0;border-left:4px solid #8b0000;border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem}
+.alert-blocos .alert-title{color:#8b0000;font-weight:700;font-size:.85rem;margin-bottom:.2rem}
+.alert-blocos .alert-text{font-size:.82rem;color:var(--text2);line-height:1.45}
+/* RANKING */
+.ranking-section{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.25rem}
+.ranking-section h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--azul);margin-bottom:.5rem}
+.ranking-item{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border-radius:8px;margin-bottom:.5rem;border:1px solid transparent}
+.ranking-item.r-ok{background:var(--verde-cl);border-color:#a5d6a7}.ranking-item.r-att{background:var(--amar-cl);border-color:#fce08a}.ranking-item.r-urg{background:var(--verm-cl);border-color:#f8c0c0}.ranking-item.r-crit{background:#fff0f0;border-color:#c62828}
+.ranking-pos{font-size:1.2rem;font-weight:900;color:var(--cinza3);min-width:24px;text-align:center}
+.ranking-pos.gold{color:var(--ouro)}.ranking-pos.silver{color:var(--cinza3)}.ranking-pos.bronze{color:#a1654a}
+.ranking-body{flex:1}.ranking-name{font-weight:600;font-size:.85rem;margin-bottom:.25rem}
+.ranking-bar-wrap{display:flex;align-items:center;gap:.5rem}
+.ranking-bar{height:8px;border-radius:4px;flex:1;background:var(--cinza2);overflow:hidden}
+.ranking-bar-fill{height:100%;border-radius:4px}
+.ranking-score{font-weight:700;font-size:.85rem;min-width:36px;text-align:right}
+.ranking-tags{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.3rem}
+.rtag{font-size:.68rem;padding:2px 7px;border-radius:20px;font-weight:500}
+.rtag-ok{background:var(--verde-cl);color:var(--verde)}.rtag-att{background:var(--amar-cl);color:var(--amar)}.rtag-urg{background:var(--verm-cl);color:var(--verm)}.rtag-crit{background:#7b0000;color:white}
+.ranking-detail{margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(0,0,0,.08);display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.ranking-detail-col h4{font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem}
+.ranking-detail-col.fortes h4{color:var(--verde)}.ranking-detail-col.desenvolver h4{color:var(--verm)}
+.ranking-detail-col ul{list-style:none;padding:0;margin:0}
+.ranking-detail-col ul li{font-size:.78rem;color:var(--text2);line-height:1.5;padding:.15rem 0;display:flex;gap:.4rem;align-items:flex-start}
+.ranking-detail-col.fortes ul li::before{content:'✓';color:var(--verde);font-weight:700;flex-shrink:0}
+.ranking-detail-col.desenvolver ul li::before{content:'→';color:var(--verm);font-weight:700;flex-shrink:0}
+/* RESPOSTAS */
+.sec-header-div{background:var(--azul-med);color:white;padding:.5rem 1.5rem;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border-radius:8px;margin:1.5rem 0 1rem}
+.res-sec{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1rem}
+.res-sec-title{background:var(--azul-cl);color:var(--azul);padding:.6rem 1.25rem;font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.res-table{width:100%;border-collapse:collapse}
+.res-table tr:nth-child(even) td{background:var(--cinza)}
+.res-label{padding:.45rem 1.25rem;color:var(--text2);font-size:.83rem;width:42%;border-bottom:1px solid var(--cinza2)}
+.res-value{padding:.45rem 1.25rem;font-weight:500;font-size:.83rem;border-bottom:1px solid var(--cinza2)}
+.res-table tr:last-child td{border-bottom:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .35s ease both}
+@media print{.site-header,#lov{display:none!important}.main{max-width:100%;padding:0 1rem}body{background:white}}
+</style>
+</head>
+<body>
+
+<div id="lov">
+  <div class="lring"></div>
+  <div class="ltxt" id="ltxt">Carregando dados...</div>
+</div>
+
+<header class="site-header">
+  <div class="logo-text">
+    <div class="org">Região Escoteira de Minas Gerais</div>
+    <div class="title">Diagnóstico UELs — Relatório Individual</div>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="btn btn-secondary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <button class="btn btn-gold" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimir
+    </button>
+  </div>
+</header>
+
+<div class="main"><div id="app"></div></div>
+
+<script>
+const SURL = 'https://script.google.com/macros/s/AKfycbxKBgIvXS5eJjQUXMaLCZ27AUAOzbi-WGVht4Ii2Sf0UqX4C7JRiH8-qebTdlXVl28X/exec';
+
+// ══════════════════════════════════════════════════════════════
+// MAPEAMENTO EXATO — nomes reais das colunas da planilha
+// ══════════════════════════════════════════════════════════════
+const C = {
+  // Identificação
+  dataEnvio:    'Data/Hora Envio',
+  dataPreench:  'Data de Preenchimento',
+  nomeGrupo:    'Nome do Grupo',
+  numeral:      'Numeral do Grupo',
+  distrito:     'Distrito',
+  responsavel:  'Responsável pelo Preenchimento',
+  funcao:       'Função no Grupo',
+  // Ramos
+  ninhada:         'O grupo possui Ninhada ativa?',
+  ninhadaPretende: 'O grupo pretende iniciar uma Ninhada?',
+  ninhadaMeses:    'Em até quantos meses pretende iniciar a Ninhada?',
+  ninhadaSuporte:  'Suporte para abertura de Ninhada?',
+  lobN:   'Qtd. seções Ramo Lobinho',
+  escN:   'Qtd. seções Ramo Escoteiro',
+  senN:   'Qtd. seções Ramo Sênior',
+  cla:    'Possui Clã Pioneiro ativo?',
+  // Paxtu
+  paxtuFeito:   'Já realizou a atualização via Paxtu?',
+  paxtuData:    'Data prevista para a virada via Paxtu',
+  paxtuSeguro:  'Se sente seguro para a virada via Paxtu?',
+  paxtuSuporte: 'Suporte da região para o Paxtu?',
+  // Acolhida
+  acolhComp:       'Compreensão geral — Cerimônia de Acolhida',
+  acolhChefes:     'Chefes dominam — Acolhida',
+  acolhAplic:      'Grupo aplicando a cerimônia de Acolhida?',
+  acolhSuporte:    'Suporte da região — Acolhida?',
+  aLob:  'Acolhida — Ramo Lobinho aplicando?',
+  aEsc:  'Acolhida — Ramo Escoteiro aplicando?',
+  aSen:  'Acolhida — Ramo Sênior aplicando?',
+  aPio:  'Acolhida — Clã Pioneiro aplicando?',
+  // Ciclo
+  cicComp:     'Compreensão geral — Ciclo de Programa',
+  cicChefes:   'Chefes dominam — Ciclo',
+  cicAplic:    'Aplicação do Ciclo nas 3 fases',
+  cicSuporte:  'Suporte da região — Ciclo?',
+  cicLob: 'Ciclo — Ramo Lobinho aplicando?',
+  cicEsc: 'Ciclo — Ramo Escoteiro aplicando?',
+  cicSen: 'Ciclo — Ramo Sênior aplicando?',
+  cicPio: 'Ciclo — Clã Pioneiro aplicando?',
+  // Caminhos
+  camComp:     'Compreensão geral — Caminhos',
+  camChefes:   'Chefes dominam — Caminhos',
+  camFil: 'Caminhos Filhote > Lobinho',
+  camLob: 'Caminhos Lobinho > Escoteiro',
+  camEsc: 'Caminhos Escoteiro > Sênior',
+  camSen: 'Caminhos Sênior > Pioneiro',
+  camSuporte:  'Suporte da região — Caminhos?',
+  // Reconhecimento
+  recComp:     'Compreensão geral — Reconhecimento de Ramo',
+  recChefes:   'Chefes dominam — Reconhecimento de Ramo',
+  recSuporte:  'Suporte da região — Reconhecimento?',
+  recLob: 'Reconhecimento — Ramo Lobinho aplicando?',
+  recEsc: 'Reconhecimento — Ramo Escoteiro aplicando?',
+  recSen: 'Reconhecimento — Ramo Sênior aplicando?',
+  recPio: 'Reconhecimento — Clã Pioneiro aplicando?',
+  // Blocos
+  bloComp:     'Compreensão geral — Blocos de Aprendizagem',
+  bloChefes:   'Chefes dominam — Blocos',
+  bloFixVar:   'Entende diferença atividade fixa/variável',
+  bloEspec:    'Entende papel de especialidades e insígnias nos blocos',
+  bloLob: 'Blocos — Ramo Lobinho aplicando?',
+  bloEsc: 'Blocos — Ramo Escoteiro aplicando?',
+  bloSen: 'Blocos — Ramo Sênior aplicando?',
+  bloPio: 'Blocos — Clã Pioneiro aplicando?',
+  bloSuporte:  'Suporte da região — Blocos?',
+  // Equivalência
+  eqComp:     'Compreensão geral — Equivalência',
+  eqChefes:   'Chefes dominam — Equivalência',
+  eqLob: 'Equivalência — Ramo Lobinho realizado?',
+  eqEsc: 'Equivalência — Ramo Escoteiro realizado?',
+  eqSen: 'Equivalência — Ramo Sênior realizado?',
+  eqPio: 'Equivalência — Clã Pioneiro realizado?',
+  eqSuporte:  'Suporte da região — Equivalência?',
+  // Jovens
+  jovLob: 'Jovens informados — Ramo Lobinho',
+  jovEsc: 'Jovens informados — Ramo Escoteiro',
+  jovSen: 'Jovens informados — Ramo Sênior',
+  jovPio: 'Jovens informados — Clã Pioneiro',
+  jovEnt:     'Jovens entendem e se sentem seguros',
+  jovSuporte: 'Suporte da região — Comunicação com Jovens?',
+  // Manuais
+  manLob: 'Lobinho — aplicando Manual do Escotista?',
+  manEsc: 'Escoteiro — aplicando Manual do Escotista?',
+  manSen: 'Sênior — aplicando Manual do Escotista?',
+  manPio: 'Pioneiro — aplicando Manual do Escotista?',
+  // Scores (já calculados na planilha)
+  scoreGeral:  'Score Geral (%)',
+  complexidade:'Complexidade do Grupo',
+  statusPaxtu: 'Status Virada Paxtu',
+  sPaxtu:  'Score Paxtu (%)',
+  sAcolh:  'Score Acolhida (%)',
+  sCiclo:  'Score Ciclo (%)',
+  sCam:    'Score Caminhos (%)',
+  sRec:    'Score Reconhecimento (%)',
+  sBlo:    'Score Blocos (%)',
+  sEq:     'Score Equivalência (%)',
+  sJov:    'Score Jovens (%)',
+  sLob:    'Score Ramo Lobinho (%)',
+  sEsc:    'Score Ramo Escoteiro (%)',
+  sSen:    'Score Ramo Sênior (%)',
+  sPio:    'Score Clã Pioneiro (%)',
+  ranking: 'Ranking dos Ramos (1º ao último)',
+  // Alertas (já calculados na planilha)
+  aFlag3:  'ALERTA: Equivalência não feita pos-virada',
+  aFlag2:  'ALERTA: Fragilidades pos-virada',
+  aFlag4:  'ALERTA: Risco de virada com baixo preparo',
+  aManual: 'ALERTA: Ramo aplicando Manual sem consolidação',
+  aFixVar: 'ALERTA Blocos: fixas/variáveis',
+  aEspec:  'ALERTA Blocos: especialidades/insígnias',
+  suportes:'Suportes Solicitados à Região',
+};
+
+// ══════════════════════════════════════════════════════════════
+// JSONP
+// ══════════════════════════════════════════════════════════════
+function fetchJSONP(url) {
+  return new Promise((resolve, reject) => {
+    const cb = '__rcb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const s  = document.createElement('script');
+    const t  = setTimeout(() => { cleanup(); reject(new Error('Timeout.')); }, 15000);
+    window[cb] = d => { cleanup(); resolve(d); };
+    s.onerror  = () => { cleanup(); reject(new Error('Erro ao carregar.')); };
+    s.src = url + '&callback=' + cb + '&t=' + Date.now();
+    document.head.appendChild(s);
+    function cleanup(){ clearTimeout(t); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+  });
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ══════════════════════════════════════════════════════════════
+// RADAR — idêntico ao original (560×560, labels 1–8)
+// ══════════════════════════════════════════════════════════════
+function drawRadar(labels, data) {
+  const canvas = document.getElementById('radarChart');
+  if (!canvas) return;
+  const L=560, DPR=window.devicePixelRatio||2;
+  canvas.width=L*DPR; canvas.height=L*DPR;
+  canvas.style.width=L+'px'; canvas.style.height=L+'px';
+  const ctx=canvas.getContext('2d'); ctx.scale(DPR,DPR);
+  const W=L, H=L, PAD=70, cx=W/2, cy=H/2, R=W/2-PAD, N=labels.length;
+  ctx.clearRect(0,0,W,H);
+  const ang = i => (i/N)*Math.PI*2 - Math.PI/2;
+  const pt  = (i,v) => { const a=ang(i), r=R*v/100; return {x:cx+r*Math.cos(a), y:cy+r*Math.sin(a)}; };
+  const ptE = i => { const a=ang(i); return {x:cx+R*Math.cos(a), y:cy+R*Math.sin(a)}; };
+  // fundo
+  ctx.beginPath(); for(let i=0;i<N;i++){const p=ptE(i);i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);} ctx.closePath(); ctx.fillStyle='rgba(214,228,240,.25)'; ctx.fill();
+  // anéis
+  [20,40,60,80,100].forEach(pct=>{
+    ctx.beginPath(); for(let i=0;i<N;i++){const p=pt(i,pct);i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);} ctx.closePath();
+    ctx.strokeStyle=pct===100?'#90a4ae':'#d6e4f0'; ctx.lineWidth=pct===100?1.5:.8; ctx.stroke();
+    ctx.fillStyle='#b0bec5'; ctx.font='11px DM Sans,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+    ctx.fillText(pct+'%', cx+4, cy-R*(pct/100)-3);
+  });
+  // raios
+  for(let i=0;i<N;i++){const p=ptE(i);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);ctx.strokeStyle='#d6e4f0';ctx.lineWidth=1;ctx.stroke();}
+  // área de dados
+  ctx.beginPath(); for(let i=0;i<N;i++){const p=pt(i,data[i]);i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);} ctx.closePath();
+  ctx.fillStyle='rgba(0,51,102,.13)'; ctx.fill(); ctx.strokeStyle='#003366'; ctx.lineWidth=2; ctx.stroke();
+  // pontos
+  for(let i=0;i<N;i++){
+    const p=pt(i,data[i]), col=data[i]>=70?'#2e7d32':data[i]>=40?'#f57f17':'#b71c1c';
+    ctx.beginPath(); ctx.arc(p.x,p.y,5.5,0,Math.PI*2); ctx.fillStyle=col; ctx.fill(); ctx.strokeStyle='white'; ctx.lineWidth=2; ctx.stroke();
+  }
+  // labels
+  const LR=R+52; ctx.font='bold 12px DM Sans,sans-serif';
+  for(let i=0;i<N;i++){
+    const a=ang(i), lx=cx+LR*Math.cos(a), ly=cy+LR*Math.sin(a);
+    const col=data[i]>=70?'#1b5e20':data[i]>=40?'#c44f00':'#b71c1c'; ctx.fillStyle=col;
+    const EPS=W*.08;
+    ctx.textAlign    = lx<cx-EPS?'right':lx>cx+EPS?'left':'center';
+    ctx.textBaseline = ly<cy-EPS?'bottom':ly>cy+EPS?'top':'middle';
+    const words=labels[i].split(' '), lines=[]; let cur='';
+    words.forEach(w=>{ const t=cur?cur+' '+w:w; if(t.length>12&&cur){lines.push(cur);cur=w;}else cur=t; }); if(cur)lines.push(cur);
+    const LH=16, tH=lines.length*LH; let sy=ly;
+    if(ctx.textBaseline==='bottom') sy=ly-tH+LH;
+    else if(ctx.textBaseline==='middle') sy=ly-(tH-LH)/2;
+    lines.forEach((ln,li)=>ctx.fillText(ln,lx,sy+li*LH));
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER — usa os scores e alertas já salvos na planilha
+// ══════════════════════════════════════════════════════════════
+function renderReport(header, row) {
+  // Mapa nome_coluna → índice
+  const MAP = {};
+  header.forEach((h,i) => { MAP[String(h).trim()] = i; });
+
+  // Lê valor pelo campo do dicionário C
+  function g(key) {
+    const col = C[key]; if (!col) return '';
+    const i = MAP[col]; if (i===undefined) return '';
+    return String(row[i] ?? '').trim();
+  }
+  function gn(key){ return parseInt(g(key))||0; }
+
+  // ── Identificação ────────────────────────────────────────
+  const nomeGrupo = g('nomeGrupo') || 'Grupo Escoteiro';
+  const numeral   = g('numeral');
+  const distrito  = g('distrito');
+  const resp      = g('responsavel');
+  const funcao    = g('funcao');
+  const rawDt     = g('dataPreench') || g('dataEnvio');
+  let dataDisplay = rawDt;
+  try { if (rawDt) dataDisplay = new Date(rawDt).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}); } catch(e){}
+
+  // ── Scores (lidos direto da planilha — idênticos ao formulário) ──
+  const avg        = gn('scoreGeral');
+  const complexidade = g('complexidade') || '—';
+  const statusPaxtu  = g('statusPaxtu')  || '—';
+  const scores = {
+    paxtu:    gn('sPaxtu'),
+    acolhida: gn('sAcolh'),
+    ciclo:    gn('sCiclo'),
+    caminhos: gn('sCam'),
+    reconh:   gn('sRec'),
+    blocos:   gn('sBlo'),
+    equiv:    gn('sEq'),
+    jovens:   gn('sJov'),
+  };
+  const sLob = gn('sLob'), sEsc = gn('sEsc'), sSen = gn('sSen'), sPio = gn('sPio');
+
+  // ── Alertas (lidos direto da planilha) ───────────────────
+  const flag3   = g('aFlag3')  === 'SIM';
+  const flag2   = g('aFlag2')  === 'SIM';
+  const flag4   = g('aFlag4')  === 'SIM';
+  const fManual = g('aManual') === 'SIM';
+  const fFixVar = g('aFixVar');   // '' | 'Crítico' | 'Muito Crítico'
+  const fEspec  = g('aEspec');
+  const suportes= g('suportes').split(',').map(s=>s.trim()).filter(Boolean);
+
+  // ── Estrutura das seções ─────────────────────────────────
+  const lobN = gn('lobN'), escN = gn('escN'), senN = gn('senN');
+  const pioAtivo = g('cla') === 'Sim';
+  const totalSec = lobN + escN + senN + (pioAtivo?1:0);
+
+  // ── Complexidade visual ──────────────────────────────────
+  const complexLabel = {
+    'Baixa':'🟢 Baixa','Média':'🟡 Média','Alta':'🟠 Alta','Crítica':'🔴 Crítica'
+  }[complexidade] || ('🔶 '+complexidade);
+
+  // ── Paxtu status visual ──────────────────────────────────
+  const paxtuDisplay = statusPaxtu.startsWith('Em') && parseInt(statusPaxtu)<=6
+    ? '⚠ '+statusPaxtu
+    : statusPaxtu === 'Realizada' ? '✅ Realizada'
+    : '📅 '+statusPaxtu;
+
+  // ── Dims ─────────────────────────────────────────────────
+  const dims = [
+    {key:'paxtu',   label:'1', fullLabel:'1. Paxtu / Virada Sistêmica',     score:scores.paxtu},
+    {key:'acolhida',label:'2', fullLabel:'2. cerimônia de acolhida',         score:scores.acolhida},
+    {key:'ciclo',   label:'3', fullLabel:'3. Ciclo de Programa',             score:scores.ciclo},
+    {key:'caminhos',label:'4', fullLabel:'4. Caminhos entre Ramos',          score:scores.caminhos},
+    {key:'reconh',  label:'5', fullLabel:'5. Reconhecimento de Ramo',        score:scores.reconh},
+    {key:'blocos',  label:'6', fullLabel:'6. Blocos de Aprendizagem',        score:scores.blocos},
+    {key:'equiv',   label:'7', fullLabel:'7. Processo de Equivalência',      score:scores.equiv},
+    {key:'jovens',  label:'8', fullLabel:'8. Comunicação com os Jovens',     score:scores.jovens},
+  ];
+
+  const recs = {
+    paxtu:   ['Virada realizada! Monitore o uso correto nas seções.','Defina data concreta. Sem a virada, evoluções dos jovens ficam desalinhadas.'],
+    acolhida:['Acolhida bem compreendida. Verifique aplicação consistente em todas as seções.','Processo de menor complexidade, pode iniciar agora, antes mesmo da virada sistêmica.'],
+    ciclo:   ['Ciclo em bom nível. Confirme que todas as seções aplicam as 3 fases (Planejar→Fazer→Avaliar).','Realize reunião focada nas 3 fases do ciclo. Pode ser iniciado antes da virada.'],
+    caminhos:['Caminhos bem aplicados. Confirme os ramos com transição ativa.','Mapeie transições pendentes e capacite chefes para os rituais de passagem. Pode iniciar antes da virada.'],
+    reconh:  ['Reconhecimento bem compreendido. Acompanhe jovens elegíveis.','Organize estudo sobre os critérios de Reconhecimento de Ramo e planejamento do Desafio Pessoal.'],
+    blocos:  ['Blocos bem aplicados. Verifique a intencionalidade educativa em cada bloco.','Capacite chefes em atividades fixas e variáveis. Pode ser iniciado antes da virada.'],
+    equiv:   ['Equivalência em bom nível. Garanta que a análise é de competências, não só checklist.','⚠ Fundamental: nenhum jovem deve ser prejudicado. A Equivalência exige análise de competências adquiridas.'],
+    jovens:  ['Jovens bem informados. Continue o acompanhamento para garantir engajamento.','Elabore apresentação clara por faixa etária. Reduz evasão, medos e ruídos na transição.'],
+  };
+
+  function barColor(s){ return s>=70?'#2e7d32':s>=40?'#f57f17':'#b71c1c'; }
+  function badge(s){
+    if(s>=70) return '<span class="badge badge-ok">✅ Bem</span>';
+    if(s>=40) return '<span class="badge badge-att">⚠ Atenção</span>';
+    return '<span class="badge badge-urg">🔴 Urgente</span>';
+  }
+
+  const urgentes = dims.filter(d=>d.score<40).sort((a,b)=>a.score-b.score);
+  const atencao  = dims.filter(d=>d.score>=40&&d.score<70).sort((a,b)=>a.score-b.score);
+  const bons     = dims.filter(d=>d.score>=70).sort((a,b)=>b.score-a.score);
+
+  // ── Ranking de ramos (lidos dos scores e respostas) ──────
+  // meses até virada (para alertas de ramos)
+  const paxtuFeito = g('paxtuFeito') === 'Sim';
+  let monthsUntil = 999;
+  if (!paxtuFeito) {
+    const d1 = new Date(g('dataPreench')||g('dataEnvio')), d2 = new Date(g('paxtuData'));
+    if (!isNaN(d1)&&!isNaN(d2)) monthsUntil = Math.max(0,(d2.getFullYear()-d1.getFullYear())*12+(d2.getMonth()-d1.getMonth()));
+  }
+
+  function ramoDetail(key) {
+    // key: 'lob'|'esc'|'sen'|'pio'
+    const fields = {
+      lob:{ acolhida:g('aLob'),  ciclo:g('cicLob'), reconh:g('recLob'), blocos:g('bloLob'), equiv:g('eqLob'),  jovens:g('jovLob'), manual:g('manLob') },
+      esc:{ acolhida:g('aEsc'),  ciclo:g('cicEsc'), reconh:g('recEsc'), blocos:g('bloEsc'), equiv:g('eqEsc'),  jovens:g('jovEsc'), manual:g('manEsc') },
+      sen:{ acolhida:g('aSen'),  ciclo:g('cicSen'), reconh:g('recSen'), blocos:g('bloSen'), equiv:g('eqSen'),  jovens:g('jovSen'), manual:g('manSen') },
+      pio:{ acolhida:g('aPio'),  ciclo:g('cicPio'), reconh:g('recPio'), blocos:g('bloPio'), equiv:g('eqPio'),  jovens:g('jovPio'), manual:g('manPio') },
+    }[key];
+    const TEMAS = [
+      {k:'acolhida',l:'cerimônia de acolhida'},{k:'ciclo',l:'Ciclo de Programa'},
+      {k:'reconh',  l:'Reconhecimento de Ramo'},{k:'blocos',l:'Blocos de Aprendizagem'},
+      {k:'equiv',   l:'Processo de Equivalência'},{k:'jovens',l:'Comunicação com Jovens'},
+    ];
+    // Calcula score individual do ramo para saber o baseScore
+    const vals = TEMAS.map(t=>fields[t.k]).filter(v=>v==='Sim'||v==='Não').map(v=>v==='Sim'?100:0);
+    const baseScore = vals.length>0 ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : 0;
+    const manVal = fields.manual;
+    const fortes=[], desenvolver=[];
+    TEMAS.forEach(t=>{
+      const v=fields[t.k];
+      if(v==='NSA'||v==='')return;
+      if(v==='Sim') fortes.push(t.l);
+      else desenvolver.push(t.l);
+    });
+    if(manVal==='Sim'&&baseScore>=60) fortes.push('Aplicando o Manual do Escotista');
+    else if(manVal==='Sim'&&baseScore<60) desenvolver.push('Consolidar processos antes de avançar na aplicação do Manual');
+    else if(!manVal||manVal==='Não') desenvolver.push('Iniciar aplicação do Manual do Escotista');
+    if(fortes.length===0&&desenvolver.length===0) desenvolver.push('Ver respostas por ramo para análise detalhada');
+    const applyingManual = manVal==='Sim';
+    const weak = TEMAS.some(t=>{ const v=fields[t.k]; return(v==='Sim'||v==='Não')&&v==='Não'; });
+    const criticalManual = applyingManual && weak;
+    return {fortes, desenvolver, applyingManual, criticalManual, manVal};
+  }
+
+  const RAMOS_DEF = [
+    {key:'lob',label:'Ramo Lobinho',  color:'#e65100',active:lobN>0,  score:sLob},
+    {key:'esc',label:'Ramo Escoteiro',color:'#2e7d32',active:escN>0,  score:sEsc},
+    {key:'sen',label:'Ramo Sênior',   color:'#b71c1c',active:senN>0,  score:sSen},
+    {key:'pio',label:'Clã Pioneiro',  color:'#4a148c',active:pioAtivo,score:sPio},
+  ];
+  const activeRamos = RAMOS_DEF
+    .filter(r=>r.active)
+    .map(r=>({ ...r, ...ramoDetail(r.key) }))
+    .sort((a,b)=>b.score-a.score);
+
+  // ── Alertas por ramo ─────────────────────────────────────
+  const ramoAlerts = [];
+  activeRamos.forEach(r=>{
+    const temNao = r.desenvolver.filter(d=>d.indexOf('Manual')===-1);
+    if(r.criticalManual) ramoAlerts.push({level:'critical',titulo:'🚨 '+r.label+' — Aplicando o Manual sem processos consolidados',msg:r.label+' declara estar aplicando o Programa Educativo Atualizado com base no Manual do Escotista, mas tem processos não consolidados neste próprio ramo: '+(temNao.length>0?temNao.join(', '):'verifique os processos')+'. Risco real de aplicação incorreta para os jovens deste ramo.'});
+    else if(r.score<30) ramoAlerts.push({level:'critical',titulo:'🔴 '+r.label+' — Maturidade muito baixa ('+r.score+'%)',msg:'Este ramo tem maturidade muito baixa no Programa Educativo Atualizado.'+(temNao.length>0?' Processos a priorizar: '+temNao.join(', ')+'.':'')});
+    else if(r.score>=30&&r.score<50) ramoAlerts.push({level:'warning',titulo:'⚠ '+r.label+' — Em desenvolvimento ('+r.score+'%)',msg:'Este ramo está progredindo, mas ainda tem processos a consolidar.'+(temNao.length>0?' Foco em: '+temNao.join(', ')+'.':'')});
+  });
+
+  // ── Blocos alerts ────────────────────────────────────────
+  const blocoAlerts = [];
+  if(fFixVar) blocoAlerts.push({level:fFixVar==='Muito Crítico'?'muitoCritico':'critico',msg:fFixVar==='Muito Crítico'?'Menos de metade dos escotistas entende a diferença entre atividade fixa e variável, e os chefes de seção não dominam o tema. Isso compromete diretamente a qualidade dos blocos.':'Menos de metade dos escotistas entende a diferença entre atividade fixa e variável. Ponto de alta atenção para garantir a qualidade dos blocos.'});
+  if(fEspec)  blocoAlerts.push({level:fEspec==='Muito Crítico'?'muitoCritico':'critico',msg:fEspec==='Muito Crítico'?'Menos de metade dos escotistas entende como especialidades e insígnias se relacionam com os blocos, e os chefes não dominam. Risco real de progressão inadequada dos jovens.':'Menos de metade dos escotistas entende o papel das especialidades e insígnias nos blocos. Atenção redobrada necessária.'});
+
+  // ── Respostas ────────────────────────────────────────────
+  function R(key){ return esc(g(key)); }
+  const secs = [
+    {sec:'Identificação',items:[['Grupo',R('nomeGrupo')],['Numeral',R('numeral')],['Distrito',R('distrito')],['Responsável',R('responsavel')],['Função',R('funcao')],['Data',dataDisplay]]},
+    {sec:'Ramos e Seções',items:[['Ninhada ativa',R('ninhada')],['Pretende iniciar Ninhada',R('ninhadaPretende')||'N/A'],['Meses para Ninhada',R('ninhadaMeses')||'N/A'],['Suporte para Ninhada',R('ninhadaSuporte')||'N/A'],['Seções Lobinho',R('lobN')],['Seções Escoteiro',R('escN')],['Seções Sênior',R('senN')],['Clã Pioneiro',pioAtivo?'Sim':'Não']]},
+    {sec:'Paxtu',items:[['Já virou no Paxtu',R('paxtuFeito')],['Data prevista de virada',R('paxtuData')||'N/A'],['Se sente seguro',R('paxtuSeguro')||'N/A'],['Suporte para Paxtu',R('paxtuSuporte')]]},
+    {sec:'cerimônia de acolhida',items:[['Compreensão escotistas',R('acolhComp')],['Chefes dominam',R('acolhChefes')],['Está aplicando',R('acolhAplic')],['Suporte',R('acolhSuporte')]]},
+    {sec:'Ciclo de Programa',items:[['Compreensão escotistas',R('cicComp')],['Chefes dominam',R('cicChefes')],['Aplicação',R('cicAplic')],['Suporte',R('cicSuporte')]]},
+    {sec:'Caminhos entre Ramos',items:[['Compreensão escotistas',R('camComp')],['Chefes dominam',R('camChefes')],['Filhotes > Lobinho',R('camFil')],['Lobinho > Escoteiro',R('camLob')],['Escoteiro > Sênior',R('camEsc')],['Sênior > Pioneiro',R('camSen')],['Suporte',R('camSuporte')]]},
+    {sec:'Reconhecimento de Ramo e Desafio Pessoal',items:[['Compreensão escotistas',R('recComp')],['Chefes dominam',R('recChefes')],['Suporte',R('recSuporte')]]},
+    {sec:'Blocos de Aprendizagem',items:[['Compreensão escotistas',R('bloComp')],['Chefes dominam',R('bloChefes')],['Lobinho',R('bloLob')],['Escoteiro',R('bloEsc')],['Sênior',R('bloSen')],['Pioneiro',R('bloPio')],['Suporte',R('bloSuporte')],['Diferença fixa/variável',R('bloFixVar')],['Especialidades e insígnias na progressão',R('bloEspec')]]},
+    {sec:'Processo de Equivalência',items:[['Compreensão escotistas',R('eqComp')],['Chefes dominam',R('eqChefes')],['Lobinho',R('eqLob')],['Escoteiro',R('eqEsc')],['Sênior',R('eqSen')],['Pioneiro',R('eqPio')],['Suporte',R('eqSuporte')]]},
+    {sec:'Comunicação com os Jovens',items:[['Lobinho',R('jovLob')],['Escoteiro',R('jovEsc')],['Sênior',R('jovSen')],['Pioneiro',R('jovPio')],['Jovens entendem',R('jovEnt')],['Suporte',R('jovSuporte')]]},
+  ];
+  const respostasHtml = secs.map(s=>{
+    const rows = s.items.filter(it=>it[1]).map(it=>`<tr><td class="res-label">${esc(it[0])}</td><td class="res-value">${it[1]}</td></tr>`).join('');
+    return rows ? `<div class="res-sec"><div class="res-sec-title">${esc(s.sec)}</div><table class="res-table">${rows}</table></div>` : '';
+  }).join('');
+
+  // ── Ranking HTML ─────────────────────────────────────────
+  const rankingHtml = activeRamos.length>0 ? `
+  <div class="ranking-section fu">
+    <h3>Ranking de Maturidade por Ramo</h3>
+    <p style="font-size:.83rem;color:var(--text2);margin-bottom:1rem;line-height:1.5">Baseado na aplicação de todos os processos do Programa Educativo Atualizado e na declaração de uso do Manual do Escotista. Ramos que declaram aplicar o Programa Educativo Atualizado mas têm indicadores fracos recebem penalização adicional.</p>
+    ${activeRamos.map((r,idx)=>{
+      const pos=idx+1, posCls=pos===1?'gold':pos===2?'silver':pos===3?'bronze':'';
+      const iCls=r.score>=70?'r-ok':r.score>=50?'r-att':r.score>=30?'r-urg':'r-crit';
+      const col=r.score>=70?'#2e7d32':r.score>=50?'#f57f17':'#b71c1c';
+      const tags=[];
+      if(r.applyingManual&&!r.criticalManual) tags.push('<span class="rtag rtag-ok">✅ Aplicando o Manual</span>');
+      if(r.criticalManual) tags.push('<span class="rtag rtag-crit">🚨 Aplicando sem consolidação</span>');
+      if(!r.applyingManual) tags.push('<span class="rtag rtag-att">📋 Manual ainda não aplicado</span>');
+      tags.push(r.score>=70?'<span class="rtag rtag-ok">Bem preparado</span>':r.score>=50?'<span class="rtag rtag-att">Em desenvolvimento</span>':'<span class="rtag rtag-urg">Precisa de atenção</span>');
+      const fortesH    = r.fortes.length    > 0 ? r.fortes.map(f=>`<li>${f}</li>`).join('')    : '<li style="color:var(--cinza3);font-style:italic">Nenhum ponto consolidado ainda</li>';
+      const desenvolH  = r.desenvolver.length>0  ? r.desenvolver.map(d=>`<li>${d}</li>`).join('') : '<li style="color:var(--cinza3);font-style:italic">Sem pontos críticos identificados</li>';
+      return `<div class="ranking-item ${iCls}">
+        <div class="ranking-pos ${posCls}">${pos}º</div>
+        <div class="ranking-body">
+          <div class="ranking-name" style="color:${r.color}">${r.label}</div>
+          <div class="ranking-bar-wrap"><div class="ranking-bar"><div class="ranking-bar-fill" style="width:${r.score}%;background:${col}"></div></div><div class="ranking-score" style="color:${col}">${r.score}%</div></div>
+          <div class="ranking-tags">${tags.join('')}</div>
+          <div class="ranking-detail">
+            <div class="ranking-detail-col fortes"><h4>Pontos Fortes</h4><ul>${fortesH}</ul></div>
+            <div class="ranking-detail-col desenvolver"><h4>A Desenvolver</h4><ul>${desenvolH}</ul></div>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>` : '';
+
+  // ── Monta página ─────────────────────────────────────────
+  document.getElementById('app').innerHTML = `
+    <div class="result-hero fu">
+      <div style="margin-bottom:1.25rem">
+        <div style="font-size:.8rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem">Diagnóstico</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700">${esc(nomeGrupo)}${numeral?' — Grupo Nº '+esc(numeral):''}</div>
+        <div style="font-size:.85rem;color:rgba(255,255,255,.65);margin-top:.2rem">${esc(distrito)}${resp?' &nbsp;|&nbsp; '+esc(resp)+(funcao?' · '+esc(funcao):''):''}${dataDisplay?' &nbsp;|&nbsp; '+esc(dataDisplay):''}</div>
+      </div>
+      <div class="result-hero-grid">
+        <div class="hero-card"><div class="hero-val">${avg}%</div><div class="hero-lbl">Maturidade Geral</div><div class="hero-sub">${avg>=70?'Bom progresso':avg>=40?'Em desenvolvimento':'Atenção necessária'}</div></div>
+        <div class="hero-card"><div class="hero-val" style="font-size:1.4rem">${complexLabel}</div><div class="hero-lbl">Complexidade</div></div>
+        <div class="hero-card"><div class="hero-val" style="font-size:1.3rem">${paxtuDisplay}</div><div class="hero-lbl">Virada Paxtu</div></div>
+      </div>
+    </div>
+
+    ${flag3?`<div class="alert critical fu"><div class="alert-icon">🚨</div><div class="alert-body"><div class="alert-title">GRAVÍSSIMO, Equivalência não realizada após virada</div><div class="alert-text">A UEL já realizou a virada no Paxtu mas NÃO concluiu o processo de Equivalência em nenhum ramo. Jovens podem estar sendo prejudicados neste momento. A Equivalência deve ser a prioridade IMEDIATA da UEL.</div></div></div>`:''}
+    ${flag2?`<div class="alert critical fu"><div class="alert-icon">🔴</div><div class="alert-body"><div class="alert-title">CRÍTICO, Fragilidades sérias pós-virada</div><div class="alert-text">A UEL já virou no sistema mas apresenta fragilidades em processos essenciais (Acolhida, Ciclo, Blocos ou Caminhos) com chefes que ainda não dominam o tema. Essa situação é mais grave do que uma UEL que ainda não virou e está na mesma condição. Ação corretiva urgente.</div></div></div>`:''}
+    ${flag4?`<div class="alert caution fu"><div class="alert-icon">⚠</div><div class="alert-body"><div class="alert-title">RISCO, Virada planejada com baixo preparo</div><div class="alert-text">A UEL planeja virar no sistema nos próximos ${monthsUntil<999?monthsUntil+'':''} meses, mas há fragilidades em processos críticos com chefes que ainda não dominam os temas. Recomenda-se revisar o prazo ou intensificar a formação ANTES da virada.</div></div></div>`:''}
+    ${ramoAlerts.map(a=>`<div class="alert ${a.level==='critical'?'critical':'warning'} fu"><div class="alert-icon">${a.level==='critical'?'🔴':'⚠'}</div><div class="alert-body"><div class="alert-title">${a.titulo}</div><div class="alert-text">${a.msg}</div></div></div>`).join('')}
+    ${!flag2&&!flag3&&!flag4&&ramoAlerts.length===0?`<div class="alert ok fu"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">Nenhum alerta crítico identificado</div><div class="alert-text">A UEL não apresenta nenhum dos cenários de risco ou gravidade crítica no momento. Continue acompanhando os indicadores regularmente.</div></div></div>`:''}
+    ${suportes.length>0?`<div class="alert warning fu"><div class="alert-icon">🤝</div><div class="alert-body"><div class="alert-title">Suporte regional solicitado em: ${esc(suportes.join(', '))}</div><div class="alert-text">Encaminhe esse diagnóstico ao seu Distrito para agilizar o suporte nos temas indicados.</div></div></div>`:''}
+
+    <div class="chart-wrap fu">
+      <div class="chart-title">Perfil de Maturidade por Dimensão</div>
+      <canvas id="radarChart" width="420" height="420"></canvas>
+      <div style="margin-top:1.25rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:.3rem .75rem;">
+        ${dims.map(d=>{const c=d.score>=70?'#1b5e20':d.score>=40?'#c44f00':'#b71c1c';return`<div style="display:flex;align-items:baseline;gap:.35rem;font-size:.78rem;"><span style="font-weight:700;color:${c};min-width:18px">${d.label}</span><span style="color:#4a5568">${d.fullLabel.split('. ').slice(1).join('. ')}</span><span style="margin-left:auto;font-weight:600;color:${c}">${d.score}%</span></div>`;}).join('')}
+      </div>
+    </div>
+
+    <div class="score-table fu"><table>
+      <thead><tr><th>Dimensão</th><th style="width:180px">Score</th><th style="width:100px">Situação</th></tr></thead>
+      <tbody>${dims.map(d=>`<tr><td style="font-weight:500">${d.fullLabel}</td><td><div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:${d.score}%;background:${barColor(d.score)}"></div></div><div class="score-num" style="color:${barColor(d.score)}">${d.score}%</div></div></td><td>${badge(d.score)}</td></tr>`).join('')}</tbody>
+    </table></div>
+
+    <div class="priority-section fu"><h3>Prioridades de Ação</h3>
+      ${urgentes.length>0||activeRamos.some(r=>r.score<30)?`
+        <div style="font-size:.78rem;font-weight:600;color:var(--verm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;margin-top:.5rem">🔴 Foco imediato, score abaixo de 40%</div>
+        ${urgentes.map(d=>`<div class="priority-item urg"><div class="priority-icon">🔴</div><div class="priority-body"><div class="priority-name urg">${d.fullLabel.split('. ').slice(1).join('. ')}, ${d.score}%</div><div class="priority-rec">${recs[d.key][1]}</div></div></div>`).join('')}
+        ${activeRamos.filter(r=>r.score<30).map(r=>{const pts=r.desenvolver.filter(d=>d.indexOf('Manual')===-1).join(', ');return`<div class="priority-item urg"><div class="priority-icon">🔴</div><div class="priority-body"><div class="priority-name urg">${r.label} — Maturidade ${r.score}%</div><div class="priority-rec">${r.label} tem maturidade crítica. Processos urgentes: ${pts||'todos os processos precisam de atenção'}.</div></div></div>`;}).join('')}
+      `:''}
+      ${atencao.length>0||activeRamos.some(r=>r.score>=30&&r.score<50)?`
+        <div style="font-size:.78rem;font-weight:600;color:var(--amar);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;margin-top:1rem">⚠ Em desenvolvimento, 40% a 69%</div>
+        ${atencao.map(d=>`<div class="priority-item att"><div class="priority-icon">⚠</div><div class="priority-body"><div class="priority-name att">${d.fullLabel.split('. ').slice(1).join('. ')}, ${d.score}%</div><div class="priority-rec">Há progresso, mas ainda não é consistente em todas as seções. Defina uma data-alvo e monitore quinzenalmente.</div></div></div>`).join('')}
+        ${activeRamos.filter(r=>r.score>=30&&r.score<50).map(r=>{const pts=r.desenvolver.filter(d=>d.indexOf('Manual')===-1).join(', ');return`<div class="priority-item att"><div class="priority-icon">⚠</div><div class="priority-body"><div class="priority-name att">${r.label} — Maturidade ${r.score}%</div><div class="priority-rec">${r.label} está em desenvolvimento. Defina ações: ${pts||'ver análise detalhada no ranking'}.</div></div></div>`;}).join('')}
+      `:''}
+      ${bons.length>0?`
+        <div style="font-size:.78rem;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem;margin-top:1rem">✅ Pontos fortes, acima de 70%</div>
+        ${bons.map(d=>`<div class="priority-item ok"><div class="priority-icon">✅</div><div class="priority-body"><div class="priority-name ok">${d.fullLabel.split('. ').slice(1).join('. ')}, ${d.score}%</div><div class="priority-rec">${recs[d.key][0]}</div></div></div>`).join('')}
+      `:''}
+    </div>
+
+    ${blocoAlerts.map(a=>`<div class="alert-blocos fu"><div class="alert-title">${a.level==='muitoCritico'?'🚨 MUITO CRÍTICO':'⚠ ATENÇÃO'} — Blocos de Aprendizagem</div><div class="alert-text">${a.msg}</div></div>`).join('')}
+    ${rankingHtml}
+    <div class="sec-header-div">Respostas do Formulário</div>
+    ${respostasHtml}
+  `;
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    drawRadar(dims.map(d=>d.label), dims.map(d=>d.score));
+    document.getElementById('lov').classList.add('gone');
+  }));
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+async function init() {
+  const rowId = parseInt(new URLSearchParams(window.location.search).get('id'));
+  const app   = document.getElementById('app');
+  if (!rowId || rowId < 2) {
+    app.innerHTML = `<p style="text-align:center;margin-top:3rem;color:#90a4ae">ID não informado. Acesse pelo painel principal.</p>`;
+    document.getElementById('lov').classList.add('gone');
+    return;
+  }
+  document.getElementById('ltxt').textContent = `Buscando linha ${rowId}...`;
+  try {
+    const result = await fetchJSONP(SURL + '?action=row&id=' + rowId);
+    let header, row;
+    if (result && result.header && result.row) {
+      header = result.header; row = result.row;
+    } else if (Array.isArray(result) && result.length >= 2) {
+      header = result[0]; row = result[rowId - 1];
+      if (!row) throw new Error(`Linha ${rowId} não encontrada.`);
+    } else throw new Error('Formato inesperado do Apps Script.');
+    renderReport(header, row);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('lov').classList.add('gone');
+    app.innerHTML = `<p style="text-align:center;margin-top:3rem;color:#b71c1c;padding:1rem">Erro: ${esc(e.message)}</p>`;
+  }
+}
+init();
+</script>
+</body>
+</html>
